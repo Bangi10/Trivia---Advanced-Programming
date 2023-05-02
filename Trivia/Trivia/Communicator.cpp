@@ -6,6 +6,7 @@ using std::string;
 using std::vector;
 using std::cout;
 using std::endl;
+using std::unique_ptr;
 
 Communicator::Communicator()
 {
@@ -36,7 +37,7 @@ void Communicator::startHandleRequests()
 				throw std::exception(__FUNCTION__ " - create client socket error");
 
 			cout << "Client accepted! " << endl;
-			this->m_clients[client_socket] = new LoginRequestHandler; //add to map
+			this->m_clients[client_socket] = std::make_unique<LoginRequestHandler>(); //add to map
 
 			//handle client
 			std::thread tr(&Communicator::handleNewClient, this, client_socket);
