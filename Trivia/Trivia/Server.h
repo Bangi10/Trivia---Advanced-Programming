@@ -4,6 +4,8 @@
 class Server
 {
 public:
+	Server() = default;
+	~Server() = default;
 	void run();
 
 private:
