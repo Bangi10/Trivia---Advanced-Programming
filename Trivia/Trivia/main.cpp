@@ -8,7 +8,7 @@
 int main()
 {
 	std::cout << "Starting... " << std::endl;
-	WSAInitializer wsa_init; 	// NOTICE at the end of this block the WSA will be closed 
+	WSAInitializer wsa_init;  // at the end of this block the WSA will be closed 
 	Server mt_server;
 	mt_server.run();
 }
