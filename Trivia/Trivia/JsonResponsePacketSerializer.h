@@ -1,6 +1,7 @@
 #pragma once
 #include <iostream>
 #include <vector>
+#include <string>
 
 typedef struct ErrorResponse {
 	std::string message;

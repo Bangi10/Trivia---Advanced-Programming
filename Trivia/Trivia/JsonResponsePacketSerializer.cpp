@@ -3,9 +3,14 @@
 Buffer JsonResponsePacketSerializer::serializeResponse(const ErrorResponse& response)
 {
     Buffer buffer;
+    //CODE: 1 BYTE
     buffer.push_back(char(RESPONSES::ERROR));
+
+    //LEN: 4 BYTE
     std::string msg = "{message: “ERROR”}";
     addMsgLenToBuffer(buffer, msg);
+
+    //CONTENT: X BYTES
     for (char& c : msg)
     {
         buffer.push_back(c);
@@ -15,12 +20,38 @@ Buffer JsonResponsePacketSerializer::serializeResponse(const ErrorResponse& resp
 
 Buffer JsonResponsePacketSerializer::serializeResponse(const LoginResponse& response)
 {
-    return Buffer();
+    Buffer buffer;
+    //CODE: 1 BYTE
+    buffer.push_back(char(response.status));
+
+    //LEN: 4 BYTE
+    std::string msg = "{status: " + std::to_string(response.status) + "}";
+    addMsgLenToBuffer(buffer, msg);
+
+    //CONTENT: X BYTES
+    for (char& c : msg)
+    {
+        buffer.push_back(c);
+    }
+    return buffer;
 }
 
 Buffer JsonResponsePacketSerializer::serializeResponse(const SignupResponse& response)
 {
-    return Buffer();
+    Buffer buffer;
+    //CODE: 1 BYTE
+    buffer.push_back(char(response.status));
+
+    //LEN: 4 BYTE
+    std::string msg = "{status: " + std::to_string(response.status) + "}";
+    addMsgLenToBuffer(buffer, msg);
+
+    //CONTENT: X BYTES
+    for (char& c : msg)
+    {
+        buffer.push_back(c);
+    }
+    return buffer;
 }
 
 void JsonResponsePacketSerializer::addMsgLenToBuffer(Buffer& buffer, const std::string& msg)
@@ -28,6 +59,7 @@ void JsonResponsePacketSerializer::addMsgLenToBuffer(Buffer& buffer, const std::
     int len = msg.length();
     int shiftBy = 24;
     
+    //convert int into 4 chars
     for (int i = 0; i < sizeof(int); i++)
     {
         buffer.push_back((len >> shiftBy) & 0xFF);
