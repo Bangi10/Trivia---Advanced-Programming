@@ -2,6 +2,7 @@
 #include <iostream>
 #include <vector>
 #include <string>
+#include "json.hpp"
 
 typedef struct ErrorResponse {
 	std::string message;

@@ -1,4 +1,5 @@
 #include "JsonResponsePacketSerializer.h"
+using json = nlohmann::json;
 
 Buffer JsonResponsePacketSerializer::serializeResponse(const ErrorResponse& response)
 {
@@ -7,7 +8,9 @@ Buffer JsonResponsePacketSerializer::serializeResponse(const ErrorResponse& resp
     buffer.push_back(char(RESPONSES::ERROR));
 
     //LEN: 4 BYTE
-    std::string msg = "{message: “ERROR”}";
+    json j;
+    j["message"] = "ERROR";
+    std::string msg = j.dump();
     addMsgLenToBuffer(buffer, msg);
 
     //CONTENT: X BYTES
@@ -25,7 +28,9 @@ Buffer JsonResponsePacketSerializer::serializeResponse(const LoginResponse& resp
     buffer.push_back(char(response.status));
 
     //LEN: 4 BYTE
-    std::string msg = "{status: " + std::to_string(response.status) + "}";
+    json j;
+    j["status"] = response.status;
+    std::string msg = j.dump();
     addMsgLenToBuffer(buffer, msg);
 
     //CONTENT: X BYTES
@@ -43,7 +48,9 @@ Buffer JsonResponsePacketSerializer::serializeResponse(const SignupResponse& res
     buffer.push_back(char(response.status));
 
     //LEN: 4 BYTE
-    std::string msg = "{status: " + std::to_string(response.status) + "}";
+    json j;
+    j["status"] = response.status;
+    std::string msg = j.dump();
     addMsgLenToBuffer(buffer, msg);
 
     //CONTENT: X BYTES
