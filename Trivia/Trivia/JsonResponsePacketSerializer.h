@@ -4,15 +4,15 @@
 #include <string>
 #include "json.hpp"
 
-typedef struct ErrorResponse {
+struct ErrorResponse {
 	std::string message;
 };
 
-typedef struct LoginResponse {
+struct LoginResponse {
 	unsigned int status;
 };
 
-typedef struct SignupResponse {
+struct SignupResponse {
 	unsigned int status;
 };
 
