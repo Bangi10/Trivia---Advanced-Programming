@@ -2,7 +2,6 @@
 #include <vector>
 #include <stdio.h>
 #include <string>
-#include <ctime>
 
 typedef struct LoginRequest {
 	std::string username;
@@ -18,6 +17,6 @@ typedef struct SignupRequest {
 class JsonRequestPacketDeserializer
 {
 public:
-	static LoginRequest deserializeLoginRequest(std::vector<unsigned char> Buffer);
+	static LoginRequest deserializeLoginRequest(std::vector<unsigned char> buffer);
 	static SignupRequest deserializeSignupRequest(std::vector<unsigned char> Buffer);
 };
