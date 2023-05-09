@@ -1,7 +1,9 @@
 #pragma once
 #include <vector>
-#include <stdio.h>
+#include <iostream>
 #include <string>
+#include "json.hpp"
+#include <sstream>
 
 typedef struct LoginRequest {
 	std::string username;
@@ -18,5 +20,5 @@ class JsonRequestPacketDeserializer
 {
 public:
 	static LoginRequest deserializeLoginRequest(std::vector<unsigned char> buffer);
-	static SignupRequest deserializeSignupRequest(std::vector<unsigned char> Buffer);
+	static SignupRequest deserializeSignupRequest(std::vector<unsigned char> buffer);
 };
