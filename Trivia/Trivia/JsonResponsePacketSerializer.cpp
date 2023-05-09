@@ -9,7 +9,7 @@ Buffer JsonResponsePacketSerializer::serializeResponse(const ErrorResponse& resp
 
     //LEN: 4 BYTE
     json j;
-    j["message"] = "ERROR";
+    j["message"] = response.message;
     std::string msg = j.dump();
     addMsgLenToBuffer(buffer, msg);
 
