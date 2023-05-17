@@ -4,15 +4,15 @@
 
 typedef std::vector<unsigned char> Buffer;
 
-typedef struct RequestInfo {
+struct RequestInfo {
 	unsigned char id;//byte 0-255
 	time_t receivalTime;
 	std::vector<unsigned char> buffer;
 };
 
-typedef struct RequestResult {
+struct RequestResult {
 	Buffer response;
-	IRequestHandler* newHandler;
+	std::unique_ptr<IRequestHandler> newHandler;
 };
 
 class IRequestHandler
