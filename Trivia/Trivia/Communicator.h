@@ -5,13 +5,22 @@
 //#include <condition_variable>
 #include <WinSock2.h>
 #include "LoginRequestHandler.h"
+#include "Helper.h"
+#include "JsonRequestPacketDeserializer.h"
+#include "JsonResponsePacketSerializer.h"
 #include <map>
 #include <string>
 #include <thread>
 #include <memory>
 
 enum SERVER_DETAILS{SERVER_PORT = 8826, IFACE = 0};
-enum MESSAGE_DETAILS{MSG_LEN = 5, FLAGS = 0};
+
+typedef struct RequestInfo {
+	unsigned char id;//byte 0-255
+	time_t receivalTime;
+	std::vector<unsigned char> buffer;
+};
+
 class Communicator
 {
 public:
