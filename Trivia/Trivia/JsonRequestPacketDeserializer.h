@@ -1,15 +1,16 @@
 #pragma once
 #include <vector>
-#include <iostream>
 #include <string>
-#include <sstream>
 
-typedef struct LoginRequest {
+enum class REQUESTS :int { LOGIN = 100, SIGNUP = 110, BUFLEN = 1024 };
+
+
+struct LoginRequest {
 	std::string username;
 	std::string password;
 };
 
-typedef struct SignupRequest {
+struct SignupRequest {
 	std::string username;
 	std::string password;
 	std::string email;

@@ -1,8 +1,12 @@
 #include "Communicator.h"
+#include "LoginRequestHandler.h"
+#include "JsonRequestPacketDeserializer.h"
+#include "JsonResponsePacketSerializer.h"
+#include <thread>
+#include <iostream>
 
 using std::string;
-//using std::mutex;
-//using std::unique_lock;
+
 using std::vector;
 using std::cout;
 using std::endl;
@@ -73,7 +77,7 @@ void Communicator::handleNewClient(SOCKET sock)
 	int iResult = 1;
 	do {
 		char recvbuf[int(REQUESTS::BUFLEN)];
-		iResult = recv(sock, recvbuf, int(REQUESTS::BUFLEN), 0);
+		iResult = recv(sock, recvbuf, sizeof(recvbuf), 0);
 		if (iResult == 0)
 			printf("Connection closed\n");
 		else if (iResult < 0)

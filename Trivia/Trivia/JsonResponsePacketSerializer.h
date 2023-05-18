@@ -1,8 +1,10 @@
 #pragma once
-#include <iostream>
+
 #include <vector>
 #include <string>
 #include "json.hpp"
+
+enum class RESPONSES { _ERROR = 255, LOGIN_Y = 101, LOGIN_N = 102, SIGNUP_Y = 111, SIGNUP_N = 112 };
 
 struct ErrorResponse {
 	std::string message;
@@ -16,10 +18,9 @@ struct SignupResponse {
 	unsigned int status;
 };
 
-typedef std::vector<unsigned char> Buffer;
+using Buffer = std::vector<unsigned char>;
 
-enum class RESPONSES { ERROR = 255, LOGIN_Y = 101, LOGIN_N = 102, SIGNUP_Y = 111, SIGNUP_N = 112 };
-enum class REQUESTS { LOGIN = 100, SIGNUP = 110 };
+
 
 class JsonResponsePacketSerializer
 {
