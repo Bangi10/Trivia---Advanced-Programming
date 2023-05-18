@@ -1,8 +1,12 @@
 #include "Communicator.h"
+#include "LoginRequestHandler.h"
+#include "JsonRequestPacketDeserializer.h"
+#include "JsonResponsePacketSerializer.h"
+#include <thread>
+#include <iostream>
 
 using std::string;
-//using std::mutex;
-//using std::unique_lock;
+
 using std::vector;
 using std::cout;
 using std::endl;
@@ -70,13 +74,13 @@ void Communicator::bindAndListen()
 
 void Communicator::handleNewClient(SOCKET sock)
 {
-	int iResult = 1;
+	int byteCount = 1;
 	do {
 		char recvbuf[int(REQUESTS::BUFLEN)];
-		iResult = recv(sock, recvbuf, int(REQUESTS::BUFLEN), 0);
-		if (iResult == 0)
+		byteCount = recv(sock, recvbuf, sizeof(recvbuf), 0);
+		if (byteCount == 0)
 			printf("Connection closed\n");
-		else if (iResult < 0)
+		else if (byteCount < 0)
 			printf("recv failed: %d\n", WSAGetLastError());
 		else
 		{
@@ -85,8 +89,10 @@ void Communicator::handleNewClient(SOCKET sock)
 			int id = stoi(stringID);
 
 			//convert char* to vector<unsigned char>
-			std::string recvString(recvbuf);
-			std::vector<unsigned char> clientMsg(recvString.begin(), recvString.end());
+			Buffer clientMsg(byteCount);
+			std::copy(recvbuf, recvbuf + byteCount, clientMsg.begin());
+
+			
 			if (id == int(REQUESTS::LOGIN))
 			{
 				LoginRequest login = JsonRequestPacketDeserializer::deserializeLoginRequest(clientMsg);
@@ -110,7 +116,7 @@ void Communicator::handleNewClient(SOCKET sock)
 				Buffer errorResponse = JsonResponsePacketSerializer::serializeResponse(response);
 			}
 		}
-	} while (iResult > 0);
+	} while (byteCount > 0);
 	// cleanup
 	closesocket(sock);
 	WSACleanup();
