@@ -18,8 +18,12 @@ struct SignupResponse {
 
 typedef std::vector<unsigned char> Buffer;
 
-enum class RESPONSES { ERROR = 255, LOGIN_Y = 101, LOGIN_N = 102, SIGNUP_Y = 111, SIGNUP_N = 112 };
-enum class REQUESTS { LOGIN = 100, SIGNUP = 110 };
+namespace RESPONSES {
+	enum class ERRORS {_ERROR = 50};
+	enum class LOGIN {SUCCESS = 100, USER_NOT_EXISTS = 101, USER_ALREADY_LOGINED = 102};
+	enum class SIGNUP{SUCCESS = 110, NAME_ALREADY_EXISTS = 111};
+};
+enum class REQUESTS { LOGIN = 200, SIGNUP = 201 };
 
 class JsonResponsePacketSerializer
 {
