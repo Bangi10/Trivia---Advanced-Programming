@@ -114,7 +114,7 @@ void Communicator::handleNewClient(SOCKET sock)
 				Buffer errorResponse = JsonResponsePacketSerializer::serializeResponse(response);
 			}
 		}
-	} while (byteCount > 0);
+	} while (this->m_clients.find(sock)->second != nullptr);
 	// cleanup
 	closesocket(sock);
 	WSACleanup();
