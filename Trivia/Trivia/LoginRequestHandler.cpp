@@ -1,5 +1,6 @@
 #include "LoginRequestHandler.h"
 #include "JsonRequestPacketDeserializer.h"
+#include "JsonResponsePacketSerializer.h"
 
 bool LoginRequestHandler::isRequestRelevant(const RequestInfo& requestInfo) const
 {
@@ -8,25 +9,21 @@ bool LoginRequestHandler::isRequestRelevant(const RequestInfo& requestInfo) cons
     return false;
 }
 
-RequestResult LoginRequestHandler::handleRequest(const RequestInfo& requestInfo) 
+RequestResult LoginRequestHandler::handleRequest(const RequestInfo& requestInfo)
 {
     RequestResult result;
-    result.newHandler = this;
+    result.newHandler.reset(this);
     if (isRequestRelevant(requestInfo))
     {
         if (requestInfo.id == int(REQUESTS::LOGIN)) {
             LoginRequest login = JsonRequestPacketDeserializer::deserializeLoginRequest(requestInfo.buffer);
-            result.response.push_back(char(RESPONSES::LOGIN_Y));
+            result.response.push_back(char(RESPONSES::LOGIN::SUCCESS));
         }
         if (requestInfo.id == int(REQUESTS::SIGNUP)) {
             SignupRequest signup = JsonRequestPacketDeserializer::deserializeSignupRequest(requestInfo.buffer);
-            result.response.push_back(char(RESPONSES::SIGNUP_Y));
+            result.response.push_back(char(RESPONSES::SIGNUP::SUCCESS));
         }
     }
     return result;
 }
 
-LoginRequestHandler::~LoginRequestHandler()
-{
-
-}
