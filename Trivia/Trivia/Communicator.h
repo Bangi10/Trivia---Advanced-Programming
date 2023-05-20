@@ -4,7 +4,7 @@
 #include <memory>
 #include "IRequestHandler.h"
 
-enum SERVER_DETAILS { SERVER_PORT = 8826, IFACE = 0 };
+enum SERVER_DETAILS{SERVER_PORT = 8826, IFACE = 0};
 
 class Communicator
 {

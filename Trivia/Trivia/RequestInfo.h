@@ -7,4 +7,3 @@ struct RequestInfo {
 	time_t receivalTime;
 	std::vector<unsigned char> buffer;
 };
-

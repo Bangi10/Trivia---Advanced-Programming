@@ -9,7 +9,7 @@ bool LoginRequestHandler::isRequestRelevant(const RequestInfo& requestInfo) cons
     return false;
 }
 
-RequestResult LoginRequestHandler::handleRequest(const RequestInfo& requestInfo)
+RequestResult LoginRequestHandler::handleRequest(const RequestInfo& requestInfo) 
 {
     RequestResult result;
     result.newHandler.reset(this);
@@ -25,4 +25,9 @@ RequestResult LoginRequestHandler::handleRequest(const RequestInfo& requestInfo)
         }
     }
     return result;
+}
+
+LoginRequestHandler::~LoginRequestHandler()
+{
+
 }

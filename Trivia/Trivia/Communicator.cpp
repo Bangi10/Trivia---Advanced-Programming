@@ -48,11 +48,11 @@ void Communicator::startHandleRequests()
 			tr.detach();
 		}
 	}
-	catch (std::exception& e)
+	catch (std::exception& e) 
 	{
 		cout << e.what() << endl;
 	}
-
+	
 }
 
 void Communicator::bindAndListen()
