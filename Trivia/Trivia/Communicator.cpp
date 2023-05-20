@@ -72,10 +72,14 @@ void Communicator::bindAndListen()
 	cout << "listening..." << endl;
 }
 
-void Communicator::handleNewClient(SOCKET sock)
+void Communicator::handleNewClient(const SOCKET sock)
 {
-	while (this->m_clients.find(sock)->second != nullptr)
+	while (true)
 	{
+		if (this->m_clients.find(sock) == this->m_clients.end() || this->m_clients.find(sock)->second != nullptr)
+		{
+			break;
+		}
 		char recvbuf[int(REQUESTS::BUFLEN)];
 		int byteCount = recv(sock, recvbuf, sizeof(recvbuf), 0);
 		if (byteCount == 0)

@@ -18,5 +18,5 @@ private:
 	std::map<SOCKET, std::unique_ptr<IRequestHandler>> m_clients;
 
 	void bindAndListen();
-	void handleNewClient(SOCKET sock);
+	void handleNewClient(const SOCKET sock);
 };
