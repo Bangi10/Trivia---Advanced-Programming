@@ -74,10 +74,10 @@ void Communicator::bindAndListen()
 
 void Communicator::handleNewClient(SOCKET sock)
 {
-	int byteCount = 1;
-	do {
+	while (this->m_clients.find(sock)->second != nullptr)
+	{
 		char recvbuf[int(REQUESTS::BUFLEN)];
-		byteCount = recv(sock, recvbuf, sizeof(recvbuf), 0);
+		int byteCount = recv(sock, recvbuf, sizeof(recvbuf), 0);
 		if (byteCount == 0)
 			printf("Connection closed\n");
 		else if (byteCount < 0)
@@ -114,7 +114,7 @@ void Communicator::handleNewClient(SOCKET sock)
 				Buffer errorResponse = JsonResponsePacketSerializer::serializeResponse(response);
 			}
 		}
-	} while (this->m_clients.find(sock)->second != nullptr);
+	}
 	// cleanup
 	closesocket(sock);
 	WSACleanup();
