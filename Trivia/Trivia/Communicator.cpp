@@ -1,8 +1,12 @@
 #include "Communicator.h"
+#include "LoginRequestHandler.h"
+#include "JsonRequestPacketDeserializer.h"
+#include "JsonResponsePacketSerializer.h"
+#include <thread>
+#include <iostream>
 
 using std::string;
-//using std::mutex;
-//using std::unique_lock;
+
 using std::vector;
 using std::cout;
 using std::endl;
@@ -68,28 +72,54 @@ void Communicator::bindAndListen()
 	cout << "listening..." << endl;
 }
 
-void Communicator::handleNewClient(SOCKET sock)
+void Communicator::handleNewClient(const SOCKET sock)
 {
-	//SEND
-	string msg_to_client = "Hello";
-	if (send(sock, msg_to_client.c_str(), msg_to_client.size(), 0) == INVALID_SOCKET)
+	while (true)
 	{
-		throw std::exception("Error while sending message to client");
-	}
-	cout << "Server: " << msg_to_client << endl;
+		if (this->m_clients.find(sock) == this->m_clients.end() || this->m_clients.find(sock)->second != nullptr)
+		{
+			break;
+		}
+		char recvbuf[int(REQUESTS::BUFLEN)];
+		int byteCount = recv(sock, recvbuf, sizeof(recvbuf), 0);
+		if (byteCount == 0)
+			printf("Connection closed\n");
+		else if (byteCount < 0)
+			printf("recv failed: %d\n", WSAGetLastError());
+		else
+		{
+			//ID
+			unsigned char id = recvbuf[0];
 
-	//GET
-	char* msg_from_client = new char[MSG_LEN + 1];
-	int res = recv(sock, msg_from_client, MSG_LEN, FLAGS);
-	if (res == INVALID_SOCKET)
-	{
-		std::string s = "Error while recieving from socket: ";
-		s += std::to_string(sock);
-		throw std::exception(s.c_str());
+			//convert char* to vector<unsigned char>
+			Buffer clientMsg(byteCount);
+			std::copy(recvbuf, recvbuf + byteCount, clientMsg.begin());
+
+			if (id == int(REQUESTS::LOGIN))
+			{
+				LoginRequest login = JsonRequestPacketDeserializer::deserializeLoginRequest(clientMsg);
+				LoginResponse response;
+				response.status = 1;
+				Buffer loginResponse = JsonResponsePacketSerializer::serializeResponse(response);
+
+			}
+			else if (id == int(REQUESTS::SIGNUP))
+			{
+				SignupRequest signup = JsonRequestPacketDeserializer::deserializeSignupRequest(clientMsg);
+				SignupResponse response;
+				response.status = 1;
+				Buffer signupResponse = JsonResponsePacketSerializer::serializeResponse(response);
+
+			}
+			else
+			{
+				ErrorResponse response;
+				response.message = "ERROR";
+				Buffer errorResponse = JsonResponsePacketSerializer::serializeResponse(response);
+			}
+		}
 	}
-	msg_from_client[MSG_LEN] = 0;
-	std::string received(msg_from_client);
-	delete[] msg_from_client;
-	cout << "Client: " << msg_from_client << endl;
-	
+	// cleanup
+	closesocket(sock);
+	WSACleanup();
 }
