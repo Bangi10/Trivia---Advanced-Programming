@@ -1,11 +1,14 @@
 #include "Server.h"
+#include <string>
+#include <iostream>
+#include <thread>
 
 void Server::run()
 {
-	std::thread tr_connector(&Communicator::startHandleRequests, 
-							 std::ref(this->m_communicator));
+	std::thread tr_connector(&Communicator::startHandleRequests,
+		std::ref(this->m_communicator));
 	std::string input = "";
-	
+
 	do
 	{
 		std::cout << "Enter 'EXIT' when you want the program to end: ";
