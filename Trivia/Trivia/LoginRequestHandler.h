@@ -1,8 +1,8 @@
 #pragma once
 #include "IRequestHandler.h"
 
-enum class REQUESTS { LOGIN = 100, SIGNUP = 110 };
-enum class RESPONSES { ERROR = 255, LOGIN_Y = 101, LOGIN_N = 102, SIGNUP_Y = 111, SIGNUP_N = 112 };
+//enum class REQUESTS { LOGIN = 100, SIGNUP = 110, BUFLEN = 1024 };
+//enum class RESPONSES { _ERROR = 255, LOGIN_Y = 101, LOGIN_N = 102, SIGNUP_Y = 111, SIGNUP_N = 112 };
 
 class LoginRequestHandler : public IRequestHandler
 {
