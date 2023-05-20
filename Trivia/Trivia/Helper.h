@@ -4,15 +4,6 @@
 #include <string>
 #include <WinSock2.h>
 
-
-enum MessageType : byte
-{
-	MT_CLIENT_LOG_IN = 200,
-	MT_CLIENT_UPDATE = 204,
-	MT_SERVER_UPDATE = 101,
-};
-
-
 class Helper
 {
 public:

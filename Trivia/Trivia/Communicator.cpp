@@ -85,14 +85,12 @@ void Communicator::handleNewClient(SOCKET sock)
 		else
 		{
 			//ID
-			std::string stringID(1, recvbuf[0]);
-			int id = stoi(stringID);
+			unsigned char id = recvbuf[0];
 
 			//convert char* to vector<unsigned char>
 			Buffer clientMsg(byteCount);
 			std::copy(recvbuf, recvbuf + byteCount, clientMsg.begin());
 
-			
 			if (id == int(REQUESTS::LOGIN))
 			{
 				LoginRequest login = JsonRequestPacketDeserializer::deserializeLoginRequest(clientMsg);
@@ -116,7 +114,7 @@ void Communicator::handleNewClient(SOCKET sock)
 				Buffer errorResponse = JsonResponsePacketSerializer::serializeResponse(response);
 			}
 		}
-	} while (byteCount > 0);
+	} while (byteCount > 0 && this != nullptr);
 	// cleanup
 	closesocket(sock);
 	WSACleanup();
