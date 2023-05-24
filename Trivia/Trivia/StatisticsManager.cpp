@@ -1,17 +1,24 @@
 #include "StatisticsManager.h"
 using json = nlohmann::json;
 
-std::string StatisticsManager::getHighScore() const
+StatisticsManager::StatisticsManager(const std::shared_ptr<IDatabase> db)
 {
-    return this->m_database->getHighScore();
+    this->m_database = db;
 }
 
-std::string StatisticsManager::getUserStatistics(std::string username) const
+std::string StatisticsManager::getHighScore() const
 {
+    auto shared = m_database.lock();
+    return shared->getHighScore();
+}
+
+std::string StatisticsManager::getUserStatistics(const std::string& username) const
+{
+    auto shared = m_database.lock();
     json jData;
-    jData["PlayerAverageAnswerTime"] = this->m_database->getPlayerAverageAnswerTime(username);
-    jData["NumOfCorrectAnswers"] = this->m_database->getNumOfCorrectAnswers(username);
-    jData["NumOfTotalAnswers"] = this->m_database->getNumOfTotalAnswers(username);
-    jData["NumOfPlayerGames"] = this->m_database->getNumOfPlayerGames(username);
+    jData["PlayerAverageAnswerTime"] = shared->getPlayerAverageAnswerTime(username);
+    jData["NumOfCorrectAnswers"] = shared->getNumOfCorrectAnswers(username);
+    jData["NumOfTotalAnswers"] = shared->getNumOfTotalAnswers(username);
+    jData["NumOfPlayerGames"] = shared->getNumOfPlayerGames(username);
     return jData.dump();
 }

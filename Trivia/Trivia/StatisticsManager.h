@@ -2,13 +2,17 @@
 #include <vector>
 #include <iostream>
 #include "json.hpp"
+#include <memory>
 
 class StatisticsManager
 {
 public:
 	//both return json dumped strings
+	StatisticsManager(const std::shared_ptr<IDatabase> db);
+	~StatisticsManager() = default;
+
 	std::string getHighScore() const;
-	std::string getUserStatistics(std::string username) const;
+	std::string getUserStatistics(const std::string& username) const;
 private:
-	IDatabase* m_database;
+	std::weak_ptr<IDatabase> m_database;
 };
