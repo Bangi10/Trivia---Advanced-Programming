@@ -1,8 +1,6 @@
 #pragma once
 #include <vector>
-#include <iostream>
 #include <string>
-#include <sstream>
 
 struct LoginRequest {
 	std::string username;
@@ -28,18 +26,6 @@ struct GetPlayersInRoomRequest {
 
 struct JoinRoomRequest {
 	unsigned int roomId;
-};
-
-//NO DATA REQUESTS
-struct HighScoreRequest {
-	
-};
-
-struct LogoutRequest {
-
-};
-struct GetRoomRequest {
-
 };
 
 class JsonRequestPacketDeserializer
