@@ -3,6 +3,7 @@
 #include "User.h"
 
 //defines
+const std::string fileName = "DB.sqlite";
 const std::string USERNAME = "username";
 const std::string PASSWORD = "password";
 const std::string EMAIL = "EMAIL";
@@ -105,7 +106,7 @@ SqliteDatabase::~SqliteDatabase()
 
 bool SqliteDatabase::open()
 {
-	std::string dbFileName = "DB.sqlite";
+	std::string dbFileName = fileName;
 	int res = sqlite3_open(dbFileName.c_str(), &_db);
 	if (res != SQLITE_OK) {
 		_db = nullptr;
