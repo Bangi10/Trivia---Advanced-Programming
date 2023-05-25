@@ -4,7 +4,7 @@
 class LoginRequestHandler : public IRequestHandler
 {
 public:
-	~LoginRequestHandler()override;
+	~LoginRequestHandler()override = default;
 	bool isRequestRelevant(const RequestInfo& requestInfo) const override;
 	RequestResult handleRequest(const RequestInfo& requestInfo) override;
 };

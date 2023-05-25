@@ -27,7 +27,3 @@ RequestResult LoginRequestHandler::handleRequest(const RequestInfo& requestInfo)
     return result;
 }
 
-LoginRequestHandler::~LoginRequestHandler()
-{
-
-}

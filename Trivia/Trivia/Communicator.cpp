@@ -6,7 +6,6 @@
 #include <iostream>
 
 using std::string;
-
 using std::vector;
 using std::cout;
 using std::endl;
@@ -101,7 +100,8 @@ void Communicator::handleNewClient(const SOCKET sock)
 				LoginResponse response;
 				response.status = 1;
 				Buffer loginResponse = JsonResponsePacketSerializer::serializeResponse(response);
-
+				const char* msg = reinterpret_cast<char*>(loginResponse.data());
+				send(sock, msg, strlen(msg), 0);
 			}
 			else if (id == int(REQUESTS::SIGNUP))
 			{
@@ -109,7 +109,8 @@ void Communicator::handleNewClient(const SOCKET sock)
 				SignupResponse response;
 				response.status = 1;
 				Buffer signupResponse = JsonResponsePacketSerializer::serializeResponse(response);
-
+				const char* msg = reinterpret_cast<char*>(signupResponse.data());
+				send(sock, msg, strlen(msg), 0);
 			}
 			else
 			{
