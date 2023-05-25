@@ -9,9 +9,10 @@ class LoginManager
 public:
 	LoginManager();
 	~LoginManager();
-	bool sigup(const std::string& username, const std::string& password, const std::string& email);
-	bool login(const std::string& username, const std::string& password);
+	int sigup(const std::string& username, const std::string& password, const std::string& email);
+	int login(const std::string& username, const std::string& password);
 	bool logout(const std::string& username);
+	bool isLogedIn(const std::string& username);
 
 private:
 	std::weak_ptr<IDatabase> m_database;
