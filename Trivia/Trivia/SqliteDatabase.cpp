@@ -10,7 +10,7 @@ const std::string EMAIL = "EMAIL";
 
 users usersList;
 
-int callback(void* data, int argc, char** argv, char** azColName)
+int getUsersCallback(void* data, int argc, char** argv, char** azColName)
 {
 	usersList.clear();
 	User user;
@@ -34,7 +34,7 @@ bool SqliteDatabase::doesUserExists(const std::string& username) const
 	std::string msg = "SELECT * FROM USERS where USERS.USERNAME='" + username + "';";
 	const char* sqlStatement = msg.c_str();
 	char** errMessage = nullptr;
-	int res = sqlite3_exec(this->_db, sqlStatement, callback, nullptr, errMessage);
+	int res = sqlite3_exec(this->_db, sqlStatement, getUsersCallback, nullptr, errMessage);
 	delete[] sqlStatement;
 	if (res != SQLITE_OK) {
 		return false;
@@ -54,7 +54,7 @@ bool SqliteDatabase::doesPasswordMatch(const std::string& username, const std::s
 		std::string msg = "SELECT* FROM USERS where USERS.USERNAME = '" + username + "' and users.PASSWORD = " + password + ";";
 		const char* sqlStatement = msg.c_str();
 		char** errMessage = nullptr;
-		int res = sqlite3_exec(this->_db, sqlStatement, callback, nullptr, errMessage);
+		int res = sqlite3_exec(this->_db, sqlStatement, getUsersCallback, nullptr, errMessage);
 		delete[] sqlStatement;
 		if (res != SQLITE_OK) {
 			return false;
