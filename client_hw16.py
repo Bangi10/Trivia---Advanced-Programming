@@ -1,39 +1,75 @@
 import socket
-import enum
+from enum import Enum
+import json
+
 SERVER_IP = "127.0.0.1"
 SERVER_PORT = 8826
-WANTED_MSG = "Hello"
 
-class REQUESTS(enum.Enum):
-    LOGIN = 100
-    SIGNUP = 110
+REQUESTS = {"LOGIN":200, "SIGNUP":201}
+RESPONSES = {"LOGIN":{
+                      "SUCCESS":100,
+                      "USER_NOT_EXISTS":101,
+                      "USER_ALREADY_LOGINED":102
+                      },
+             "SIGNUP":{
+                      "SUCCESS":110,
+                      "NAME_ALREADY_EXISTS":111
+                      }
+            }
+
+class PROTOCOL_LENS(Enum):
+    MSG_CODE = 1
+    CONTENT_LENGTH = 4
 
 def main():
     try:
         # Create a TCP/IP socket
-        sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
+            # Connecting to remote computer 92
+            server_address = (SERVER_IP, SERVER_PORT)
+            sock.connect(server_address)
 
-        # Connecting to remote computer 92
-        server_address = (SERVER_IP, SERVER_PORT)
-        sock.connect(server_address)
+            while True:
+                if input("<<< ") != "":
+                    break
 
-        # getting a msg from server
-        server_msg = sock.recv(5).decode()
-        print(f"Server: {server_msg}")
+                # sending a msg to the server
+                request_parameters, request_code = input_request_parameters()
+                client_msg = serialize_request(request_parameters, request_code)
+                sock.sendall(client_msg)
+                print(f"Client: {client_msg}")
 
-        # sending a msg to the server
-        request_parameters, code = get_request_parameters()
-        client_msg = create_encoded_request(request_parameters, code)
-        sock.sendall(client_msg)
-        print(f"Client: {client_msg}")
+                # getting a msg from server
+                response_content_str, response_code = receive_response_from_socket(sock)
+                response_parameters = deserialize_response(response_content_str)
+                print(f"Server (after interpret): \n"
+                      f"\tcode: {get_code_name(response_code)}\n"
+                      f"\tmessage json: {request_parameters}")
 
-        # getting a msg from server
-        server_msg = sock.recv(1024).decode()
-        print(f"Server: {server_msg}")
     except Exception as e:
             print("Error: ", e)
 
-def get_request_parameters():
+def get_code_name(code: int):
+    for request_tuple in REQUESTS.items():
+        if request_tuple[1] == code:
+            return f"REQUESTS :: {request_tuple[0]}"
+    for response_type_tuple in RESPONSES.items():
+        for response_tuple in response_type_tuple[1].items():
+            if response_tuple[1] == code:
+                return f"RESPONSES :: {response_type_tuple[0]} :: {response_tuple[0]}"
+    return "CODE DOESN'T EXIST"
+
+
+def receive_response_from_socket(sock: socket):
+    response_code = int(sock.recv(PROTOCOL_LENS.MSG_CODE.value))
+    response_content_len = int(sock.recv(PROTOCOL_LENS.CONTENT_LENGTH.value))
+    response_content_str = sock.recv(response_content_len).decode()
+    return response_content_str, response_code
+
+def deserialize_response(response_content_str: str):
+    return json.loads(response_content_str)
+
+def input_request_parameters():
     login_or_signup = input("l for login, anything else for signup: ")
     request_parameters = dict()
     request_parameters["username"] = input("Username: ")
@@ -46,7 +82,7 @@ def get_request_parameters():
     return request_parameters, REQUESTS.LOGIN.value
 
 
-def create_encoded_request(request_parameters: dict, code: int):
+def serialize_request(request_parameters: dict, code: int):
     request = b""
     request_content = str(request_parameters)
 

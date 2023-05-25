@@ -110,5 +110,7 @@
     <ClCompile Include="User.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+=======
+>>>>>>> Trivia/Trivia/Trivia.vcxproj.filters
   </ItemGroup>
 </Project>
