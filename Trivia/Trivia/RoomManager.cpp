@@ -2,10 +2,6 @@
 #include <iostream>
 #include <utility>
 
-RoomManager::RoomManager(const std::map<unsigned int, Room>& rooms) : m_rooms(rooms)
-{
-}
-
 RoomManager::~RoomManager()
 {
 	this->m_rooms.clear();
