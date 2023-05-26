@@ -5,21 +5,16 @@
 using std::unique_ptr;
 using std::make_unique;
 
-bool LoginRequestHandler::isRequestRelevant(const RequestInfo& requestInfo) const
-{
-    if (requestInfo.id == int(REQUESTS::LOGIN) || requestInfo.id == int(REQUESTS::SIGNUP))
-        return true;
-    return false;
-}
-
 LoginRequestHandler::LoginRequestHandler(RequestHandlerFactory& handlerFactory) : m_handlerFactory(handlerFactory)
 {
 
 }
 
-LoginRequestHandler::~LoginRequestHandler()
+bool LoginRequestHandler::isRequestRelevant(const RequestInfo& requestInfo) const
 {
-
+    if (requestInfo.id == int(REQUESTS::LOGIN) || requestInfo.id == int(REQUESTS::SIGNUP))
+        return true;
+    return false;
 }
 
 RequestResult LoginRequestHandler::handleRequest(const RequestInfo& requestInfo) 
@@ -48,42 +43,40 @@ RequestResult LoginRequestHandler::login(const RequestInfo& info)
 {
     //try to login
     LoginRequest request = JsonRequestPacketDeserializer::deserializeLoginRequest(info.buffer);
-    bool loginSuccess = this->m_handlerFactory.getLoginManager().login(request.username, request.password);
+    int loginStatus = this->m_handlerFactory.getLoginManager().login(request.username, request.password);
 
     LoginResponse loginRes;
+    loginRes.status = loginStatus;
+    Buffer responseBuffer = JsonResponsePacketSerializer::serializeResponse(loginRes);
+
     unique_ptr<IRequestHandler> handler;
-    if (loginSuccess)
+    if (loginStatus == int(RESPONSES::LOGIN::SUCCESS))
     {
-        loginRes.status = int(RESPONSES::LOGIN_Y);
-        handler = make_unique<MenuRequestHandler>();
+        handler = this->m_handlerFactory.createMenuRequestHandler();
     }
     else
     {
-        loginRes.status = int(RESPONSES::LOGIN_N);
-        handler = make_unique<LoginRequestHandler>();
+        handler = this->m_handlerFactory.createLoginRequestHandler();
     }
-    Buffer response = JsonResponsePacketSerializer::serializeResponse(loginRes);
-    RequestResult requestRes = { response, handler };
-    return RequestResult;
+    
+
+    //std::move instead of copying, just moving the resources from one place to another
+    RequestResult requestRes = { responseBuffer, std::move(handler)};
+    return requestRes;
 }
 
 RequestResult LoginRequestHandler::signup(const RequestInfo& info)
 {
-    //try to login
+    //try to signup
     SignupRequest request = JsonRequestPacketDeserializer::deserializeSignupRequest(info.buffer);
-    bool signupSuccess = this->m_handlerFactory.getLoginManager().signup(request.username, request.password, request.email);
+    int signupStatus = this->m_handlerFactory.getLoginManager().signup(request.username, request.password, request.email);
 
     SignupResponse signupRes;
-    unique_ptr<IRequestHandler> handler = make_unique<LoginRequestHandler>();
-    if (signupSuccess)
-    {
-        signupRes.status = int(RESPONSES::SIGNUP_Y);
-    }
-    else
-    {
-        signupRes.status = int(RESPONSES::SIGNUP_N);
-    }
+    signupRes.status = signupStatus;
     Buffer response = JsonResponsePacketSerializer::serializeResponse(signupRes);
-    RequestResult requestRes = { response, handler };
-    return RequestResult;
+
+    unique_ptr<IRequestHandler> handler = this->m_handlerFactory.createLoginRequestHandler();
+
+    RequestResult requestRes = { response, std::move(handler) };
+    return requestRes;
 }

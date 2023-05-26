@@ -2,7 +2,7 @@
 #include <vector>
 #include <string>
 
-enum class REQUESTS { LOGIN = 200, SIGNUP = 201 };
+enum class REQUESTS { LOGIN = 200, SIGNUP = 201, LOGOUT = 202 };
 
 struct LoginRequest {
 	std::string username;

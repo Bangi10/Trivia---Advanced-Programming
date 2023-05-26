@@ -5,7 +5,7 @@ Buffer JsonResponsePacketSerializer::serializeResponse(const ErrorResponse& resp
 {
     Buffer buffer;
     //CODE: 1 BYTE
-    buffer.push_back(char(RESPONSES::ERRORS::_ERROR));
+    buffer.push_back(char(RESPONSES::ERRORS::REQUEST_NOT_RELEVANT));
 
     //LEN: 4 BYTE
     json j;

@@ -4,8 +4,9 @@
 #include "json.hpp"
 
 namespace RESPONSES {
-	enum class ERRORS { _ERROR = 50 };
-	enum class LOGIN { SUCCESS = 100, USER_NOT_EXISTS = 101, USER_ALREADY_LOGINED = 102 };
+	enum class ERRORS { REQUEST_NOT_RELEVANT = 50 };
+	enum class LOGOUT { SUCCESS = 90 };
+	enum class LOGIN { SUCCESS = 100, NAME_NOT_EXISTS = 101, PASSWORD_MISMATCH = 102, USER_ALREADY_LOGINED = 102 };
 	enum class SIGNUP { SUCCESS = 110, NAME_ALREADY_EXISTS = 111 };
 };
 
