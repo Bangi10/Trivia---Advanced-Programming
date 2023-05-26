@@ -5,9 +5,8 @@ enum class LOGOUT { SUCCESS = 90, USER_NOT_EXISTS = 91};
 enum class LOGIN { SUCCESS = 100, USER_NOT_EXISTS = 101, USER_ALREADY_LOGINED = 102, PASSWORD_MISMATCH = 103};
 enum class SIGNUP { SUCCESS = 110, NAME_ALREADY_EXISTS = 111 };
 
-LoginManager::LoginManager()
+LoginManager::LoginManager(const std::shared_ptr<IDatabase> database) : m_database(database)
 {
-	this->m_database.lock()->open();
 }
 
 LoginManager::~LoginManager()
