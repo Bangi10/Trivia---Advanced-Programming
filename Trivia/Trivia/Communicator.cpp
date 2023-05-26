@@ -4,6 +4,9 @@
 #include "JsonResponsePacketSerializer.h"
 #include <thread>
 #include <iostream>
+#include <ctime>
+#include <exception>
+#include "Helper.h"
 
 using std::string;
 
@@ -74,50 +77,33 @@ void Communicator::bindAndListen()
 
 void Communicator::handleNewClient(const SOCKET sock)
 {
+	unsigned char id = 0;
+	int jsonMsgLen = 0;
+	std::string jsonMsgStr;
+
 	while (true)
 	{
-		if (this->m_clients.find(sock) == this->m_clients.end() || this->m_clients.find(sock)->second != nullptr)
+		try {
+			id = Helper::getIntPartFromSocket(sock, int(LENGTH_OF::CODE));
+			jsonMsgLen = Helper::getIntPartFromSocket(sock, int(LENGTH_OF::MSG_LENGTH));
+			jsonMsgStr = Helper::getStringPartFromSocket(sock, jsonMsgLen);
+		} 
+		catch (std::exception e)
 		{
+			std::cout << e.what() << std::endl;
 			break;
 		}
-		char recvbuf[int(REQUESTS::BUFLEN)];
-		int byteCount = recv(sock, recvbuf, sizeof(recvbuf), 0);
-		if (byteCount == 0)
-			printf("Connection closed\n");
-		else if (byteCount < 0)
-			printf("recv failed: %d\n", WSAGetLastError());
-		else
-		{
-			//ID
-			unsigned char id = recvbuf[0];
+		Buffer jsonMsgBuffer(jsonMsgStr.begin(), jsonMsgStr.end());
 
-			//convert char* to vector<unsigned char>
-			Buffer clientMsg(byteCount);
-			std::copy(recvbuf, recvbuf + byteCount, clientMsg.begin());
+		time_t receivalTime;
+		time(&receivalTime);
+		RequestInfo requestInfo{ id, receivalTime, jsonMsgBuffer};
 
-			if (id == int(REQUESTS::LOGIN))
-			{
-				LoginRequest login = JsonRequestPacketDeserializer::deserializeLoginRequest(clientMsg);
-				LoginResponse response;
-				response.status = 1;
-				Buffer loginResponse = JsonResponsePacketSerializer::serializeResponse(response);
+		RequestResult requestRes;
+		requestRes = this->m_clients[sock]->handleRequest(requestInfo);
+		this->m_clients[sock] = std::move(requestRes.newHandler);
 
-			}
-			else if (id == int(REQUESTS::SIGNUP))
-			{
-				SignupRequest signup = JsonRequestPacketDeserializer::deserializeSignupRequest(clientMsg);
-				SignupResponse response;
-				response.status = 1;
-				Buffer signupResponse = JsonResponsePacketSerializer::serializeResponse(response);
-
-			}
-			else
-			{
-				ErrorResponse response;
-				response.message = "ERROR";
-				Buffer errorResponse = JsonResponsePacketSerializer::serializeResponse(response);
-			}
-		}
+		Helper::sendData(sock, requestRes.response);
 	}
 	// cleanup
 	closesocket(sock);

@@ -1,12 +1,12 @@
 #pragma once
 #include "LoginRequestHandler.h"
 #include "MenuRequestHandler.h"
+#include "IRequestHandler.h"
 #include "LoginManager.h"
 #include <memory>
 
 class LoginRequestHandler;
 class MenuRequestHandler;
-
 
 class RequestHandlerFactory
 {

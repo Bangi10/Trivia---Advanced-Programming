@@ -1,13 +1,18 @@
 #pragma once
-#include "IRequestHandler.h"
 #include "RequestHandlerFactory.h"
+#include "IRequestHandler.h"
+
 class RequestHandlerFactory;
 
 class MenuRequestHandler : public IRequestHandler
 {
-	public:
-		MenuRequestHandler(const RequestHandlerFactory& handlerFactory);
-		~MenuRequestHandler() override = default;
-	private:
-		RequestHandlerFactory& m_handlerFactory;
+public:
+	MenuRequestHandler() = default;
+	MenuRequestHandler(RequestHandlerFactory& handlerFactory);
+	~MenuRequestHandler() override = default;
+
+	bool isRequestRelevant(const RequestInfo& requestInfo) const override;
+	RequestResult handleRequest(const RequestInfo& requestInfo) override;
+private:
+	RequestHandlerFactory& m_handlerFactory;
 };

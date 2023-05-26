@@ -2,7 +2,7 @@
 #include <iostream>
 #include "JsonResponsePacketSerializer.h"
 
-LoginManager::LoginManager(const std::shared_ptr<IDatabase> db)
+LoginManager::LoginManager(std::shared_ptr<IDatabase> db)
 {
 	this->m_database = db;
 }

@@ -21,7 +21,6 @@ RequestResult LoginRequestHandler::handleRequest(const RequestInfo& requestInfo)
 {
     Buffer msg;
     RequestResult requestRes;
-    requestRes.newHandler.reset(this);
     switch (REQUESTS(requestInfo.id))
     {
         case REQUESTS::LOGIN:
@@ -52,17 +51,14 @@ RequestResult LoginRequestHandler::login(const RequestInfo& info)
     unique_ptr<IRequestHandler> handler;
     if (loginStatus == int(RESPONSES::LOGIN::SUCCESS))
     {
-        handler = this->m_handlerFactory.createMenuRequestHandler();
+        RequestResult requestRes = { responseBuffer, this->m_handlerFactory.createMenuRequestHandler() };
+        return requestRes;
     }
-    else
-    {
-        handler = this->m_handlerFactory.createLoginRequestHandler();
-    }
-    
-
-    //std::move instead of copying, just moving the resources from one place to another
-    RequestResult requestRes = { responseBuffer, std::move(handler)};
+    RequestResult requestRes = { responseBuffer, this->m_handlerFactory.createLoginRequestHandler() };
     return requestRes;
+    
+    //std::move instead of copying, just moving the resources from one place to another
+    
 }
 
 RequestResult LoginRequestHandler::signup(const RequestInfo& info)
@@ -75,8 +71,8 @@ RequestResult LoginRequestHandler::signup(const RequestInfo& info)
     signupRes.status = signupStatus;
     Buffer response = JsonResponsePacketSerializer::serializeResponse(signupRes);
 
-    unique_ptr<IRequestHandler> handler = this->m_handlerFactory.createLoginRequestHandler();
 
-    RequestResult requestRes = { response, std::move(handler) };
+
+    RequestResult requestRes = { response, this->m_handlerFactory.createLoginRequestHandler() };
     return requestRes;
 }

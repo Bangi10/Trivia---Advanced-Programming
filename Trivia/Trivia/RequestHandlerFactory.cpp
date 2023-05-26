@@ -10,12 +10,12 @@ RequestHandlerFactory::RequestHandlerFactory(const std::shared_ptr<IDatabase> db
 
 unique_ptr<LoginRequestHandler> RequestHandlerFactory::createLoginRequestHandler()
 {
-	unique_ptr<LoginRequestHandler> loginHandler = make_unique<LoginRequestHandler>(*this);
+	return make_unique<LoginRequestHandler>(*this);
 }
 
 unique_ptr<MenuRequestHandler> RequestHandlerFactory::createMenuRequestHandler()
 {
-	unique_ptr<MenuRequestHandler> loginHandler = make_unique<MenuRequestHandler>(*this);
+	return make_unique<MenuRequestHandler>(*this);
 }
 
 LoginManager& RequestHandlerFactory::getLoginManager()

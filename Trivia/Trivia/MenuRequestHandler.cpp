@@ -1,6 +1,16 @@
 #include "MenuRequestHandler.h"
 
-MenuRequestHandler::MenuRequestHandler(const RequestHandlerFactory& handlerFactory)
+MenuRequestHandler::MenuRequestHandler(RequestHandlerFactory& handlerFactory) : m_handlerFactory(handlerFactory)
 {
-	this->m_handlerFactory = handlerFactory;
+	
+}
+
+bool MenuRequestHandler::isRequestRelevant(const RequestInfo& requestInfo) const
+{
+	return false;
+}
+
+RequestResult MenuRequestHandler::handleRequest(const RequestInfo& requestInfo)
+{
+	return RequestResult();
 }
