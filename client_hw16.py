@@ -5,11 +5,14 @@ import json
 SERVER_IP = "127.0.0.1"
 SERVER_PORT = 8826
 
-REQUESTS = {"LOGIN":200, "SIGNUP":201}
-RESPONSES = {"LOGIN":{
+REQUESTS = {"LOGIN":200, "SIGNUP":201, "LOGOUT":202}
+RESPONSES = {"ERRORS": {"REQUEST_ISNT_RELEVANT":50},
+             "LOGOUT": {"SUCCESS":90},
+             "LOGIN":{
                       "SUCCESS":100,
-                      "USER_NOT_EXISTS":101,
-                      "USER_ALREADY_LOGINED":102
+                      "NAME_NOT_EXISTS":101,
+                      "PASSWORD_MISMATCH":102,
+                      "USER_ALREADY_LOGINED":103
                       },
              "SIGNUP":{
                       "SUCCESS":110,
