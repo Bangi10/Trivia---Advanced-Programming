@@ -7,13 +7,9 @@
 class Helper
 {
 public:
-
-
-	static int getMessageTypeCode(const SOCKET sc);
 	static int getIntPartFromSocket(const SOCKET sc, const int bytesNum);
 	static std::string getStringPartFromSocket(SOCKET sc, const int bytesNum);
-	static void sendData(const SOCKET sc, const std::string message);
-	static void send_update_message_to_client(const SOCKET sc, const std::string& file_content, const std::string& second_username, const std::string& all_users);
+	static void sendData(const SOCKET sc, const std::vector<unsigned char> dataVector);
 	static std::string getPaddedNumber(const int num, const int digits);
 
 private:

@@ -1,11 +1,10 @@
 #pragma once
 #include <string>
 
-class LoggedUser{
+class LoggedUser {
 public:
-	LoggedUser() = default;
 	LoggedUser(const std::string& username);
-	~LoggedUser()=default;
+	~LoggedUser() = default;
 	std::string getUsername() const;
 
 private:

@@ -8,7 +8,6 @@
 class RequestHandlerFactory
 {
 public:
-	RequestHandlerFactory() = default;
 	RequestHandlerFactory(std::shared_ptr<IDatabase>& db);
 	~RequestHandlerFactory() = default;
 

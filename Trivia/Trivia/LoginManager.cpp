@@ -1,84 +1,70 @@
 #include "LoginManager.h"
 #include <iostream>
+#include "JsonResponsePacketSerializer.h"
 
-enum class LOGOUT { SUCCESS = 90, USER_NOT_EXISTS = 91};
-enum class LOGIN { SUCCESS = 100, USER_NOT_EXISTS = 101, USER_ALREADY_LOGINED = 102, PASSWORD_MISMATCH = 103};
-enum class SIGNUP { SUCCESS = 110, NAME_ALREADY_EXISTS = 111 };
+LoginManager::LoginManager(std::shared_ptr<IDatabase>& db) :m_database(db)
+{}
 
-LoginManager::LoginManager(std::shared_ptr<IDatabase> database) : m_database(database)
-{
-}
 
 LoginManager::~LoginManager()
 {
 	this->m_LoggedUsers.clear();
 }
 
-int LoginManager::sigup(const std::string& username, const std::string& password, const std::string& email)
+int LoginManager::signup(const std::string& username, const std::string& password, const std::string& email)
 {
-	if (this->m_database.lock()->doesUserExists(username))
+	auto sharedDb = this->m_database.lock();
+	if (sharedDb->doesUserExists(username))
 	{
 		std::cout << "signup error:user already exists" << std::endl;
-		return int(SIGNUP::NAME_ALREADY_EXISTS);
+		return int(RESPONSES::SIGNUP::NAME_ALREADY_EXISTS);
 	}
-	else
-	{
-		this->m_database.lock()->addNewUser(username, password, email);
-		LoggedUser user(username);
-		this->m_LoggedUsers.push_back(user);
-	}
-	return int(SIGNUP::SUCCESS);
+	sharedDb->addNewUser(username, password, email);
+	LoggedUser user(username);
+	this->m_LoggedUsers.push_back(user);
+	return int(RESPONSES::SIGNUP::SUCCESS);
 }
 
 int LoginManager::login(const std::string& username, const std::string& password)
 {
-	if (this->m_database.lock()->doesUserExists(username))
+	auto sharedDb = this->m_database.lock();
+	if (sharedDb->doesUserExists(username))
 	{
-		if (isLogedIn(username))
+		if (isLoggedIn(username))
 		{
 			std::cout << "login error:user already logged in" << std::endl;
-			return int(LOGIN::USER_ALREADY_LOGINED);
+			return int(RESPONSES::LOGIN::USER_ALREADY_LOGINED);
 		}
-		else if (this->m_database.lock()->doesPasswordMatch(username, password))
+		else if (!sharedDb->doesPasswordMatch(username, password))
 		{
-			LoggedUser user(username);
-			this->m_LoggedUsers.push_back(user);
-			return int(LOGIN::SUCCESS);
+			std::cout << "login error: password doesn't match user" << std::endl;
+			return int(RESPONSES::LOGIN::PASSWORD_MISMATCH);
 		}
-		else
-		{
-			std::cout << "login error:password does not match user" << std::endl;
-			return int(LOGIN::PASSWORD_MISMATCH);
-		}
+		LoggedUser user(username);
+		this->m_LoggedUsers.push_back(user);
+		return int(RESPONSES::LOGIN::SUCCESS);
 	}
-	else
-	{
-		std::cout << "login error:user does not exists" << std::endl;
-		return int(LOGIN::USER_NOT_EXISTS);
-	}
+	std::cout << "login error:username does not exist" << std::endl;
+	return int(RESPONSES::LOGIN::NAME_NOT_EXISTS);
+
+
 }
 
-bool LoginManager::logout(const std::string& username)
+int LoginManager::logout(const std::string& username)
 {
-	if (this->m_database.lock()->doesUserExists(username))
+	auto sharedDb = this->m_database.lock();
+	for (auto it = this->m_LoggedUsers.begin(); it != this->m_LoggedUsers.end(); it++)
 	{
-		for (auto it = this->m_LoggedUsers.begin(); it != this->m_LoggedUsers.end(); it++)
+		if (it->getUsername() == username)
 		{
-			if (it->getUsername() == username)
-			{
-				this->m_LoggedUsers.erase(it);
-				return int(LOGOUT::SUCCESS);
-			}
+			this->m_LoggedUsers.erase(it);
+			break;
 		}
 	}
-	else
-	{
-		std::cout << "logout error:user does not exists" << std::endl;
-		return int(LOGOUT::USER_NOT_EXISTS);
-	}
+	return int(RESPONSES::LOGOUT::SUCCESS);
 }
 
-bool LoginManager::isLogedIn(const std::string& username)
+bool LoginManager::isLoggedIn(const std::string& username)
 {
 	for (auto& it : this->m_LoggedUsers)
 	{

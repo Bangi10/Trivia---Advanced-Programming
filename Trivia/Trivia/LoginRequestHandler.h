@@ -7,7 +7,6 @@ class RequestHandlerFactory;
 class LoginRequestHandler : public IRequestHandler
 {
 public:
-	LoginRequestHandler() = default;
 	LoginRequestHandler(RequestHandlerFactory& handlerFactory);
 	~LoginRequestHandler() override = default;
 
@@ -15,7 +14,7 @@ public:
 	RequestResult handleRequest(const RequestInfo& requestInfo) override;
 
 private:
-	RequestHandlerFactory m_handlerFactory;
+	RequestHandlerFactory& m_handlerFactory;
 
 	RequestResult login(const RequestInfo& info);
 	RequestResult signup(const RequestInfo& info);

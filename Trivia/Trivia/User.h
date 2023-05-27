@@ -1,9 +1,6 @@
 #pragma once
 #include <string>
 #include <list>
-#include "LoggedUser.h"
-class User;
-using users = std::list<User>;
 
 class User {
 public:
