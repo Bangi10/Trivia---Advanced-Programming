@@ -7,6 +7,7 @@
 class LoginManager
 {
 public:
+	LoginManager() = default;
 	LoginManager(std::shared_ptr<IDatabase> databse);
 	~LoginManager();
 	int sigup(const std::string& username, const std::string& password, const std::string& email);

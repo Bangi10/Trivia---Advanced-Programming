@@ -8,9 +8,11 @@ const std::string USERNAME = "username";
 const std::string PASSWORD = "password";
 const std::string EMAIL = "EMAIL";
 
+using users = std::list<User>;
+
 users usersList;
 
-int getUsersCallback (void* data, int argc, char** argv, char** azColName)
+int callback(void* data, int argc, char** argv, char** azColName)
 {
 	usersList.clear();
 	User user;
@@ -34,7 +36,7 @@ bool SqliteDatabase::doesUserExists(const std::string& username) const
 	std::string msg = "SELECT * FROM USERS where USERS.USERNAME='" + username + "';";
 	const char* sqlStatement = msg.c_str();
 	char** errMessage = nullptr;
-	int res = sqlite3_exec(this->_db, sqlStatement,getUsersCallback, nullptr, errMessage);
+	int res = sqlite3_exec(this->_db, sqlStatement, callback, nullptr, errMessage);
 	delete[] sqlStatement;
 	if (res != SQLITE_OK) {
 		return false;
@@ -54,8 +56,8 @@ bool SqliteDatabase::doesPasswordMatch(const std::string& username, const std::s
 		std::string msg = "SELECT* FROM USERS where USERS.USERNAME = '" + username + "' and users.PASSWORD = " + password + ";";
 		const char* sqlStatement = msg.c_str();
 		char** errMessage = nullptr;
-		int res = sqlite3_exec(this->_db, sqlStatement,getUsersCallback, nullptr, errMessage);
-		delete[] sqlStatement;
+		int res = sqlite3_exec(this->_db, sqlStatement, callback, nullptr, errMessage);
+
 		if (res != SQLITE_OK) {
 			return false;
 		}
@@ -71,7 +73,7 @@ bool SqliteDatabase::doesPasswordMatch(const std::string& username, const std::s
 	return false;
 }
 
-void SqliteDatabase::addNewUser(const std::string& username, const std::string& password, const std::string& email) 
+void SqliteDatabase::addNewUser(const std::string& username, const std::string& password, const std::string& email)
 {
 	if (doesUserExists(username))
 	{
@@ -82,7 +84,7 @@ void SqliteDatabase::addNewUser(const std::string& username, const std::string& 
 		std::string msg = "INSERT INTO USERS VALUES('" + username + "', " + password + ", '" + email + "'); ";
 		const char* sqlStatement = msg.c_str();
 		sqlite3_exec(this->_db, sqlStatement, nullptr, nullptr, nullptr);
-		delete[] sqlStatement;
+
 	}
 
 }
@@ -124,3 +126,4 @@ void SqliteDatabase::close()
 	sqlite3_close(_db);
 	_db = nullptr;
 }
+

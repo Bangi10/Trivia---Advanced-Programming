@@ -129,6 +129,8 @@
   <ItemGroup>
     <ClInclude Include="Communicator.h" />
     <ClInclude Include="IRequestHandler.h" />
+    <ClInclude Include="MenuRequestHandler.h" />
+    <ClInclude Include="RequestHandlerFactory.h" />
     <ClInclude Include="User.h" />
     <ClInclude Include="LoggedUser.h" />
     <ClInclude Include="LoginManager.h" />
@@ -152,6 +154,8 @@
     <ClCompile Include="LoginManager.cpp" />
     <ClCompile Include="LoginRequestHandler.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="MenuRequestHandler.cpp" />
+    <ClCompile Include="RequestHandlerFactory.cpp" />
     <ClCompile Include="Server.cpp" />
     <ClCompile Include="JsonResponsePacketSerializer.cpp" />
     <ClCompile Include="JsonRequestPacketDeserializer.cpp" />
