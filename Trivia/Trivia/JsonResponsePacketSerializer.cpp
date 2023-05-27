@@ -1,4 +1,5 @@
 #include "JsonResponsePacketSerializer.h"
+#include "json.hpp"
 using json = nlohmann::json;
 
 Buffer JsonResponsePacketSerializer::serializeResponse(const ErrorResponse& response)

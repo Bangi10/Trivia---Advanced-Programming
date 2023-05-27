@@ -8,6 +8,8 @@ const std::string USERNAME = "username";
 const std::string PASSWORD = "password";
 const std::string EMAIL = "EMAIL";
 
+using users = std::list<User>;
+
 users usersList;
 
 int callback(void* data, int argc, char** argv, char** azColName)
@@ -55,7 +57,7 @@ bool SqliteDatabase::doesPasswordMatch(const std::string& username, const std::s
 		const char* sqlStatement = msg.c_str();
 		char** errMessage = nullptr;
 		int res = sqlite3_exec(this->_db, sqlStatement, callback, nullptr, errMessage);
-		delete[] sqlStatement;
+		
 		if (res != SQLITE_OK) {
 			return false;
 		}
@@ -82,7 +84,7 @@ void SqliteDatabase::addNewUser(const std::string& username, const std::string& 
 		std::string msg = "INSERT INTO USERS VALUES('" + username + "', " + password + ", '" + email + "'); ";
 		const char* sqlStatement = msg.c_str();
 		sqlite3_exec(this->_db, sqlStatement, nullptr, nullptr, nullptr);
-		delete[] sqlStatement;
+		
 	}
 
 }

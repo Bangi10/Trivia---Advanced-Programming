@@ -2,7 +2,6 @@
 #include "RequestInfo.h"
 #include "RequestResult.h"
 
-using Buffer = std::vector<unsigned char>;
 
 struct RequestResult;
 class IRequestHandler

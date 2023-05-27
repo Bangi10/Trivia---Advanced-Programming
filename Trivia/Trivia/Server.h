@@ -7,12 +7,12 @@
 class Server
 {
 public:
-	Server(const std::shared_ptr<IDatabase> db);
+	Server(std::shared_ptr<IDatabase> db);
 	~Server() = default;
 	void run();
 
 private:
-	Communicator m_communicator;
 	std::shared_ptr<IDatabase> m_database;
 	RequestHandlerFactory m_handlerFactory;
+	Communicator m_communicator;
 };

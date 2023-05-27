@@ -86,7 +86,7 @@ void Communicator::handleNewClient(const SOCKET sock)
 			jsonMsgLen = Helper::getIntPartFromSocket(sock, int(LENGTH_OF::MSG_LENGTH));
 			jsonMsgStr = Helper::getStringPartFromSocket(sock, jsonMsgLen);
 		} 
-		catch (std::exception e)
+		catch (std::exception& e)
 		{
 			std::cout << e.what() << std::endl;
 			break;
@@ -97,8 +97,8 @@ void Communicator::handleNewClient(const SOCKET sock)
 		time(&receivalTime);
 		RequestInfo requestInfo{ id, receivalTime, jsonMsgBuffer};
 
-		RequestResult requestRes;
-		requestRes = this->m_clients[sock]->handleRequest(requestInfo);
+		
+		auto requestRes = this->m_clients[sock]->handleRequest(requestInfo);
 		this->m_clients[sock] = std::move(requestRes.newHandler);
 
 		Helper::sendData(sock, requestRes.response);

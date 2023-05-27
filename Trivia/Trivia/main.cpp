@@ -1,5 +1,6 @@
 #pragma comment (lib, "ws2_32.lib")
 #include "Server.h"
+#include "SqliteDatabase.h"
 #include <thread>
 #include "WSAInitializer.h"
 #include <iostream>
@@ -10,7 +11,7 @@ int main()
 {
 	std::cout << "Starting... " << std::endl;
 	WSAInitializer wsa_init;  // at the end of this block the WSA will be closed 
-	std::shared_ptr<IDatabase> db = std::make_shared<IDatabase>();
+	std::shared_ptr<IDatabase> db = std::make_shared<SqliteDatabase>();
 	Server mt_server(db);
 	mt_server.run();
 }

@@ -3,9 +3,9 @@
 #include <iostream>
 #include <thread>
 
-Server::Server(const std::shared_ptr<IDatabase> db) : m_database(db),
-													  m_handlerFactory(RequestHandlerFactory(db)),
-													  m_communicator(Communicator(this->m_handlerFactory))
+Server::Server(std::shared_ptr<IDatabase> db) : m_database(db),
+													  m_handlerFactory(db),
+													  m_communicator(this->m_handlerFactory)
 {
 	
 }

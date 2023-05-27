@@ -2,8 +2,7 @@
 #include "JsonRequestPacketDeserializer.h"
 #include "JsonResponsePacketSerializer.h"
 
-using std::unique_ptr;
-using std::make_unique;
+
 
 LoginRequestHandler::LoginRequestHandler(RequestHandlerFactory& handlerFactory) : m_handlerFactory(handlerFactory)
 {
@@ -47,7 +46,6 @@ RequestResult LoginRequestHandler::login(const RequestInfo& info)
     loginRes.status = loginStatus;
     Buffer responseBuffer = JsonResponsePacketSerializer::serializeResponse(loginRes);
 
-    unique_ptr<IRequestHandler> handler;
     if (loginStatus == int(RESPONSES::LOGIN::SUCCESS))
     {
         RequestResult requestRes = { responseBuffer, this->m_handlerFactory.createMenuRequestHandler() };
