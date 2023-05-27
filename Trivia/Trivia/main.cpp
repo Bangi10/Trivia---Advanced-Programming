@@ -4,11 +4,13 @@
 #include "WSAInitializer.h"
 #include <iostream>
 #include <fstream>
+#include <memory>
 
 int main()
 {
 	std::cout << "Starting... " << std::endl;
 	WSAInitializer wsa_init;  // at the end of this block the WSA will be closed 
-	Server mt_server;
+	std::shared_ptr<IDatabase> db = std::make_shared<IDatabase>();
+	Server mt_server(db);
 	mt_server.run();
 }

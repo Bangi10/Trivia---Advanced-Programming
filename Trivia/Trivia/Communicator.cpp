@@ -1,7 +1,6 @@
 #include "Communicator.h"
 #include "LoginRequestHandler.h"
-#include "JsonRequestPacketDeserializer.h"
-#include "JsonResponsePacketSerializer.h"
+#include "RequestHandlerFactory.h"
 #include <thread>
 #include <iostream>
 #include <ctime>
@@ -9,13 +8,12 @@
 #include "Helper.h"
 
 using std::string;
-
 using std::vector;
 using std::cout;
 using std::endl;
 using std::unique_ptr;
 
-Communicator::Communicator()
+Communicator::Communicator(RequestHandlerFactory& handlerFactory) : m_handlerFactory(handlerFactory)
 {
 	m_serverSocket = ::socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
 	if (m_serverSocket == INVALID_SOCKET)
@@ -44,7 +42,7 @@ void Communicator::startHandleRequests()
 				throw std::exception(__FUNCTION__ " - create client socket error");
 
 			cout << "Client accepted! " << endl;
-			this->m_clients[client_socket] = std::make_unique<LoginRequestHandler>(); //add to map
+			this->m_clients[client_socket] = this->m_handlerFactory.createLoginRequestHandler(); //add to map
 
 			//handle client
 			std::thread tr(&Communicator::handleNewClient, this, client_socket);

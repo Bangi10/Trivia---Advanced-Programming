@@ -7,7 +7,6 @@ class RequestHandlerFactory;
 class LoginRequestHandler : public IRequestHandler
 {
 public:
-	LoginRequestHandler() = delete;
 	LoginRequestHandler(RequestHandlerFactory& handlerFactory);
 	~LoginRequestHandler() override = default;
 

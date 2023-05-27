@@ -32,8 +32,7 @@ RequestResult LoginRequestHandler::handleRequest(const RequestInfo& requestInfo)
         default:
             ErrorResponse err = { "Request isn't relevant" };
             msg = JsonResponsePacketSerializer::serializeResponse(err);
-            requestRes = { msg, this->m_handlerFactory.createLoginRequestHandler() };
-            break;
+            requestRes = { msg, this->m_handlerFactory.createLoginRequestHandler()};
     }
     return requestRes;
 }
