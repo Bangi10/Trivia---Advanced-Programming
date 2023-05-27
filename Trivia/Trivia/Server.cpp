@@ -3,11 +3,7 @@
 #include <iostream>
 #include <thread>
 
-<<<<<<< HEAD
-Server::Server(std::shared_ptr<IDatabase> db) : m_database(db),
-=======
 Server::Server(std::shared_ptr<IDatabase>& db) : m_database(db),
->>>>>>> b868f45fac1eaef5f37d1b0e9f2bb14fca8e6a21
 m_handlerFactory(db),
 m_communicator(this->m_handlerFactory)
 {

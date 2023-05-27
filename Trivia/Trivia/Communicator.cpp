@@ -1,5 +1,5 @@
-#include "JsonRequestPacketDeserializer.h"
-#include "JsonResponsePacketSerializer.h"
+#include <iostream>
+#include <thread>
 #include "Communicator.h"
 #include "LoginRequestHandler.h"
 #include "RequestHandlerFactory.h"
@@ -43,8 +43,8 @@ void Communicator::startHandleRequests()
 			if (client_socket == INVALID_SOCKET)
 				throw std::exception(__FUNCTION__ " - create client socket error");
 
-			std::cout << "Client accepted! " << std::endl;
-			this->m_clients[client_socket] = m_handlerFactory.createLoginRequestHandler(); //add to map
+			cout << "Client accepted! " << endl;
+			this->m_clients[client_socket] = this->m_handlerFactory.createLoginRequestHandler(); //add to map
 
 			//handle client
 			std::thread tr(&Communicator::handleNewClient, this, client_socket);
