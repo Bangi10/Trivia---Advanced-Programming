@@ -2,7 +2,6 @@
 
 #include <vector>
 #include <string>
-#include "json.hpp"
 
 enum class RESPONSES { _ERROR = 255, LOGIN_Y = 101, LOGIN_N = 102, SIGNUP_Y = 111, SIGNUP_N = 112 };
 

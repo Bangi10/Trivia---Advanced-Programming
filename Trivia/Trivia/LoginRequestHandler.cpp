@@ -2,6 +2,10 @@
 #include "JsonRequestPacketDeserializer.h"
 #include "JsonResponsePacketSerializer.h"
 
+LoginRequestHandler::LoginRequestHandler(RequestHandlerFactory& handlerFactory):m_handlerFactory(handlerFactory)
+{
+}
+
 bool LoginRequestHandler::isRequestRelevant(const RequestInfo& requestInfo) const
 {
     if (requestInfo.id == int(REQUESTS::LOGIN) || requestInfo.id == int(REQUESTS::SIGNUP))
