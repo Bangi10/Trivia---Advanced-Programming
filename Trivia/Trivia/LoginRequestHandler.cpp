@@ -2,11 +2,16 @@
 #include "JsonRequestPacketDeserializer.h"
 #include "JsonResponsePacketSerializer.h"
 
+<<<<<<< HEAD
 
 
 LoginRequestHandler::LoginRequestHandler(RequestHandlerFactory& handlerFactory) : m_handlerFactory(handlerFactory)
 {
 
+=======
+LoginRequestHandler::LoginRequestHandler(RequestHandlerFactory& handlerFactory):m_handlerFactory(handlerFactory)
+{
+>>>>>>> b868f45fac1eaef5f37d1b0e9f2bb14fca8e6a21
 }
 
 bool LoginRequestHandler::isRequestRelevant(const RequestInfo& requestInfo) const

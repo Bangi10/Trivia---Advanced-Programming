@@ -7,7 +7,11 @@
 class Server
 {
 public:
+<<<<<<< HEAD
 	Server(std::shared_ptr<IDatabase> db);
+=======
+	Server(std::shared_ptr<IDatabase>& db);
+>>>>>>> b868f45fac1eaef5f37d1b0e9f2bb14fca8e6a21
 	~Server() = default;
 	void run();
 

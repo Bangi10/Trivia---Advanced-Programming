@@ -1,3 +1,5 @@
+#include "JsonRequestPacketDeserializer.h"
+#include "JsonResponsePacketSerializer.h"
 #include "Communicator.h"
 #include "LoginRequestHandler.h"
 #include "RequestHandlerFactory.h"
@@ -35,14 +37,14 @@ void Communicator::startHandleRequests()
 		{
 			// the main thread is only accepting clients 
 			// and add then to the list of handlers
-			cout << "accepting client..." << endl;
+			std::cout << "accepting client..." << std::endl;
 
 			SOCKET client_socket = accept(m_serverSocket, NULL, NULL);
 			if (client_socket == INVALID_SOCKET)
 				throw std::exception(__FUNCTION__ " - create client socket error");
 
-			cout << "Client accepted! " << endl;
-			this->m_clients[client_socket] = this->m_handlerFactory.createLoginRequestHandler(); //add to map
+			std::cout << "Client accepted! " << std::endl;
+			this->m_clients[client_socket] = m_handlerFactory.createLoginRequestHandler(); //add to map
 
 			//handle client
 			std::thread tr(&Communicator::handleNewClient, this, client_socket);
@@ -51,7 +53,7 @@ void Communicator::startHandleRequests()
 	}
 	catch (std::exception& e)
 	{
-		cout << e.what() << endl;
+		std::cout << e.what() << std::endl;
 	}
 
 }
@@ -66,11 +68,11 @@ void Communicator::bindAndListen()
 	// again stepping out to the global namespace
 	if (::bind(m_serverSocket, (struct sockaddr*)&sa, sizeof(sa)) == SOCKET_ERROR)
 		throw std::exception(__FUNCTION__ " - bind");
-	cout << "Binded..." << endl;
+	std::cout << "Binded..." << std::endl;
 
 	if (::listen(m_serverSocket, SOMAXCONN) == SOCKET_ERROR)
 		throw std::exception(__FUNCTION__ " - listen");
-	cout << "listening..." << endl;
+	std::cout << "listening..." << std::endl;
 }
 
 void Communicator::handleNewClient(const SOCKET sock)
