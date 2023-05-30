@@ -1,9 +1,9 @@
 #pragma once
 #include <vector>
 #include <string>
+#include <optional>
 
-enum class REQUESTS :int { LOGIN = 100, SIGNUP = 110, BUFLEN = 1024 };
-
+enum class REQUESTS:unsigned char { LOGIN = 200, SIGNUP = 201, LOGOUT = 202 };
 
 struct LoginRequest {
 	std::string username;
@@ -19,6 +19,6 @@ struct SignupRequest {
 class JsonRequestPacketDeserializer
 {
 public:
-	static LoginRequest deserializeLoginRequest(const std::vector<unsigned char>& buffer);
-	static SignupRequest deserializeSignupRequest(const std::vector<unsigned char>& buffer);
+	static std::optional<LoginRequest> deserializeLoginRequest(const std::vector<unsigned char>& buffer);
+	static std::optional<SignupRequest> deserializeSignupRequest(const std::vector<unsigned char>& buffer);
 };

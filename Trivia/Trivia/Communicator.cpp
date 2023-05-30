@@ -1,9 +1,13 @@
+#include <iostream>
+#include <thread>
 #include "Communicator.h"
 #include "LoginRequestHandler.h"
-#include "JsonRequestPacketDeserializer.h"
-#include "JsonResponsePacketSerializer.h"
+#include "RequestHandlerFactory.h"
 #include <thread>
 #include <iostream>
+#include <ctime>
+#include <exception>
+#include "Helper.h"
 
 using std::string;
 using std::vector;
@@ -11,7 +15,7 @@ using std::cout;
 using std::endl;
 using std::unique_ptr;
 
-Communicator::Communicator()
+Communicator::Communicator(RequestHandlerFactory& handlerFactory) : m_handlerFactory(handlerFactory)
 {
 	m_serverSocket = ::socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
 	if (m_serverSocket == INVALID_SOCKET)
@@ -33,25 +37,34 @@ void Communicator::startHandleRequests()
 		{
 			// the main thread is only accepting clients 
 			// and add then to the list of handlers
-			cout << "accepting client..." << endl;
+			std::cout << "accepting client..." << std::endl;
 
 			SOCKET client_socket = accept(m_serverSocket, NULL, NULL);
 			if (client_socket == INVALID_SOCKET)
 				throw std::exception(__FUNCTION__ " - create client socket error");
 
 			cout << "Client accepted! " << endl;
-			this->m_clients[client_socket] = std::make_unique<LoginRequestHandler>(); //add to map
+			//TODO add unique lock, regular mutex
+			this->m_clients[client_socket] = this->m_handlerFactory.createLoginRequestHandler(); //add to map
 
 			//handle client
 			std::thread tr(&Communicator::handleNewClient, this, client_socket);
 			tr.detach();
 		}
 	}
-	catch (std::exception& e) 
+	catch (std::exception& e)
 	{
-		cout << e.what() << endl;
+		std::cout << e.what() << std::endl;
 	}
-	
+
+}
+
+IRequestHandler* Communicator::getClientHandler(const SOCKET sock)
+{
+	auto handlerIt = this->m_clients.find(sock);
+	if (handlerIt == this->m_clients.end())
+		return nullptr;
+	return handlerIt->second.get();
 }
 
 void Communicator::bindAndListen()
@@ -64,63 +77,48 @@ void Communicator::bindAndListen()
 	// again stepping out to the global namespace
 	if (::bind(m_serverSocket, (struct sockaddr*)&sa, sizeof(sa)) == SOCKET_ERROR)
 		throw std::exception(__FUNCTION__ " - bind");
-	cout << "Binded..." << endl;
+	std::cout << "Binded..." << std::endl;
 
 	if (::listen(m_serverSocket, SOMAXCONN) == SOCKET_ERROR)
 		throw std::exception(__FUNCTION__ " - listen");
-	cout << "listening..." << endl;
+	std::cout << "listening..." << std::endl;
 }
 
 void Communicator::handleNewClient(const SOCKET sock)
 {
-	while (true)
+	unsigned char id = 0;
+	unsigned int jsonMsgLen = 0;
+	std::string jsonMsgStr;
+
+	cout << "handleNewClient" << endl;
+	
+
+	while (getClientHandler(sock) != nullptr)
 	{
-		if (this->m_clients.find(sock) == this->m_clients.end() || this->m_clients.find(sock)->second != nullptr)
-		{
-			break;
+		try {
+			id = Helper::getSingleByteFromSocket(sock);
+			jsonMsgLen = Helper::getSingleUInt32FromSocket(sock);
+			jsonMsgStr = Helper::getStringPartFromSocket(sock, jsonMsgLen);
 		}
-		char recvbuf[int(REQUESTS::BUFLEN)];
-		int byteCount = recv(sock, recvbuf, sizeof(recvbuf), 0);
-		if (byteCount == 0)
-			printf("Connection closed\n");
-		else if (byteCount < 0)
-			printf("recv failed: %d\n", WSAGetLastError());
-		else
+		catch (std::exception& e)
 		{
-			//ID
-			unsigned char id = recvbuf[0];
-
-			//convert char* to vector<unsigned char>
-			Buffer clientMsg(byteCount);
-			std::copy(recvbuf, recvbuf + byteCount, clientMsg.begin());
-
-			if (id == int(REQUESTS::LOGIN))
-			{
-				LoginRequest login = JsonRequestPacketDeserializer::deserializeLoginRequest(clientMsg);
-				LoginResponse response;
-				response.status = 1;
-				Buffer loginResponse = JsonResponsePacketSerializer::serializeResponse(response);
-				const char* msg = reinterpret_cast<char*>(loginResponse.data());
-				send(sock, msg, strlen(msg), 0);
-			}
-			else if (id == int(REQUESTS::SIGNUP))
-			{
-				SignupRequest signup = JsonRequestPacketDeserializer::deserializeSignupRequest(clientMsg);
-				SignupResponse response;
-				response.status = 1;
-				Buffer signupResponse = JsonResponsePacketSerializer::serializeResponse(response);
-				const char* msg = reinterpret_cast<char*>(signupResponse.data());
-				send(sock, msg, strlen(msg), 0);
-			}
-			else
-			{
-				ErrorResponse response;
-				response.message = "ERROR";
-				Buffer errorResponse = JsonResponsePacketSerializer::serializeResponse(response);
-			}
+			std::cout << e.what() << std::endl;
+			this->m_clients[sock] = nullptr;
+			continue;
 		}
+		Buffer jsonMsgBuffer(jsonMsgStr.begin(), jsonMsgStr.end());
+
+		time_t receivalTime;
+		time(&receivalTime);
+		RequestInfo requestInfo{ id, receivalTime, jsonMsgBuffer };
+
+		auto requestRes = this->m_clients[sock]->handleRequest(requestInfo);
+		this->m_clients[sock] = std::move(requestRes.newHandler);
+
+		Helper::sendData(sock, requestRes.response);
 	}
 	// cleanup
 	closesocket(sock);
 	WSACleanup();
+	//TODO remove user from map
 }
