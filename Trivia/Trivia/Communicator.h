@@ -19,6 +19,7 @@ private:
 	SOCKET m_serverSocket;
 	std::map<SOCKET, std::unique_ptr<IRequestHandler>> m_clients;
 	RequestHandlerFactory& m_handlerFactory;
+	IRequestHandler* getClientHandler(const SOCKET sock);
 
 	void bindAndListen();
 	void handleNewClient(const SOCKET sock);

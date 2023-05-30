@@ -30,6 +30,37 @@ string Helper::getPaddedNumber(const int num, const int digits)
 
 }
 
+unsigned char Helper::getSingleByteFromSocket(const SOCKET sc)
+{
+	char data[1];
+	int res = recv(sc, data, 1, 0);
+	if (res == INVALID_SOCKET)
+	{
+		std::string s = "Error while recieving from socket: ";
+		s += std::to_string(sc);
+		throw std::exception(s.c_str());
+	}
+	return data[0];
+}
+
+unsigned int Helper::getSingleUInt32FromSocket(const SOCKET sc)
+{
+	char data[4];
+	int res = recv(sc, data, 4, 0);
+	if (res == INVALID_SOCKET)
+	{
+		std::string s = "Error while recieving from socket: ";
+		s += std::to_string(sc);
+		throw std::exception(s.c_str());
+	}
+	int result = int((unsigned char)(data[0]) << 24 |
+					(unsigned char)(data[1]) << 16 |
+					(unsigned char)(data[2]) << 8 |
+					(unsigned char)(data[3]));
+	return result;
+
+}
+
 // recieve data from socket according byteSize
 // this is private function
 std::string Helper::getPartFromSocket(const SOCKET sc, const int bytesNum)
@@ -56,7 +87,7 @@ std::string Helper::getPartFromSocket(const SOCKET sc, const int bytesNum, const
 		return "";
 	}
 
-	char* data = new char[bytesNum + 1];
+	char* data = new char[bytesNum + 1]; 
 	int res = recv(sc, data, bytesNum, flags);
 	if (res == INVALID_SOCKET)
 	{

@@ -20,8 +20,6 @@ int LoginManager::signup(const std::string& username, const std::string& passwor
 		return int(RESPONSES::SIGNUP::NAME_ALREADY_EXISTS);
 	}
 	sharedDb->addNewUser(username, password, email);
-	LoggedUser user(username);
-	this->m_LoggedUsers.push_back(user);
 	return int(RESPONSES::SIGNUP::SUCCESS);
 }
 

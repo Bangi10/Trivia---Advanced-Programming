@@ -19,28 +19,35 @@ bool LoginRequestHandler::isRequestRelevant(const RequestInfo& requestInfo) cons
 RequestResult LoginRequestHandler::handleRequest(const RequestInfo& requestInfo)
 {
     Buffer msg;
-    RequestResult requestRes;
-    switch (REQUESTS(requestInfo.id))
+    REQUESTS requestId = static_cast<REQUESTS>(requestInfo.id);
+
+    switch (requestId)
     {
-    case REQUESTS::LOGIN:
-        requestRes = login(requestInfo);
-        break;
-    case REQUESTS::SIGNUP:
-        requestRes = signup(requestInfo);
-        break;
-    default:
-        ErrorResponse err = { "Request isn't relevant" };
-        msg = JsonResponsePacketSerializer::serializeResponse(err);
-        requestRes = { msg, this->m_handlerFactory.createLoginRequestHandler() };
+        case REQUESTS::LOGIN:
+            return login(requestInfo);
+        case REQUESTS::SIGNUP:
+            return signup(requestInfo);
     }
-    return requestRes;
+    return createErrorResponse();
+
+}
+
+RequestResult LoginRequestHandler::createErrorResponse()
+{
+    ErrorResponse err = { "Request isn't relevant" };
+    Buffer msg = JsonResponsePacketSerializer::serializeResponse(err);
+    return RequestResult{ msg, this->m_handlerFactory.createLoginRequestHandler() };
 }
 
 RequestResult LoginRequestHandler::login(const RequestInfo& info)
 {
     //try to login
-    LoginRequest request = JsonRequestPacketDeserializer::deserializeLoginRequest(info.buffer);
-    int loginStatus = this->m_handlerFactory.getLoginManager().login(request.username, request.password);
+    auto request = JsonRequestPacketDeserializer::deserializeLoginRequest(info.buffer);
+    if (!request)
+        return createErrorResponse();
+
+    auto loginManager = this->m_handlerFactory.getLoginManager();
+    int loginStatus = loginManager.login(request.value().username, request.value().password);
 
     LoginResponse loginRes;
     loginRes.status = loginStatus;
@@ -61,8 +68,11 @@ RequestResult LoginRequestHandler::login(const RequestInfo& info)
 RequestResult LoginRequestHandler::signup(const RequestInfo& info)
 {
     //try to signup
-    SignupRequest request = JsonRequestPacketDeserializer::deserializeSignupRequest(info.buffer);
-    int signupStatus = this->m_handlerFactory.getLoginManager().signup(request.username, request.password, request.email);
+    auto request = JsonRequestPacketDeserializer::deserializeSignupRequest(info.buffer);
+    if (!request)
+        return createErrorResponse();
+    auto loginManager = this->m_handlerFactory.getLoginManager();
+    int signupStatus = loginManager.signup(request.value().username, request.value().password, request.value().email);
 
     SignupResponse signupRes;
     signupRes.status = signupStatus;

@@ -44,6 +44,7 @@ void Communicator::startHandleRequests()
 				throw std::exception(__FUNCTION__ " - create client socket error");
 
 			cout << "Client accepted! " << endl;
+			//TODO add unique lock, regular mutex
 			this->m_clients[client_socket] = this->m_handlerFactory.createLoginRequestHandler(); //add to map
 
 			//handle client
@@ -56,6 +57,14 @@ void Communicator::startHandleRequests()
 		std::cout << e.what() << std::endl;
 	}
 
+}
+
+IRequestHandler* Communicator::getClientHandler(const SOCKET sock)
+{
+	auto handlerIt = this->m_clients.find(sock);
+	if (handlerIt == this->m_clients.end())
+		return nullptr;
+	return handlerIt->second.get();
 }
 
 void Communicator::bindAndListen()
@@ -78,20 +87,24 @@ void Communicator::bindAndListen()
 void Communicator::handleNewClient(const SOCKET sock)
 {
 	unsigned char id = 0;
-	int jsonMsgLen = 0;
+	unsigned int jsonMsgLen = 0;
 	std::string jsonMsgStr;
 
-	while (true)
+	cout << "handleNewClient" << endl;
+	
+
+	while (getClientHandler(sock) != nullptr)
 	{
 		try {
-			id = Helper::getIntPartFromSocket(sock, int(LENGTH_OF::CODE));
-			jsonMsgLen = Helper::getIntPartFromSocket(sock, int(LENGTH_OF::MSG_LENGTH));
+			id = Helper::getSingleByteFromSocket(sock);
+			jsonMsgLen = Helper::getSingleUInt32FromSocket(sock);
 			jsonMsgStr = Helper::getStringPartFromSocket(sock, jsonMsgLen);
 		}
 		catch (std::exception& e)
 		{
 			std::cout << e.what() << std::endl;
-			break;
+			this->m_clients[sock] = nullptr;
+			continue;
 		}
 		Buffer jsonMsgBuffer(jsonMsgStr.begin(), jsonMsgStr.end());
 
@@ -107,4 +120,5 @@ void Communicator::handleNewClient(const SOCKET sock)
 	// cleanup
 	closesocket(sock);
 	WSACleanup();
+	//TODO remove user from map
 }

@@ -13,6 +13,7 @@ public:
 	bool isRequestRelevant(const RequestInfo& requestInfo) const override;
 	RequestResult handleRequest(const RequestInfo& requestInfo) override;
 
+	RequestResult createErrorResponse();
 private:
 	RequestHandlerFactory& m_handlerFactory;
 
