@@ -20,37 +20,43 @@ RESPONSES = {"ERRORS": {"REQUEST_ISNT_RELEVANT":50},
                       }
             }
 
-class PROTOCOL_LENS(Enum):
-    MSG_CODE = 1
-    CONTENT_LENGTH = 4
+MSG_CODE_LEN = 1
+JSON_LENGTH_LEN = 4
 
 def main():
-    try:
-        # Create a TCP/IP socket
-        with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
-            # Connecting to remote computer 92
-            server_address = (SERVER_IP, SERVER_PORT)
-            sock.connect(server_address)
+    #try:
+    # Create a TCP/IP socket
 
-            while True:
-                if input("<<< ") != "":
-                    break
+    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
+        # Connecting to remote computer 92
+        server_address = (SERVER_IP, SERVER_PORT)
+        sock.connect(server_address)
 
-                # sending a msg to the server
-                request_parameters, request_code = input_request_parameters()
-                client_msg = serialize_request(request_parameters, request_code)
+        while True:
+            if input("<<< ") != "":
+                break
+
+            # sending a msg to the server
+            request_parameters, request_code = input_request_parameters()
+            client_msg = serialize_request(request_parameters, request_code)
+            try:
                 sock.sendall(client_msg)
-                print(f"Client: {client_msg}")
+            except Exception as e:
+                print(e)
+                exit()
+            print(f"Client: {client_msg}")
 
-                # getting a msg from server
+            # getting a msg from server
+            try:
                 response_content_str, response_code = receive_response_from_socket(sock)
-                response_parameters = deserialize_response(response_content_str)
-                print(f"Server (after interpret): \n"
-                      f"\tcode: {get_code_name(response_code)}\n"
-                      f"\tmessage json: {request_parameters}")
+            except Exception as e:
+                print(e)
+                exit()
+            response_parameters = deserialize_response(response_content_str)
+            print(f"Server (after interpret): \n"
+                  f"\tcode: {get_code_name(response_code)}\n"
+                  f"\tmessage json: {response_parameters}")
 
-    except Exception as e:
-            print("Error: ", e)
 
 def get_code_name(code: int):
     for request_tuple in REQUESTS.items():
@@ -64,8 +70,8 @@ def get_code_name(code: int):
 
 
 def receive_response_from_socket(sock: socket):
-    response_code = int(sock.recv(PROTOCOL_LENS.MSG_CODE.value))
-    response_content_len = int(sock.recv(PROTOCOL_LENS.CONTENT_LENGTH.value))
+    response_code = int.from_bytes(sock.recv(MSG_CODE_LEN), "big")
+    response_content_len = int.from_bytes(sock.recv(JSON_LENGTH_LEN), "big")
     response_content_str = sock.recv(response_content_len).decode()
     return response_content_str, response_code
 
@@ -79,15 +85,15 @@ def input_request_parameters():
     request_parameters["password"] = input("Password: ")
 
     if login_or_signup != "l":
-        request_parameters["mail"] = input("Mail: ")
-        return request_parameters, REQUESTS.SIGNUP.value
+        request_parameters["email"] = input("Mail: ")
+        return request_parameters, REQUESTS["SIGNUP"]
 
-    return request_parameters, REQUESTS.LOGIN.value
+    return request_parameters, REQUESTS["LOGIN"]
 
 
 def serialize_request(request_parameters: dict, code: int):
     request = b""
-    request_content = str(request_parameters)
+    request_content = json.dumps(request_parameters)
 
     request += code.to_bytes(1, "big")
     request += len(request_content).to_bytes(4, "big")
