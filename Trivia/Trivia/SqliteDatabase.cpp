@@ -4,12 +4,23 @@
 #include <list>
 #include <algorithm>
 #include "Question.h"
-//defines
+#include "DBColumnNames.h"
 const std::string fileName = "DB.sqlite";
-const std::string USERNAME = "USERNAME";
-const std::string PASSWORD = "PASSWORD";
-const std::string EMAIL = "EMAIL";
 
+
+int getFloatCallback(void* data, int argc, char** argv, char** azColName)
+{
+	auto dataPtr = (float*)data;
+	*dataPtr = atof(argv[0]);
+	return 0;
+}
+
+int getIntCallback(void* data, int argc, char** argv, char** azColName)
+{
+	auto dataPtr = (int*)data;
+	*dataPtr = atoi(argv[0]);
+	return 0;
+}
 
 int getUsersCallback(void* data, int argc, char** argv, char** azColName)
 {
@@ -37,13 +48,13 @@ int addQuestionToListCallback(void* data, int argc, char** argv, char** azColNam
 	std::vector<std::string> possibleAnswers;
 	std::string correctAnswer;
 	for (int i = 0; i < argc; i++) {
-		if (std::string(azColName[i]) == "QUESTION") {
+		if (std::string(azColName[i]) == QUESTION) {
 			questionStr = argv[i];
 		}
-		else if (std::string(azColName[i]) == "ANSWER_INCORRECT1" || std::string(azColName[i]) == "ANSWER_INCORRECT2" || std::string(azColName[i]) == "ANSWER_INCORRECT3") {
+		else if (std::string(azColName[i]) == ANSWER_INCORRECT1 || std::string(azColName[i]) == ANSWER_INCORRECT2 || std::string(azColName[i]) == ANSWER_INCORRECT3) {
 			possibleAnswers.push_back(argv[i]);
 		}
-		else if (std::string(azColName[i]) == "ANSWER_CORRECT") {
+		else if (std::string(azColName[i]) == ANSWER_CORRECT) {
 			correctAnswer = argv[i];
 		}
 	}
@@ -121,22 +132,34 @@ std::list<Question> SqliteDatabase::getQuestions(const int amount) const
 
 float SqliteDatabase::getPlayerAverageAnswerTime(const std::string& username) const
 {
-	return 0.0f;
+	std::string sqlStatement = "SELECT " + AVG_ANSWER_TIME + " FROM STATISTICS WHERE USERNAME = " + username;
+	float avgTime;
+	sqlite3_exec(this->_db, sqlStatement.c_str(), getFloatCallback, &avgTime, nullptr);
+	return avgTime;
 }
 
 int SqliteDatabase::getNumOfCorrectAnswers(const std::string& username) const
 {
-	return 0;
+	std::string sqlStatement = "SELECT " + NUM_OF_CORRECT_ANSWERS + " FROM STATISTICS WHERE USERNAME = " + username;
+	int numOfCorrectAnswers;
+	sqlite3_exec(this->_db, sqlStatement.c_str(), getIntCallback, &numOfCorrectAnswers, nullptr);
+	return numOfCorrectAnswers;
 }
 
 int SqliteDatabase::getNumOfTotalAnswers(const std::string& username) const
 {
-	return 0;
+	std::string sqlStatement = "SELECT " + NUM_OF_TOTAL_ANSWERS + " FROM STATISTICS WHERE USERNAME = " + username;
+	int numOfTotalAnswers;
+	sqlite3_exec(this->_db, sqlStatement.c_str(), getIntCallback, &numOfTotalAnswers, nullptr);
+	return numOfTotalAnswers;
 }
 
 int SqliteDatabase::getNumOfPlayerGames(const std::string& username) const
 {
-	return 0;
+	std::string sqlStatement = "SELECT " + NUM_OF_PLAYER_GAMES + " FROM STATISTICS WHERE USERNAME = " + username;
+	int numOfPlayerGames;
+	sqlite3_exec(this->_db, sqlStatement.c_str(), getIntCallback, &numOfPlayerGames, nullptr);
+	return numOfPlayerGames;
 }
 
 int SqliteDatabase::getPlayerScore(const std::string& username) const
