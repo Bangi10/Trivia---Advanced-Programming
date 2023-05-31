@@ -58,6 +58,7 @@ int addHighScoreToMapCallBack(void* data, int argc, char** argv, char** azColNam
 		}
 	}
 	scoreMap->insert({ username, score });
+	return 0;
 }
 
 int addQuestionToListCallback(void* data, int argc, char** argv, char** azColName)
