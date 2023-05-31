@@ -5,6 +5,9 @@
 #include <algorithm>
 #include "Question.h"
 #include "DBColumnNames.h"
+#include <map>
+#include "json.hpp"
+using json = nlohmann::json;
 const std::string fileName = "DB.sqlite";
 
 
@@ -39,6 +42,22 @@ int getUsersCallback(void* data, int argc, char** argv, char** azColName)
 	}
 	users->push_back(user);
 	return 0;
+}
+
+int addHighScoreToMapCallBack(void* data, int argc, char** argv, char** azColName)
+{
+	auto scoreMap = (std::map<std::string, int>*)data;
+	std::string username;
+	int score;
+	for (int i = 0; i < argc; i++) {
+		if (std::string(azColName[i]) == USERNAME) {
+			username = argv[i];
+		}
+		else if (std::string(azColName[i]) == SCORE) {
+			score = atoi(argv[i]);
+		}
+	}
+	scoreMap->insert({ username, score });
 }
 
 int addQuestionToListCallback(void* data, int argc, char** argv, char** azColName)
@@ -164,12 +183,20 @@ int SqliteDatabase::getNumOfPlayerGames(const std::string& username) const
 
 int SqliteDatabase::getPlayerScore(const std::string& username) const
 {
-	return 0;
+	std::string sqlStatement = "SELECT " + SCORE + " FROM STATISTICS WHERE USERNAME = " + username;
+	int score;
+	sqlite3_exec(this->_db, sqlStatement.c_str(), getIntCallback, &score, nullptr);
+	return score;
 }
 
 std::string SqliteDatabase::getHighScores() const
 {
-	return std::string();
+	std::map<std::string, int> highScoresMap;
+	std::string sqlStatement = "SELECT USERNAME, SCORE FROM STATISTICS ORDER BY SCORE DESC LIMIT 5";
+	sqlite3_exec(this->_db, sqlStatement.c_str(), addHighScoreToMapCallBack, &highScoresMap, nullptr);
+	json highScoresJson = highScoresMap;
+	return highScoresJson.dump();
+
 }
 
 SqliteDatabase::SqliteDatabase()
@@ -201,7 +228,7 @@ bool SqliteDatabase::open()
 	char** errMessage = nullptr;
 	std::string sqlStatement = "CREATE TABLE USERS(USERNAME  TEXT NOT NULL, PASSWORD	TEXT NOT NULL, EMAIL  TEXT NOT NULL, PRIMARY KEY(USERNAME)); ";
 	sqlite3_exec(_db, sqlStatement.c_str(), nullptr, nullptr, errMessage);
-	sqlStatement = "CREATE TABLE STATISTICS (USERNAME text NOT NULL , AVG_ANSWER_TIME float NOT NULL , NUM_OF_CORRECT_ANSWERS int NOT NULL , NUM_OF_TOTAL_ANSWERS   int NOT NULL , NUM_OF_PLAYER_GAMES    int NOT NULL ,PRIMARY KEY (USERNAME),FOREIGN KEY (USERNAME) REFERENCES USERS (USERNAME));";
+	sqlStatement = "CREATE TABLE STATISTICS (USERNAME text NOT NULL , SCORE  int NOT NULL, AVG_ANSWER_TIME  float NOT NULL , NUM_OF_CORRECT_ANSWERS int NOT NULL , NUM_OF_TOTAL_ANSWERS   int NOT NULL , NUM_OF_PLAYER_GAMES    int NOT NULL ,PRIMARY KEY (USERNAME),FOREIGN KEY (USERNAME) REFERENCES USERS (USERNAME));";
 	sqlite3_exec(_db, sqlStatement.c_str(), nullptr, nullptr, errMessage);
 	return true;
 }
