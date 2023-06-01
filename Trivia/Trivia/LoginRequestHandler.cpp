@@ -17,11 +17,11 @@ RequestResult LoginRequestHandler::handleRequest(const RequestInfo& requestInfo)
     {
         if (requestInfo.id == int(REQUESTS::LOGIN)) {
             LoginRequest login = JsonRequestPacketDeserializer::deserializeLoginRequest(requestInfo.buffer);
-            result.response.push_back(char(RESPONSES::LOGIN_Y));
+            result.response.push_back(char(RESPONSES::LOGIN::SUCCESS));
         }
         if (requestInfo.id == int(REQUESTS::SIGNUP)) {
             SignupRequest signup = JsonRequestPacketDeserializer::deserializeSignupRequest(requestInfo.buffer);
-            result.response.push_back(char(RESPONSES::SIGNUP_Y));
+            result.response.push_back(char(RESPONSES::SIGNUP::SUCCESS));
         }
     }
     return result;

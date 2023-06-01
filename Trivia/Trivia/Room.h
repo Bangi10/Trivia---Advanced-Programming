@@ -2,15 +2,7 @@
 #include <string>
 #include <vector>
 #include "LoggedUser.h"
-
-struct RoomData{
-	unsigned int id;
-	std::string name;
-	unsigned int maxPlayers;
-	unsigned int numOfQuestionsInGame;
-	unsigned int timePerQuestion;
-	bool isActive;
-};
+#include "RoomData.h"
 
 class Room
 {
@@ -27,7 +19,7 @@ public:
 	unsigned int getRoomMaxPlayers()const;
 	unsigned int getRoomNumOfQuestions()const;
 	unsigned int getRoomTimePerQuestion()const;
-	bool isRoomActive()const;
+	int getRoomStatus()const;
 
 
 private:
