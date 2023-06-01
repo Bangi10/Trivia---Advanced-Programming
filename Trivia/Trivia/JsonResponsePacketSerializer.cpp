@@ -1,6 +1,17 @@
 #include "JsonResponsePacketSerializer.h"
 using json = nlohmann::json;
 
+void to_json(json& j, const RoomData& r) {
+    j = json{
+        {"id", r.id},
+        {"name", r.name},
+        {"maxPlayers", r.maxPlayers},
+        {"numOfQuestionsInGame", r.numOfQuestionsInGame},
+        {"timePerQuestion", r.timePerQuestion},
+        {"roomStatus", r.roomStatus}
+    };
+}
+
 Buffer JsonResponsePacketSerializer::serializeResponse(const ErrorResponse& response)
 {
     Buffer buffer;
@@ -90,17 +101,7 @@ Buffer JsonResponsePacketSerializer::serializeResponse(const GetRoomsResponse& r
     //LEN: 4 BYTE
     json j;
     j["status"] = response.status;
-    for (auto& it : response.rooms)//adding rooms to json
-    {
-        j += json{
-        {"id", it.id},
-        {"name", it.name},
-        {"maxPlayers", it.maxPlayers},
-        {"numOfQuestionsInGame", it.numOfQuestionsInGame},
-        {"timePerQuestion", it.timePerQuestion},
-        {"roomStatus", it.roomStatus}
-        };
-    }
+    j["rooms"] = response.rooms;
     std::string msg = j.dump();
     addMsgLenToBuffer(buffer, msg);
 
