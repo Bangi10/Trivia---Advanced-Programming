@@ -6,7 +6,7 @@
 class RoomManager
 {
 public:
-	RoomManager(const std::map<unsigned int, Room>& rooms);
+	RoomManager() = default;
 	~RoomManager();
 	void createRoom(const LoggedUser& user, const RoomData& room);
 	void deleteRoom(const unsigned int id);
