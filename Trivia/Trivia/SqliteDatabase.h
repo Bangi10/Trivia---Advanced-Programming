@@ -1,8 +1,8 @@
 #pragma once
 #include "IDatabase.h"
-#include <map>
-#include<vector>
 #include "sqlite3.h"
+#include <list>
+#include "Question.h"
 
 class SqliteDatabase : public IDatabase
 {
@@ -14,13 +14,14 @@ public:
 	bool doesUserExists(const std::string& username) const override;
 	bool doesPasswordMatch(const std::string& username, const std::string& password) const override;
 	void addNewUser(const std::string& username, const std::string& password, const std::string& email) override;
-	void addUsername(const std::string& username);
-	void addPassword(const std::string& password);
-	void addEmail(const std::string& email);
+
+	std::list<Question> getQuestions(const int amount) const override;
+	float getPlayerAverageAnswerTime(const std::string& username) const override;
+	int getNumOfCorrectAnswers(const std::string& username) const override;
+	int getNumOfTotalAnswers(const std::string& username) const override;
+	int getNumOfPlayerGames(const std::string& username) const override;
+	int getPlayerScore(const std::string& username) const override;
+	std::string getHighScores() const override;
 private:
-	//this std::map<std::string, std::pair<std::string, std::string>> _users doesnt let me do _users.insert() and i dont know why
-	std::vector<std::string> _username;
-	std::vector<std::string> _password;
-	std::vector<std::string> _email;
 	sqlite3* _db;
 };
