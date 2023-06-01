@@ -28,7 +28,7 @@ void RoomManager::deleteRoom(const unsigned int id)
 
 unsigned int RoomManager::getRoomState(const unsigned int id)
 {
-	return this->getRoom(id).isRoomActive();
+	return this->getRoom(id).getRoomStatus();
 }
 
 std::vector<RoomData> RoomManager::getRooms() 
