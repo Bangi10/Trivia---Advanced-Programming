@@ -12,19 +12,30 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using Trivia_Client.Pages;
 
-namespace Trivia_Client
+namespace Trivia_Client.Pages
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for Login.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    /// 
+    public partial class Login : Page
     {
-        public MainWindow()
+        public string boolbool = "";
+        public Login()
         {
             InitializeComponent();
-            mainFrame.Content = new Pages.Login();
+        }
+
+
+        private void Login_Click(object sender, RoutedEventArgs e)
+        {
+            
+        }
+
+        private void Exit_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

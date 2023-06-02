@@ -13,14 +13,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Trivia_Client
+namespace Trivia_Client.Pages
 {
     /// <summary>
-    /// Interaction logic for Login.xaml
+    /// Interaction logic for JoinRoom.xaml
     /// </summary>
-    public partial class Login : Page
+    public partial class JoinRoom : Page
     {
-        public Login()
+        public JoinRoom()
         {
             InitializeComponent();
         }

@@ -5,8 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Trivia_Client"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="615" Width="1090" ResizeMode="NoResize"> 
     <Grid>
-
+        <Frame Name="mainFrame" NavigationUIVisibility="Hidden" Panel.ZIndex="1"></Frame>
     </Grid>
 </Window>
