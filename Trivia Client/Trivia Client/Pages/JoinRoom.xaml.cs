@@ -27,7 +27,7 @@ namespace Trivia_Client.Pages
         }
         private void Back_Click(object sender, RoutedEventArgs e)
         {
-
+            NavigationService?.Navigate(new Pages.MainMenu());
         }
         private void JoinRoom_Click(object sender, RoutedEventArgs e)
         {
@@ -35,7 +35,7 @@ namespace Trivia_Client.Pages
         }
         private void Refresh_Click(object sender, RoutedEventArgs e)
         {
-
+            
         }
         private void RoomsList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {

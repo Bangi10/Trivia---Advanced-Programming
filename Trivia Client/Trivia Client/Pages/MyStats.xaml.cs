@@ -12,19 +12,21 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using Trivia_Client.Pages;
 
-namespace Trivia_Client
+namespace Trivia_Client.Pages
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for MyStats.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MyStats : Page
     {
-        public MainWindow()
+        public MyStats()
         {
             InitializeComponent();
-            mainFrame.Content = new Pages.MyStats();
+        }
+        private void Back_Click(object sender, RoutedEventArgs e)
+        {
+            NavigationService?.Navigate(new Pages.MainMenu());
         }
     }
 }

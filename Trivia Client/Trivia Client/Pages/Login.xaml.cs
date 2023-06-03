@@ -35,7 +35,7 @@ namespace Trivia_Client.Pages
 
         private void Exit_Click(object sender, RoutedEventArgs e)
         {
-
+            Application.Current.Shutdown();
         }
     }
 }
