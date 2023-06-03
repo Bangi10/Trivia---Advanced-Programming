@@ -23,6 +23,28 @@ namespace Trivia_Client.Pages
         public JoinRoom()
         {
             InitializeComponent();
+            
+        }
+        private void Back_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+        private void JoinRoom_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+        private void Refresh_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+        private void RoomsList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            ComboBox comboBox = (ComboBox)sender;
+            ComboBoxItem selectedComboBoxItem = (ComboBoxItem)roomsList.SelectedItem;
+            string selectedValue = selectedComboBoxItem.Content.ToString();
+
+            // Do something with the selected value
+            selectedRoom.Content = "Selected Room: " + selectedValue;
         }
     }
 }

@@ -24,7 +24,7 @@ namespace Trivia_Client
         public MainWindow()
         {
             InitializeComponent();
-            mainFrame.Content = new Pages.Login();
+            mainFrame.Content = new Pages.JoinRoom();
         }
     }
 }

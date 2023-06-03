@@ -6,83 +6,82 @@
       xmlns:local="clr-namespace:Trivia_Client.Pages"
       mc:Ignorable="d" 
       d:DesignHeight="615" d:DesignWidth="1090"
-      Title="Login">
+      Title="MainMenu">
 
     <Page.Background>
         <ImageBrush ImageSource="pack://application:,,,/Trivia Client;component/images/background.png" Stretch="UniformToFill"></ImageBrush>
     </Page.Background>
-    <Canvas>
+    
+    <Canvas Margin="-10,-26,0,0">
 
-        <Canvas>
-            <!-- Buttons must be in canvas -->
-            <Button Canvas.Left="317" Canvas.Top="249" Click="JoinRoom_Click" Height="73" Width="167" BorderBrush="Transparent" HorizontalAlignment="Center" VerticalAlignment="Top" >
-                <Button.Template>
-                    <ControlTemplate TargetType="Button">
-                        <Grid>
-                            <Image Source="pack://application:,,,/Trivia Client;component/images/button.png" Stretch="Fill"/>
-                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                        </Grid>
-                    </ControlTemplate>
-                </Button.Template>
-                <Label FontFamily="Nunito" FontWeight="Bold" FontSize="25" Content="Join Room"/>
-            </Button>
+        <!-- Buttons must be in canvas -->
+        <Button Canvas.Left="317" Canvas.Top="249" Click="JoinRoom_Click" Height="73" Width="167" BorderBrush="Transparent" HorizontalAlignment="Center" VerticalAlignment="Top" >
+            <Button.Template>
+                <ControlTemplate TargetType="Button">
+                    <Grid>
+                        <Image Source="pack://application:,,,/Trivia Client;component/images/button.png" Stretch="Fill"/>
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Grid>
+                </ControlTemplate>
+            </Button.Template>
+            <Label FontFamily="Nunito" FontWeight="Bold" FontSize="25" Content="Join Room"/>
+        </Button>
 
-            <Button Canvas.Left="910" Canvas.Top="90" Click="Exit_Click" Height="50" Width="55" BorderBrush="Transparent" >
-                <Button.Template>
-                    <ControlTemplate TargetType="Button">
-                        <Grid>
-                            <Image Source="pack://application:,,,/Trivia Client;component/images/exit.png" Stretch="Fill"/>
-                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                        </Grid>
-                    </ControlTemplate>
-                </Button.Template>
-            </Button>
-            <Button Canvas.Left="598" Canvas.Top="251" Click="CreateRoom_Click" Height="73" Width="167" BorderBrush="Transparent" HorizontalAlignment="Center" VerticalAlignment="Top" >
-                <Button.Template>
-                    <ControlTemplate TargetType="{x:Type Button}">
-                        <Grid>
-                            <Image Source="/Images/button.png" Stretch="Fill"/>
-                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                        </Grid>
-                    </ControlTemplate>
-                </Button.Template>
-                <Label FontFamily="Nunito" FontWeight="Bold" FontSize="25" Content="Create Room"/>
-            </Button>
-            <Button Canvas.Left="317" Canvas.Top="344" Click="MyStats_Click" Height="73" Width="167" BorderBrush="Transparent" HorizontalAlignment="Center" VerticalAlignment="Top" >
-                <Button.Template>
-                    <ControlTemplate TargetType="{x:Type Button}">
-                        <Grid>
-                            <Image Source="/Images/button.png" Stretch="Fill"/>
-                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                        </Grid>
-                    </ControlTemplate>
-                </Button.Template>
-                <Label FontFamily="Nunito" FontWeight="Bold" FontSize="25" Content="My Stats"/>
-            </Button>
-            <Button Canvas.Left="598" Canvas.Top="344" Click="HighScores_Click" Height="73" Width="167" BorderBrush="Transparent" HorizontalAlignment="Center" VerticalAlignment="Top" >
-                <Button.Template>
-                    <ControlTemplate TargetType="{x:Type Button}">
-                        <Grid>
-                            <Image Source="/Images/button.png" Stretch="Fill"/>
-                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                        </Grid>
-                    </ControlTemplate>
-                </Button.Template>
-                <Label FontFamily="Nunito" FontWeight="Bold" FontSize="25" Content="High Scores"/>
-            </Button>
-            <Button Canvas.Left="473" Canvas.Top="442" Click="Logout_Click" Height="55" Width="137" BorderBrush="Transparent" HorizontalAlignment="Center" VerticalAlignment="Top" >
-                <Button.Template>
-                    <ControlTemplate TargetType="{x:Type Button}">
-                        <Grid>
-                            <Image Source="/Images/button_blue.png" Stretch="Fill"/>
-                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                        </Grid>
-                    </ControlTemplate>
-                </Button.Template>
-                <Label FontFamily="Nunito" FontWeight="Bold" FontSize="25" Content="Logout"/>
-            </Button>
-        </Canvas>
-        <TextBlock Foreground="LightGray" FontSize="20" Canvas.Left="478" TextWrapping="Wrap" Text="Welcome user1" Canvas.Top="207" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+        <Button Canvas.Left="910" Canvas.Top="90" Click="Exit_Click" Height="50" Width="55" BorderBrush="Transparent" >
+            <Button.Template>
+                <ControlTemplate TargetType="Button">
+                    <Grid>
+                        <Image Source="pack://application:,,,/Trivia Client;component/images/exit.png" Stretch="Fill"/>
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Grid>
+                </ControlTemplate>
+            </Button.Template>
+        </Button>
+        <Button Canvas.Left="598" Canvas.Top="251" Click="CreateRoom_Click" Height="73" Width="167" BorderBrush="Transparent" HorizontalAlignment="Center" VerticalAlignment="Top" >
+            <Button.Template>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Grid>
+                        <Image Source="pack://application:,,,/Trivia Client;component/images/button.png" Stretch="Fill"/>
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Grid>
+                </ControlTemplate>
+            </Button.Template>
+            <Label FontFamily="Nunito" FontWeight="Bold" FontSize="25" Content="Create Room"/>
+        </Button>
+        <Button Canvas.Left="317" Canvas.Top="344" Click="MyStats_Click" Height="73" Width="167" BorderBrush="Transparent" HorizontalAlignment="Center" VerticalAlignment="Top" >
+            <Button.Template>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Grid>
+                        <Image Source="pack://application:,,,/Trivia Client;component/images/button.png" Stretch="Fill"/>
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Grid>
+                </ControlTemplate>
+            </Button.Template>
+            <Label FontFamily="Nunito" FontWeight="Bold" FontSize="25" Content="My Stats"/>
+        </Button>
+        <Button Canvas.Left="598" Canvas.Top="344" Click="HighScores_Click" Height="73" Width="167" BorderBrush="Transparent" HorizontalAlignment="Center" VerticalAlignment="Top" >
+            <Button.Template>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Grid>
+                        <Image Source="pack://application:,,,/Trivia Client;component/images/button.png" Stretch="Fill"/>
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Grid>
+                </ControlTemplate>
+            </Button.Template>
+            <Label FontFamily="Nunito" FontWeight="Bold" FontSize="25" Content="High Scores"/>
+        </Button>
+        <Button Canvas.Left="473" Canvas.Top="442" Click="Logout_Click" Height="55" Width="137" BorderBrush="Transparent" HorizontalAlignment="Center" VerticalAlignment="Top" >
+            <Button.Template>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Grid>
+                        <Image Source="pack://application:,,,/Trivia Client;component/images/button_blue.png" Stretch="Fill"/>
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Grid>
+                </ControlTemplate>
+            </Button.Template>
+            <Label FontFamily="Nunito" FontWeight="Bold" FontSize="25" Content="Logout"/>
+        </Button>
+    <TextBlock Foreground="LightGray" FontSize="20" Canvas.Left="478" TextWrapping="Wrap" Text="Welcome user1" Canvas.Top="207" HorizontalAlignment="Center" VerticalAlignment="Top"/>
 
     </Canvas>
 </Page>

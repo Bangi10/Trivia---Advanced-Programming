@@ -9,13 +9,21 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Images\back.png" />
     <None Remove="Images\background.png" />
     <None Remove="Images\button.png" />
+    <None Remove="Images\button_blue.png" />
+    <None Remove="Images\exit.png" />
+    <None Remove="Images\refresh.png" />
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="Images\back.png" />
     <Resource Include="Images\background.png" />
     <Resource Include="Images\button.png" />
+    <Resource Include="Images\button_blue.png" />
+    <Resource Include="Images\exit.png" />
+    <Resource Include="Images\refresh.png" />
   </ItemGroup>
 
 </Project>
