@@ -6,28 +6,40 @@ using System.Text;
 using System.Threading.Tasks;
 using Json = System.Text.Json;
 
-
 namespace Trivia_Client.Code
 {
-    public record struct LoginResponse(byte status);
-    public record struct SignupResponse(byte status);
-    public record struct LogoutResponse(byte status);
-    public record struct GetRoomsResponse(byte status, List<RoomData> rooms);
-    public record struct RoomData(uint id, string name, uint maxPlayers, uint numOfQuestionsInGame, uint timePerQuestion, uint roomStatus);
-    public record struct GetPlayersInRoomResponse(byte status, List<string> players);
-    public record struct getHighScoreResponse(byte status, List<string> statistics);
-    public record struct getPersonalStatusResponse(byte status, List<string> statistics);
-    public record struct JoinRoomResponse(byte status);
-    public record struct CreateRoomResponse(byte status);
-
 
     public class JsonSerialization
     {
-        public static byte[] serializeResponse<ResponseType>(ResponseType response, byte status) //even though status is in response, isn't accessible
+        public static byte[] serializeRequest<T>(T request, Requests.CODES status) //even though status is in response, isn't accessible
         {
-            List<byte> responseBuffer = new List<byte>();
-            //responseBuffer.Add(response);
-            
+            List<byte> requestBuffer = new List<byte>();
+            var jsonString = Json.JsonSerializer.Serialize(request);
+
+            requestBuffer.Add((byte)status);
+            requestBuffer.AddRange(BitConverter.GetBytes(jsonString.Length));
+            requestBuffer.AddRange(Encoding.ASCII.GetBytes(jsonString));
+
+            return requestBuffer.ToArray();
+        }
+
+        /// <summary>
+        /// Function only gets json bytes without code and length
+        /// Function may return default <typeparamref name="T"/> if not succeeded
+        /// </summary>
+        public static T? deserializeResponse<T>(byte[] responseBuffer) 
+        {
+            string responseStr = Encoding.ASCII.GetString(responseBuffer);
+            try
+            {
+                T? responseObject = Json.JsonSerializer.Deserialize<T>(responseStr); //might fail and throw an exception 
+                return responseObject;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.ToString());
+            }
+            return default(T);
         }
 
     }

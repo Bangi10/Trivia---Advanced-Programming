@@ -22,18 +22,13 @@ namespace Trivia_Client
     /// Interaction logic for MainWindow.xaml
     /// </summary>
     /// 
-    public abstract record Response(uint status);
-    public record ErrorResponse(uint status, string message) : Response(status);
     public partial class MainWindow : Window
     {
         public MainWindow()
         {
             InitializeComponent();
             mainFrame.Content = new Pages.Login();
-
-            Response response = new ErrorResponse(3, "s");
-            var jsonString = Json.JsonSerializer.Serialize(ErrorResponse(response));
-            Console.WriteLine(jsonString);
+            //Console.WriteLine(Encoding.UTF8.GetString(BitConverter.GetBytes(12302).Length));
         }
     }
 }
