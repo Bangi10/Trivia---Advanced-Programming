@@ -31,7 +31,7 @@ GetPlayersInRoomRequest JsonRequestPacketDeserializer::deserializeGetPlayersRequ
     return GetPlayersInRoomRequest({ jData["roomId"] });
 }
 
-JoinRoomRequest JsonRequestPacketDeserializer::JoinRoomRequestdeserializeJoinRoomRequest(const std::vector<unsigned char>& buffer)
+JoinRoomRequest JsonRequestPacketDeserializer::deserializeJoinRoomRequest(const std::vector<unsigned char>& buffer)
 {
     std::string data(buffer.begin(), buffer.end());
     json jData = json::parse(data);

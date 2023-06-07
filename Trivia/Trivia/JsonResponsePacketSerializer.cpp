@@ -118,11 +118,11 @@ Buffer JsonResponsePacketSerializer::serializeResponse(const GetPlayersInRoomRes
 {
     Buffer buffer;
     //CODE: 1 BYTE
-    buffer.push_back(char(RESPONSES::ROOM::GET_PLAYER_IN_ROOM));
+    buffer.push_back(char(RESPONSES::ROOM::GOT_PLAYERS_IN_ROOM));
 
     //LEN: 4 BYTE
     json j;
-    j["status"] = RESPONSES::ROOM::GET_PLAYER_IN_ROOM;
+    j["status"] = RESPONSES::ROOM::GOT_PLAYERS_IN_ROOM;
     j["PlayersInRoom"] = response.players;
     std::string msg = j.dump();
     addMsgLenToBuffer(buffer, msg);
@@ -196,7 +196,7 @@ Buffer JsonResponsePacketSerializer::serializeResponse(const getHighScoreRespons
     return buffer;
 }
 
-Buffer JsonResponsePacketSerializer::serializeResponse(const getPersonalStatusResponse& response)
+Buffer JsonResponsePacketSerializer::serializeResponse(const getPersonalStatsResponse& response)
 {
     Buffer buffer;
     //CODE: 1 BYTE

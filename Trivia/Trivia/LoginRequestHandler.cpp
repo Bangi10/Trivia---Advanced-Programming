@@ -34,7 +34,7 @@ RequestResult LoginRequestHandler::handleRequest(const RequestInfo& requestInfo)
 
 RequestResult LoginRequestHandler::createErrorResponse()
 {
-    ErrorResponse err = { "Request isn't relevant" };
+    ErrorResponse err = { unsigned char(RESPONSES::ERRORS::REQUEST_NOT_RELEVANT),"Request isn't relevant" };
     Buffer msg = JsonResponsePacketSerializer::serializeResponse(err);
     return RequestResult{ msg, this->m_handlerFactory.createLoginRequestHandler() };
 }
@@ -55,7 +55,8 @@ RequestResult LoginRequestHandler::login(const RequestInfo& info)
 
     if (loginStatus == int(RESPONSES::LOGIN::SUCCESS))
     {
-        RequestResult requestRes = { responseBuffer, this->m_handlerFactory.createMenuRequestHandler() };
+        LoggedUser user = { request->username };
+        RequestResult requestRes = { responseBuffer, this->m_handlerFactory.createMenuRequestHandler(user) };
         return requestRes;
     }
     RequestResult requestRes = { responseBuffer, this->m_handlerFactory.createLoginRequestHandler() };

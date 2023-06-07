@@ -1,6 +1,8 @@
 #pragma once
 #include "IRequestHandler.h"
 #include "LoginManager.h"
+#include "RoomManager.h"
+#include "StatisticsManager.h"
 #include <memory>
 
 
@@ -12,11 +14,15 @@ public:
 	~RequestHandlerFactory() = default;
 
 	std::unique_ptr<IRequestHandler> createLoginRequestHandler();
-	std::unique_ptr<IRequestHandler> createMenuRequestHandler();
+	std::unique_ptr<IRequestHandler> createMenuRequestHandler(LoggedUser& user);
 	LoginManager& getLoginManager();
+	RoomManager& getRoomManager();
+	StatisticsManager& getStatisticsManager();
 
 private:
 	std::weak_ptr<IDatabase> m_database;
 	LoginManager m_loginManager;
+	RoomManager m_roomManager;
+	StatisticsManager m_statisticsManager;
 
 };
