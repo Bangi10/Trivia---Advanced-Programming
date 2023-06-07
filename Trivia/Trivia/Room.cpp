@@ -66,7 +66,7 @@ unsigned int Room::getRoomTimePerQuestion() const
 	return this->m_metadata.timePerQuestion;
 }
 
-bool Room::isRoomActive() const
+int Room::getRoomStatus() const
 {
-	return this->m_metadata.isActive;
+	return this->m_metadata.roomStatus;
 }

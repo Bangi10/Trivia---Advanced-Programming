@@ -2,9 +2,11 @@
 #include <thread>
 #include "Communicator.h"
 #include "LoginRequestHandler.h"
-#include "RequestHandlerFactory.h"
-#include <thread>
+#include "JsonRequestPacketDeserializer.h"
+#include "JsonResponsePacketSerializer.h"
 #include <iostream>
+
+
 #include <ctime>
 #include <exception>
 #include "Helper.h"
@@ -120,5 +122,4 @@ void Communicator::handleNewClient(const SOCKET sock)
 	// cleanup
 	closesocket(sock);
 	WSACleanup();
-	//TODO remove user from map
 }

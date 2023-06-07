@@ -11,8 +11,7 @@ LoginRequestHandler::LoginRequestHandler(RequestHandlerFactory& handlerFactory) 
 
 bool LoginRequestHandler::isRequestRelevant(const RequestInfo& requestInfo) const
 {
-    if (requestInfo.id == int(REQUESTS::LOGIN) || requestInfo.id == int(REQUESTS::SIGNUP) ||
-        requestInfo.id == int())
+    if (requestInfo.id == int(REQUESTS::LOGIN) || requestInfo.id == int(REQUESTS::SIGNUP))
         return true;
     return false;
 }
@@ -35,7 +34,7 @@ RequestResult LoginRequestHandler::handleRequest(const RequestInfo& requestInfo)
 
 RequestResult LoginRequestHandler::createErrorResponse()
 {
-    ErrorResponse err = { "Request isn't relevant" };
+    ErrorResponse err = { unsigned char(RESPONSES::ERRORS::REQUEST_NOT_RELEVANT),"Request isn't relevant" };
     Buffer msg = JsonResponsePacketSerializer::serializeResponse(err);
     return RequestResult{ msg, this->m_handlerFactory.createLoginRequestHandler() };
 }

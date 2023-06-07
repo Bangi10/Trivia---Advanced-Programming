@@ -19,7 +19,7 @@ public:
 	unsigned int getRoomMaxPlayers()const;
 	unsigned int getRoomNumOfQuestions()const;
 	unsigned int getRoomTimePerQuestion()const;
-	bool isRoomActive()const;
+	int getRoomStatus()const;
 
 
 private:

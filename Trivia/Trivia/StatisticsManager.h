@@ -1,8 +1,9 @@
 #pragma once
+#include <vector>
 #include <iostream>
 #include "json.hpp"
 #include <memory>
-#include "IDatabase.h"
+
 class StatisticsManager
 {
 public:
