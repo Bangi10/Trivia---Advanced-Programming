@@ -14,7 +14,7 @@ public:
 	~RequestHandlerFactory() = default;
 
 	std::unique_ptr<IRequestHandler> createLoginRequestHandler();
-	std::unique_ptr<IRequestHandler> createMenuRequestHandler();
+	std::unique_ptr<IRequestHandler> createMenuRequestHandler(LoggedUser& user);
 	LoginManager& getLoginManager();
 	RoomManager& getRoomManager();
 	StatisticsManager& getStatisticsManager();

@@ -27,7 +27,8 @@ std::vector<std::string> stringToVectorSplit(std::string str, std::string delimi
 	return v;
 }
 
-MenuRequestHandler::MenuRequestHandler(const LoggedUser& user, RequestHandlerFactory& handlerFactory) : m_handlerFactory(handlerFactory), m_user(user)
+MenuRequestHandler::MenuRequestHandler(LoggedUser& user, RequestHandlerFactory& handlerFactory) : 
+	m_handlerFactory(handlerFactory), m_user(user)
 {
 
 }
@@ -82,7 +83,7 @@ RequestResult MenuRequestHandler::getRooms(const RequestInfo& requestInfo)
 	auto roomManager = this->m_handlerFactory.getRoomManager();
 	GetRoomsResponse response = { unsigned char(RESPONSES::ROOM::GOT_ROOMS), roomManager.getRooms()};
 	result.response = JsonResponsePacketSerializer::serializeResponse(response);
-	result.newHandler = this->m_handlerFactory.createMenuRequestHandler();
+	result.newHandler = this->m_handlerFactory.createMenuRequestHandler(m_user);
 	return result;
 }
 
@@ -95,7 +96,7 @@ RequestResult MenuRequestHandler::getPlayersInRoom(const RequestInfo& requestInf
 	auto players = roomManager.getRoom(roomId).getAllUsers();
 	GetPlayersInRoomResponse response = { unsigned char(RESPONSES::ROOM::GOT_PLAYERS_IN_ROOM), players };
 	result.response = JsonResponsePacketSerializer::serializeResponse(response);
-	result.newHandler = this->m_handlerFactory.createMenuRequestHandler();
+	result.newHandler = this->m_handlerFactory.createMenuRequestHandler(m_user);
 	return result;
 }
 
@@ -107,7 +108,7 @@ RequestResult MenuRequestHandler::getPersonalStats(const RequestInfo& requestInf
 	std::vector<std::string> userStatistics = stringToVectorSplit(userStatisticsString, ":");
 	getPersonalStatsResponse response = { unsigned char(RESPONSES::ROOM::GOT_PERSONAL_STATS), userStatistics };
 	result.response = JsonResponsePacketSerializer::serializeResponse(response);
-	result.newHandler = this->m_handlerFactory.createMenuRequestHandler();
+	result.newHandler = this->m_handlerFactory.createMenuRequestHandler(m_user);
 	return result;
 }
 
@@ -119,7 +120,7 @@ RequestResult MenuRequestHandler::getHighScore(const RequestInfo& requestInfo)
 	std::vector<std::string> highScores = stringToVectorSplit(highScoresString, ":");
 	getHighScoreResponse response = { unsigned char(RESPONSES::ROOM::GOT_HIGH_SCORE), highScores };
 	result.response = JsonResponsePacketSerializer::serializeResponse(response);
-	result.newHandler = this->m_handlerFactory.createMenuRequestHandler();
+	result.newHandler = this->m_handlerFactory.createMenuRequestHandler(m_user);
 	return result;
 }
 

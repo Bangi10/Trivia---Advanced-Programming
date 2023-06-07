@@ -55,7 +55,8 @@ RequestResult LoginRequestHandler::login(const RequestInfo& info)
 
     if (loginStatus == int(RESPONSES::LOGIN::SUCCESS))
     {
-        RequestResult requestRes = { responseBuffer, this->m_handlerFactory.createMenuRequestHandler() };
+        LoggedUser user = { request->username };
+        RequestResult requestRes = { responseBuffer, this->m_handlerFactory.createMenuRequestHandler(user) };
         return requestRes;
     }
     RequestResult requestRes = { responseBuffer, this->m_handlerFactory.createLoginRequestHandler() };
