@@ -1,15 +1,16 @@
 #pragma once
 #include <vector>
-#include <iostream>
 #include <string>
-#include <sstream>
+#include <optional>
 
-typedef struct LoginRequest {
+enum class REQUESTS:unsigned char { LOGIN = 200, SIGNUP = 201, LOGOUT = 202 };
+
+struct LoginRequest {
 	std::string username;
 	std::string password;
 };
 
-typedef struct SignupRequest {
+struct SignupRequest {
 	std::string username;
 	std::string password;
 	std::string email;
@@ -18,6 +19,6 @@ typedef struct SignupRequest {
 class JsonRequestPacketDeserializer
 {
 public:
-	static LoginRequest deserializeLoginRequest(const std::vector<unsigned char>& buffer);
-	static SignupRequest deserializeSignupRequest(const std::vector<unsigned char>& buffer);
+	static std::optional<LoginRequest> deserializeLoginRequest(const std::vector<unsigned char>& buffer);
+	static std::optional<SignupRequest> deserializeSignupRequest(const std::vector<unsigned char>& buffer);
 };

@@ -1,11 +1,12 @@
 #include "JsonResponsePacketSerializer.h"
+#include "json.hpp"
 using json = nlohmann::json;
 
 Buffer JsonResponsePacketSerializer::serializeResponse(const ErrorResponse& response)
 {
     Buffer buffer;
     //CODE: 1 BYTE
-    buffer.push_back(char(RESPONSES::ERROR));
+    buffer.push_back(char(RESPONSES::ERRORS::REQUEST_NOT_RELEVANT));
 
     //LEN: 4 BYTE
     json j;
@@ -65,7 +66,7 @@ void JsonResponsePacketSerializer::addMsgLenToBuffer(Buffer& buffer, const std::
 {
     int len = msg.length();
     int shiftBy = 24;
-    
+
     //convert int into 4 chars
     for (int i = 0; i < sizeof(int); i++)
     {
