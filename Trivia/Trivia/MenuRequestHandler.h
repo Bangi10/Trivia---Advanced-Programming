@@ -4,19 +4,14 @@
 
 class RequestHandlerFactory;
 
-class LoginRequestHandler : public IRequestHandler
+class MenuRequestHandler : public IRequestHandler
 {
 public:
-	LoginRequestHandler(RequestHandlerFactory& handlerFactory);
-	~LoginRequestHandler() override = default;
+	MenuRequestHandler(RequestHandlerFactory& handlerFactory);
+	~MenuRequestHandler() override = default;
 
 	bool isRequestRelevant(const RequestInfo& requestInfo) const override;
 	RequestResult handleRequest(const RequestInfo& requestInfo) override;
-
-	RequestResult createErrorResponse();
 private:
 	RequestHandlerFactory& m_handlerFactory;
-
-	RequestResult login(const RequestInfo& info);
-	RequestResult signup(const RequestInfo& info);
 };

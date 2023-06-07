@@ -4,15 +4,15 @@
 #include "json.hpp"
 #include "RoomData.h"
 
-namespace RESPONSES {
-	enum class ERRORS { _ERROR = 50 };
-	enum class LOGIN { SUCCESS = 100, USER_NOT_EXISTS = 101, USER_ALREADY_LOGINED = 102 };
-	enum class SIGNUP { SUCCESS = 110, NAME_ALREADY_EXISTS = 111 };
-	enum class LOGOUT { SUCCESS = 120, USER_NOT_EXISTS = 103 };
-	enum class ROOM { GET_PLAYER_IN_ROOM = 130 };
-};
 
-enum class RESPONSES { _ERROR = 255, LOGIN_Y = 101, LOGIN_N = 102, SIGNUP_Y = 111, SIGNUP_N = 112 };
+namespace RESPONSES {
+	enum class ERRORS :unsigned char { REQUEST_NOT_RELEVANT = 50 };
+	enum class LOGOUT :unsigned char { SUCCESS = 90 ,  USER_NOT_EXISTS = 91};
+	enum class LOGIN :unsigned char { SUCCESS = 100, NAME_NOT_EXISTS = 101, PASSWORD_MISMATCH = 102, USER_ALREADY_LOGINED = 103 };
+	enum class SIGNUP :unsigned char { SUCCESS = 110, NAME_ALREADY_EXISTS = 111 };
+	enum class ROOM :unsigned char{ GET_PLAYER_IN_ROOM = 130 };
+
+};
 
 struct ErrorResponse {
 	std::string message;

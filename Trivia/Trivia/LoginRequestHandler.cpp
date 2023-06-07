@@ -2,6 +2,13 @@
 #include "JsonRequestPacketDeserializer.h"
 #include "JsonResponsePacketSerializer.h"
 
+
+
+LoginRequestHandler::LoginRequestHandler(RequestHandlerFactory& handlerFactory) : m_handlerFactory(handlerFactory)
+{
+
+}
+
 bool LoginRequestHandler::isRequestRelevant(const RequestInfo& requestInfo) const
 {
     if (requestInfo.id == int(REQUESTS::LOGIN) || requestInfo.id == int(REQUESTS::SIGNUP))
@@ -9,25 +16,68 @@ bool LoginRequestHandler::isRequestRelevant(const RequestInfo& requestInfo) cons
     return false;
 }
 
-RequestResult LoginRequestHandler::handleRequest(const RequestInfo& requestInfo) 
+RequestResult LoginRequestHandler::handleRequest(const RequestInfo& requestInfo)
 {
-    RequestResult result;
-    result.newHandler.reset(this);
-    if (isRequestRelevant(requestInfo))
+    Buffer msg;
+    REQUESTS requestId = static_cast<REQUESTS>(requestInfo.id);
+
+    switch (requestId)
     {
-        if (requestInfo.id == int(REQUESTS::LOGIN)) {
-            LoginRequest login = JsonRequestPacketDeserializer::deserializeLoginRequest(requestInfo.buffer);
-            result.response.push_back(char(RESPONSES::LOGIN::SUCCESS));
-        }
-        if (requestInfo.id == int(REQUESTS::SIGNUP)) {
-            SignupRequest signup = JsonRequestPacketDeserializer::deserializeSignupRequest(requestInfo.buffer);
-            result.response.push_back(char(RESPONSES::SIGNUP::SUCCESS));
-        }
+        case REQUESTS::LOGIN:
+            return login(requestInfo);
+        case REQUESTS::SIGNUP:
+            return signup(requestInfo);
     }
-    return result;
+    return createErrorResponse();
+
 }
 
-LoginRequestHandler::~LoginRequestHandler()
+RequestResult LoginRequestHandler::createErrorResponse()
 {
+    ErrorResponse err = { "Request isn't relevant" };
+    Buffer msg = JsonResponsePacketSerializer::serializeResponse(err);
+    return RequestResult{ msg, this->m_handlerFactory.createLoginRequestHandler() };
+}
 
+RequestResult LoginRequestHandler::login(const RequestInfo& info)
+{
+    //try to login
+    auto request = JsonRequestPacketDeserializer::deserializeLoginRequest(info.buffer);
+    if (!request)
+        return createErrorResponse();
+
+    auto loginManager = this->m_handlerFactory.getLoginManager();
+    int loginStatus = loginManager.login(request.value().username, request.value().password);
+
+    LoginResponse loginRes;
+    loginRes.status = loginStatus;
+    Buffer responseBuffer = JsonResponsePacketSerializer::serializeResponse(loginRes);
+
+    if (loginStatus == int(RESPONSES::LOGIN::SUCCESS))
+    {
+        RequestResult requestRes = { responseBuffer, this->m_handlerFactory.createMenuRequestHandler() };
+        return requestRes;
+    }
+    RequestResult requestRes = { responseBuffer, this->m_handlerFactory.createLoginRequestHandler() };
+    return requestRes;
+
+    //std::move instead of copying, just moving the resources from one place to another
+
+}
+
+RequestResult LoginRequestHandler::signup(const RequestInfo& info)
+{
+    //try to signup
+    auto request = JsonRequestPacketDeserializer::deserializeSignupRequest(info.buffer);
+    if (!request)
+        return createErrorResponse();
+    auto loginManager = this->m_handlerFactory.getLoginManager();
+    int signupStatus = loginManager.signup(request.value().username, request.value().password, request.value().email);
+
+    SignupResponse signupRes;
+    signupRes.status = signupStatus;
+    Buffer response = JsonResponsePacketSerializer::serializeResponse(signupRes);
+
+    RequestResult requestRes = { response, this->m_handlerFactory.createLoginRequestHandler() };
+    return requestRes;
 }
