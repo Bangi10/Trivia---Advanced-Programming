@@ -60,6 +60,37 @@ struct CreateRoomResponse {
 	unsigned char status;
 };
 
+struct LogoutResponse {
+	unsigned int status;
+};
+
+struct GetRoomsResponse {
+	unsigned int status;
+	std::vector<RoomData> rooms;
+};
+
+struct GetPlayersInRoomResponse {
+	std::vector<std::string> players;
+};
+
+struct getHighScoreResponse {
+	unsigned int status;
+	std::vector<std::string> statistics;
+};
+
+struct getPersonalStatusResponse {
+	unsigned int status;
+	std::vector<std::string> statistics;
+};
+
+struct JoinRoomResponse {
+	unsigned int status;
+};
+
+struct CreateRoomResponse {
+	unsigned int status;
+};
+
 using Buffer = std::vector<unsigned char>;
 
 class JsonResponsePacketSerializer
