@@ -4,7 +4,7 @@
 
 
 RequestHandlerFactory::RequestHandlerFactory(std::shared_ptr<IDatabase>& db)
-	:m_database(db), m_loginManager(db)
+	:m_database(db), m_loginManager(db),m_statisticsManager(db)
 {
 
 }
@@ -22,4 +22,14 @@ std::unique_ptr<IRequestHandler> RequestHandlerFactory::createMenuRequestHandler
 LoginManager& RequestHandlerFactory::getLoginManager()
 {
 	return this->m_loginManager;
+}
+
+RoomManager& RequestHandlerFactory::getRoomManager()
+{
+	return this->m_roomManager;
+}
+
+StatisticsManager& RequestHandlerFactory::getStatisticsManager()
+{
+	return this->m_statisticsManager;
 }

@@ -31,7 +31,7 @@ unsigned int RoomManager::getRoomState(const unsigned int id)
 	return this->getRoom(id).getRoomStatus();
 }
 
-std::vector<RoomData> RoomManager::getRooms() 
+std::vector<RoomData> RoomManager::getRooms() const
 {
 	std::vector<RoomData> allRooms;
 	for (auto it = this->m_rooms.begin(); it != this->m_rooms.end(); it++)

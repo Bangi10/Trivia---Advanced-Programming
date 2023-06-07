@@ -1,15 +1,18 @@
 #pragma once
 #include <vector>
 #include <string>
+#include "json.hpp"
 #include "RoomData.h"
 
 
 namespace RESPONSES {
 	enum class ERRORS :unsigned char { REQUEST_NOT_RELEVANT = 50 };
-	enum class LOGOUT :unsigned char { SUCCESS = 90 };
+	enum class LOGOUT :unsigned char { SUCCESS = 90 ,  USER_NOT_EXISTS = 91};
 	enum class LOGIN :unsigned char { SUCCESS = 100, NAME_NOT_EXISTS = 101, PASSWORD_MISMATCH = 102, USER_ALREADY_LOGINED = 103 };
 	enum class SIGNUP :unsigned char { SUCCESS = 110, NAME_ALREADY_EXISTS = 111 };
-	enum class ROOM :unsigned char { GET_ROOM = 120, GET_PLAYERS_IN_ROOM = 121, JOIN_ROOM = 122, CREATE_ROOM = 123, GET_HIGH_SCORE = 124, GET_PERSONAL_STATS = 125 };
+	enum class ROOM :unsigned char { CREATED_ROOM = 130, GOT_ROOMS = 131, GOT_PLAYERS_IN_ROOM = 132,
+								 	 JOINED_ROOM = 133, GOT_HIGH_SCORE = 134, GOT_PERSONAL_STATS = 135 };
+
 };
 
 struct ErrorResponse {

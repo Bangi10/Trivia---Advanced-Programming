@@ -70,3 +70,4 @@ int Room::getRoomStatus() const
 {
 	return this->m_metadata.roomStatus;
 }
+
