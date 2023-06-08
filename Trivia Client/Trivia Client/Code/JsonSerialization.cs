@@ -11,7 +11,7 @@ namespace Trivia_Client.Code
 
     public class JsonSerialization
     {
-        public static byte[] serializeRequest<T>(T request, Requests.CODES status) //even though status is in response, isn't accessible
+        public static byte[] serializeRequest<T>(T request, RequestsCodes status) //even though status is in response, isn't accessible
         {
             List<byte> requestBuffer = new List<byte>();
             var jsonString = Json.JsonSerializer.Serialize(request);
@@ -22,7 +22,7 @@ namespace Trivia_Client.Code
 
             return requestBuffer.ToArray();
         }
-
+        
         /// <summary>
         /// Function only gets json bytes without code and length
         /// Function may return default <typeparamref name="T"/> if not succeeded
