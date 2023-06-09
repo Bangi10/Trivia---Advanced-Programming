@@ -1,6 +1,7 @@
 #include "RoomAdminRequestHandler.h"
 #include "JsonRequestPacketDeserializer.h"
 #include "JsonResponsePacketSerializer.h"
+#include "RoomHandlersStateFunctions.h"
 
 RoomAdminRequestHandler::RoomAdminRequestHandler(Room& room, LoggedUser& user, RoomManager& roomManager, RequestHandlerFactory& handlerFactory) :
 	m_room(room), m_user(user), m_roomManager(roomManager), m_handlerFactory(handlerFactory)
@@ -63,54 +64,7 @@ RequestResult RoomAdminRequestHandler::startGame(RequestInfo rInfo)
 
 RequestResult RoomAdminRequestHandler::getRoomState(RequestInfo rInfo)
 {
-	RequestResult result;
-	auto& roomManager = this->m_handlerFactory.getRoomManager();
-	Room room;
-	GetRoomStateResponse response;
-	try
-	{
-		room = roomManager.getRoom(m_room.getRoomID()); //to get the most updated version of the room - might fail if room deleted recently
-	}
-	catch (const std::exception&)
-	{
-		//Room is closed, no parameters except status
-		response = createClosedRoomStateResponse();
-		result.response = JsonResponsePacketSerializer::serializeResponse(response);
-
-		//Room is closed, return to menu
-		result.newHandler = this->m_handlerFactory.createMenuRequestHandler(m_user);
-		return result;
-	}
-
-	unsigned int roomStatus = room.getRoomStatus();
-	if (roomStatus == unsigned char(ROOM_STATUS::WAITING))
-		result.newHandler = this->m_handlerFactory.createRoomAdminRequestHandler(m_user, m_room);
-	else
-		result.newHandler = this->m_handlerFactory.createGameRequestHandler(m_user, m_room);
-
-	response = createRoomStateResponse(room);
-	result.response = JsonResponsePacketSerializer::serializeResponse(response);
-	return result;
-	
+	return RoomHandlersStateFunctions::getRoomState(rInfo, true, m_room.getRoomID(), m_handlerFactory, m_user);	
 }
 
-GetRoomStateResponse RoomAdminRequestHandler::createRoomStateResponse(const Room& room)
-{
-	GetRoomStateResponse response = {room.getRoomStatus() ,
-									 room.getRoomStatus() == unsigned char(ROOM_STATUS::IN_GAME),
-									 room.getAllUsers(),
-									 room.getRoomNumOfQuestions(),
-									 room.getRoomTimePerQuestion() };
-	return response;
-}
 
-GetRoomStateResponse RoomAdminRequestHandler::createClosedRoomStateResponse()
-{
-	//Room is closed, no parameters except status
-	GetRoomStateResponse response = { unsigned char(RESPONSES::ROOM::CLOSED_ROOM),
-									 false,
-									 std::vector<std::string>(),
-									 0,
-									 0 };
-	return response;
-}

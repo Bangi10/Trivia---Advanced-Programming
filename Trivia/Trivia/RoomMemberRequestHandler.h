@@ -16,6 +16,8 @@ private:
     RequestResult leaveRoom(RequestInfo rInfo);
     RequestResult getRoomState(RequestInfo rInfo);
 
+    RequestResult createErrorResponse();
+
     Room m_room;
     LoggedUser m_user;
     RoomManager& m_roomManager;

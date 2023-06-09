@@ -164,5 +164,11 @@
     <ClCompile Include="RoomMemberRequestHandler.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="RoomHandlersStateFunctions.h">
+      <Filter>Header Files</Filter>
+    </ClCompile>
+    <ClCompile Include="RoomHandlersStateFunctions.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

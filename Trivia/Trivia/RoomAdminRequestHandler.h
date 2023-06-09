@@ -1,7 +1,7 @@
 #pragma once
-
 #include "RequestHandlerFactory.h"
 #include "RoomManager.h"
+
 class RequestHandlerFactory;
 class RoomAdminRequestHandler : public IRequestHandler
 {
@@ -16,9 +16,6 @@ private:
     RequestResult closeRoom(RequestInfo rInfo);
     RequestResult startGame(RequestInfo rInfo);
     RequestResult getRoomState(RequestInfo rInfo);
-
-    GetRoomStateResponse createRoomStateResponse(const Room& room);
-    GetRoomStateResponse createClosedRoomStateResponse();
 
     RequestResult createErrorResponse();
 
