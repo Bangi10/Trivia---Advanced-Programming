@@ -4,9 +4,12 @@
 #include "LoggedUser.h"
 #include "RoomData.h"
 
+enum class ROOM_STATUS {CLOSED = 0, WAITING = 1, IN_GAME = 2};
+
 class Room
 {
 public:
+	Room() = default;
 	Room(const RoomData& roomData);
 	~Room();
 	void addUser(const LoggedUser& user);
@@ -19,7 +22,8 @@ public:
 	unsigned int getRoomMaxPlayers()const;
 	unsigned int getRoomNumOfQuestions()const;
 	unsigned int getRoomTimePerQuestion()const;
-	int getRoomStatus()const;
+	unsigned int getRoomStatus()const;
+	void setRoomStatus(const unsigned int status);
 
 private:
 	RoomData m_metadata;

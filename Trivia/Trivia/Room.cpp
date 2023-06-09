@@ -66,8 +66,13 @@ unsigned int Room::getRoomTimePerQuestion() const
 	return this->m_metadata.timePerQuestion;
 }
 
-int Room::getRoomStatus() const
+unsigned int Room::getRoomStatus() const
 {
 	return this->m_metadata.roomStatus;
+}
+
+void Room::setRoomStatus(const unsigned int status)
+{
+	this->m_metadata.roomStatus = status;
 }
 

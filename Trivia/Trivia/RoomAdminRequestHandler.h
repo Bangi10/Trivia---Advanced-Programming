@@ -17,6 +17,11 @@ private:
     RequestResult startGame(RequestInfo rInfo);
     RequestResult getRoomState(RequestInfo rInfo);
 
+    GetRoomStateResponse createRoomStateResponse(const Room& room);
+    GetRoomStateResponse createClosedRoomStateResponse();
+
+    RequestResult createErrorResponse();
+
     Room m_room;
     LoggedUser m_user;
     RoomManager& m_roomManager;

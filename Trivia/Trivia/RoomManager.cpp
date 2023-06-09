@@ -28,7 +28,8 @@ void RoomManager::deleteRoom(const unsigned int id)
 
 unsigned int RoomManager::getRoomState(const unsigned int id)
 {
-	return this->getRoom(id).getRoomStatus();
+	auto room = this->getRoom(id);
+	return room.getRoomStatus();
 }
 
 std::vector<RoomData> RoomManager::getRooms() const
@@ -45,5 +46,7 @@ std::vector<RoomData> RoomManager::getRooms() const
 Room& RoomManager::getRoom(const unsigned int id)
 {
 	auto room = this->m_rooms.find(id);
+	if (room == this->m_rooms.end())
+		throw std::exception("Room doesn't exist");
 	return room->second;
 }

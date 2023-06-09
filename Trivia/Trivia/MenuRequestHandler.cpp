@@ -68,7 +68,7 @@ RequestResult MenuRequestHandler::createErrorResponse()
 {
 	ErrorResponse err = { unsigned char(RESPONSES::ERRORS::_ERROR),"AN ERROR OCCURED." };
 	Buffer msg = JsonResponsePacketSerializer::serializeResponse(err);
-	return RequestResult{ msg, this->m_handlerFactory.createLoginRequestHandler() };
+	return RequestResult{ msg, this->m_handlerFactory.createMenuRequestHandler(this->m_user) };
 }
 
 RequestResult MenuRequestHandler::logout(const RequestInfo& requestInfo)
@@ -84,7 +84,7 @@ RequestResult MenuRequestHandler::logout(const RequestInfo& requestInfo)
 RequestResult MenuRequestHandler::getRooms(const RequestInfo& requestInfo)
 {
 	RequestResult result;
-	auto roomManager = this->m_handlerFactory.getRoomManager();
+	auto& roomManager = this->m_handlerFactory.getRoomManager();
 	GetRoomsResponse response = { unsigned char(RESPONSES::ROOM::GOT_ROOMS), roomManager.getRooms()};
 	result.response = JsonResponsePacketSerializer::serializeResponse(response);
 	result.newHandler = this->m_handlerFactory.createMenuRequestHandler(m_user);
@@ -94,7 +94,7 @@ RequestResult MenuRequestHandler::getRooms(const RequestInfo& requestInfo)
 RequestResult MenuRequestHandler::getPlayersInRoom(const RequestInfo& requestInfo)
 {
 	RequestResult result;
-	auto roomManager = this->m_handlerFactory.getRoomManager();
+	auto& roomManager = this->m_handlerFactory.getRoomManager();
 	auto getPlayersInRoomRequest = JsonRequestPacketDeserializer::deserializeGetPlayersRequest(requestInfo.buffer);
 	if (!getPlayersInRoomRequest)
 		return createErrorResponse();
@@ -109,7 +109,7 @@ RequestResult MenuRequestHandler::getPlayersInRoom(const RequestInfo& requestInf
 RequestResult MenuRequestHandler::getPersonalStats(const RequestInfo& requestInfo)
 {
 	RequestResult result;
-	auto statisticsManager = this->m_handlerFactory.getStatisticsManager();
+	auto& statisticsManager = this->m_handlerFactory.getStatisticsManager();
 	std::string userStatisticsString = statisticsManager.getUserStatistics(m_user.getUsername());
 	std::vector<std::string> userStatistics = stringToVectorSplit(userStatisticsString, ":");
 	getPersonalStatsResponse response = { unsigned char(RESPONSES::ROOM::GOT_PERSONAL_STATS), userStatistics };
@@ -121,7 +121,7 @@ RequestResult MenuRequestHandler::getPersonalStats(const RequestInfo& requestInf
 RequestResult MenuRequestHandler::getHighScore(const RequestInfo& requestInfo)
 {
 	RequestResult result;
-	auto statisticsManager = this->m_handlerFactory.getStatisticsManager();
+	auto& statisticsManager = this->m_handlerFactory.getStatisticsManager();
 	std::string highScoresString = statisticsManager.getHighScores();
 	std::vector<std::string> highScores = stringToVectorSplit(highScoresString, ":");
 	getHighScoreResponse response = { unsigned char(RESPONSES::ROOM::GOT_HIGH_SCORE), highScores };
@@ -133,7 +133,7 @@ RequestResult MenuRequestHandler::getHighScore(const RequestInfo& requestInfo)
 RequestResult MenuRequestHandler::joinRoom(const RequestInfo& requestInfo)
 {
 	RequestResult result;
-	auto roomManager = this->m_handlerFactory.getRoomManager();
+	auto& roomManager = this->m_handlerFactory.getRoomManager();
 	auto joinRoomRequest = JsonRequestPacketDeserializer::deserializeJoinRoomRequest(requestInfo.buffer);
 	if (!joinRoomRequest)
 		return createErrorResponse();
@@ -149,7 +149,7 @@ RequestResult MenuRequestHandler::joinRoom(const RequestInfo& requestInfo)
 RequestResult MenuRequestHandler::createRoom(const RequestInfo& requestInfo)
 {
 	RequestResult result;
-	auto roomManager = this->m_handlerFactory.getRoomManager();
+	auto& roomManager = this->m_handlerFactory.getRoomManager();
 	auto createRoomRequest = JsonRequestPacketDeserializer::deserializeCreateRoomRequest(requestInfo.buffer);
 	if (!createRoomRequest)
 		return createErrorResponse();
