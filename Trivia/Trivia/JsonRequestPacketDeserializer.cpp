@@ -20,28 +20,59 @@ std::optional<LoginRequest> JsonRequestPacketDeserializer::deserializeLoginReque
 std::optional<SignupRequest> JsonRequestPacketDeserializer::deserializeSignupRequest(const std::vector<unsigned char>& buffer)
 {
     std::string data(buffer.begin(), buffer.end());
-    json jData = json::parse(data);
-    return SignupRequest({ jData["username"], jData["password"], jData["email"] });
+	try
+	{
+		json jData = json::parse(data);
+		return SignupRequest({ jData["username"], jData["password"], jData["email"] });
+	}
+	catch (...)
+	{
+		return std::nullopt;
+	}
 }
 
-GetPlayersInRoomRequest JsonRequestPacketDeserializer::deserializeGetPlayersRequest(const std::vector<unsigned char>& buffer)
+std::optional<GetPlayersInRoomRequest> JsonRequestPacketDeserializer::deserializeGetPlayersRequest(const std::vector<unsigned char>& buffer)
 {
     std::string data(buffer.begin(), buffer.end());
-    json jData = json::parse(data);
-    return GetPlayersInRoomRequest({ jData["roomId"] });
+
+	try
+	{
+		json jData = json::parse(data);
+		return GetPlayersInRoomRequest({ jData["roomId"] });
+	}
+	catch (...)
+	{
+		return std::nullopt;
+	}
 }
 
-JoinRoomRequest JsonRequestPacketDeserializer::deserializeJoinRoomRequest(const std::vector<unsigned char>& buffer)
+std::optional<JoinRoomRequest> JsonRequestPacketDeserializer::deserializeJoinRoomRequest(const std::vector<unsigned char>& buffer)
 {
     std::string data(buffer.begin(), buffer.end());
-    json jData = json::parse(data);
-    return JoinRoomRequest({ jData["roomId"] });
+
+	try
+	{
+		json jData = json::parse(data);
+		return JoinRoomRequest({ jData["roomId"] });
+	}
+	catch (...)
+	{
+		return std::nullopt;
+	}
 }
 
-CreateRoomRequest JsonRequestPacketDeserializer::deserializeCreateRoomRequest(const std::vector<unsigned char>& buffer)
+std::optional<CreateRoomRequest> JsonRequestPacketDeserializer::deserializeCreateRoomRequest(const std::vector<unsigned char>& buffer)
 {
     std::string data(buffer.begin(), buffer.end());
-    json jData = json::parse(data);
-    return CreateRoomRequest({ jData["roomName"],  jData["maxUsers"], 
-                               jData["questionCount"], jData["answerTimeout"]});
+
+	try
+	{
+		json jData = json::parse(data);
+		return CreateRoomRequest({ jData["roomName"],  jData["maxUsers"],
+								   jData["questionCount"], jData["answerTimeout"] });
+	}
+	catch (...)
+	{
+		return std::nullopt;
+	}
 }

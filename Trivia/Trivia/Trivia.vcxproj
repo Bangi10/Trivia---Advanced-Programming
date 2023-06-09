@@ -132,12 +132,14 @@
     <ClInclude Include="DBColumnNames.h" />
     <ClInclude Include="Question.h" />
     <ClInclude Include="Requests.h" />
+    <ClInclude Include="RoomAdminRequestHandler.h" />
     <ClInclude Include="RoomData.h" />
     <ClInclude Include="LoggedUser.h" />
     <ClInclude Include="Room.h" />
     <ClInclude Include="RoomManager.h" />
     <ClInclude Include="MenuRequestHandler.h" />
     <ClInclude Include="RequestHandlerFactory.h" />
+    <ClInclude Include="RoomMemberRequestHandler.h" />
     <ClInclude Include="StatisticsManager.h" />
     <ClInclude Include="User.h" />
     <ClInclude Include="LoginManager.h" />
@@ -162,7 +164,9 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Question.cpp" />
     <ClCompile Include="Room.cpp" />
+    <ClCompile Include="RoomAdminRequestHandler.cpp" />
     <ClCompile Include="RoomManager.cpp" />
+    <ClCompile Include="RoomMemberRequestHandler.cpp" />
     <ClCompile Include="Server.cpp" />
     <ClCompile Include="JsonResponsePacketSerializer.cpp" />
     <ClCompile Include="JsonRequestPacketDeserializer.cpp" />

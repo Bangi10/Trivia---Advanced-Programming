@@ -1,6 +1,8 @@
 #include "RequestHandlerFactory.h"
 #include "LoginRequestHandler.h"
 #include "MenuRequestHandler.h"
+#include "RoomAdminRequestHandler.h"
+#include "RoomMemberRequestHandler.h"
 
 
 RequestHandlerFactory::RequestHandlerFactory(std::shared_ptr<IDatabase>& db)
@@ -32,4 +34,14 @@ RoomManager& RequestHandlerFactory::getRoomManager()
 StatisticsManager& RequestHandlerFactory::getStatisticsManager()
 {
 	return this->m_statisticsManager;
+}
+
+std::unique_ptr<IRequestHandler> RequestHandlerFactory::createRoomAdminRequestHandler(LoggedUser& user, Room& room)
+{
+	return std::make_unique<RoomAdminRequestHandler>(room, user, this->m_roomManager, *this);
+}
+
+std::unique_ptr<IRequestHandler> RequestHandlerFactory::createRoomMemberRequestHandler(LoggedUser& user, Room& room)
+{
+	return std::make_unique<RoomMemberRequestHandler>(room, user, this->m_roomManager, *this);
 }

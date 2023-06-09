@@ -35,36 +35,40 @@ MenuRequestHandler::MenuRequestHandler(LoggedUser& user, RequestHandlerFactory& 
 
 bool MenuRequestHandler::isRequestRelevant(const RequestInfo& requestInfo) const
 {
-	if (requestInfo.id >= unsigned char(REQUESTS::CREATE_ROOM) && requestInfo.id <= unsigned char(REQUESTS::LOGOUT))
+	if (requestInfo.id < unsigned char(REQUESTS::LOGOUT) && requestInfo.id <= unsigned char(REQUESTS::GET_HIGH_SCORE))
 		return true;
 	return false;
 }
 
+
 RequestResult MenuRequestHandler::handleRequest(const RequestInfo& requestInfo)
 {
-	RequestResult ret;
-	REQUESTS id = REQUESTS(unsigned int(requestInfo.id));
+	REQUESTS id = static_cast<REQUESTS>(requestInfo.id);
+
 	switch (id) {
-	case REQUESTS::CREATE_ROOM:
-		ret = this->createRoom(requestInfo);
-		break;
-	case REQUESTS::GET_PLAYERS_IN_ROOM:
-		ret = this->getPlayersInRoom(requestInfo);
-		break;
-	case REQUESTS::GET_ROOMS:
-		ret = this->getRooms(requestInfo);
-		break;
-	case REQUESTS::GET_STATISTICS:
-		ret = this->getPersonalStats(requestInfo);
-		break;
-	case REQUESTS::JOIN_ROOM:
-		ret = this->joinRoom(requestInfo);
-		break;
-	case REQUESTS::LOGOUT:
-		ret = this->logout(requestInfo);
-		break;
+		case REQUESTS::CREATE_ROOM:
+			return this->createRoom(requestInfo);
+		case REQUESTS::GET_PLAYERS_IN_ROOM:
+			return this->getPlayersInRoom(requestInfo);
+		case REQUESTS::GET_ROOMS:
+			return this->getRooms(requestInfo);
+		case REQUESTS::GET_STATISTICS:
+			return this->getPersonalStats(requestInfo);
+		case REQUESTS::GET_HIGH_SCORE:
+			return this->getHighScore(requestInfo);
+		case REQUESTS::JOIN_ROOM:
+			return this->joinRoom(requestInfo);
+		case REQUESTS::LOGOUT:
+			return this->logout(requestInfo);
 	}
-	return ret;
+	return createErrorResponse();
+}
+
+RequestResult MenuRequestHandler::createErrorResponse()
+{
+	ErrorResponse err = { unsigned char(RESPONSES::ERRORS::_ERROR),"AN ERROR OCCURED." };
+	Buffer msg = JsonResponsePacketSerializer::serializeResponse(err);
+	return RequestResult{ msg, this->m_handlerFactory.createLoginRequestHandler() };
 }
 
 RequestResult MenuRequestHandler::logout(const RequestInfo& requestInfo)
@@ -91,8 +95,10 @@ RequestResult MenuRequestHandler::getPlayersInRoom(const RequestInfo& requestInf
 {
 	RequestResult result;
 	auto roomManager = this->m_handlerFactory.getRoomManager();
-	GetPlayersInRoomRequest getPlayersInRoomRequest = JsonRequestPacketDeserializer::deserializeGetPlayersRequest(requestInfo.buffer);
-	unsigned int roomId = getPlayersInRoomRequest.roomId;
+	auto getPlayersInRoomRequest = JsonRequestPacketDeserializer::deserializeGetPlayersRequest(requestInfo.buffer);
+	if (!getPlayersInRoomRequest)
+		return createErrorResponse();
+	unsigned int roomId = getPlayersInRoomRequest.value().roomId;
 	auto players = roomManager.getRoom(roomId).getAllUsers();
 	GetPlayersInRoomResponse response = { unsigned char(RESPONSES::ROOM::GOT_PLAYERS_IN_ROOM), players };
 	result.response = JsonResponsePacketSerializer::serializeResponse(response);
@@ -128,12 +134,15 @@ RequestResult MenuRequestHandler::joinRoom(const RequestInfo& requestInfo)
 {
 	RequestResult result;
 	auto roomManager = this->m_handlerFactory.getRoomManager();
-	JoinRoomRequest joinRoomRequest = JsonRequestPacketDeserializer::deserializeJoinRoomRequest(requestInfo.buffer);
-	unsigned int roomId = joinRoomRequest.roomId;
-	roomManager.getRoom(roomId).addUser(m_user);
+	auto joinRoomRequest = JsonRequestPacketDeserializer::deserializeJoinRoomRequest(requestInfo.buffer);
+	if (!joinRoomRequest)
+		return createErrorResponse();
+	unsigned int roomId = joinRoomRequest.value().roomId;
+	auto room = roomManager.getRoom(roomId);
+	room.addUser(m_user);
 	JoinRoomResponse response = { unsigned char(RESPONSES::ROOM::JOINED_ROOM)};
 	result.response = JsonResponsePacketSerializer::serializeResponse(response);
-	result.newHandler = nullptr;//needs to be new handler "RoomManagerRequestHandler" look in the state nachine uml
+	result.newHandler = this->m_handlerFactory.createRoomMemberRequestHandler(m_user, room);//needs to be new handler "RoomManagerRequestHandler" look in the state nachine uml
 	return result;
 }
 
@@ -141,15 +150,18 @@ RequestResult MenuRequestHandler::createRoom(const RequestInfo& requestInfo)
 {
 	RequestResult result;
 	auto roomManager = this->m_handlerFactory.getRoomManager();
-	CreateRoomRequest createRoomRequest = JsonRequestPacketDeserializer::deserializeCreateRoomRequest(requestInfo.buffer);
+	auto createRoomRequest = JsonRequestPacketDeserializer::deserializeCreateRoomRequest(requestInfo.buffer);
+	if (!createRoomRequest)
+		return createErrorResponse();
 	auto rooms = roomManager.getRooms();
 	unsigned int roomId = rooms.size() + 1;
-	RoomData roomData = { roomId,createRoomRequest.roomName,createRoomRequest.maxUsers,
-						 createRoomRequest.questionCount,createRoomRequest.answerTimeout,0 };
+	RoomData roomData = { roomId,createRoomRequest.value().roomName,createRoomRequest.value().maxUsers,
+						 createRoomRequest.value().questionCount,createRoomRequest.value().answerTimeout,0 };
 	roomManager.createRoom(m_user, roomData);
+	auto room = roomManager.getRoom(roomId);
 	CreateRoomResponse response = { unsigned char(RESPONSES::ROOM::CREATED_ROOM) };
 	result.response = JsonResponsePacketSerializer::serializeResponse(response);
-	result.newHandler = nullptr;//needs to be new handler "RoomManagerRequestHandler" look in the state nachine uml
+	result.newHandler = this->m_handlerFactory.createRoomAdminRequestHandler(m_user, room);;//needs to be new handler "RoomManagerRequestHandler" look in the state nachine uml
 	return result;
 }
 

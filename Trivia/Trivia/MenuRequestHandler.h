@@ -1,7 +1,7 @@
 #pragma once
 #include "RequestHandlerFactory.h"
 #include "IRequestHandler.h"
-
+class RequestHandlerFactory;
 class MenuRequestHandler : public IRequestHandler
 {
 public:
@@ -20,4 +20,6 @@ private:
 	RequestResult getHighScore(const RequestInfo& requestInfo);
 	RequestResult joinRoom(const RequestInfo& requestInfo);
 	RequestResult createRoom(const RequestInfo& requestInfo);
+
+	RequestResult createErrorResponse();
 };

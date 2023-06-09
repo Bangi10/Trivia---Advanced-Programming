@@ -18,7 +18,6 @@ bool LoginRequestHandler::isRequestRelevant(const RequestInfo& requestInfo) cons
 
 RequestResult LoginRequestHandler::handleRequest(const RequestInfo& requestInfo)
 {
-    Buffer msg;
     REQUESTS requestId = static_cast<REQUESTS>(requestInfo.id);
 
     switch (requestId)
@@ -34,7 +33,7 @@ RequestResult LoginRequestHandler::handleRequest(const RequestInfo& requestInfo)
 
 RequestResult LoginRequestHandler::createErrorResponse()
 {
-    ErrorResponse err = { unsigned char(RESPONSES::ERRORS::REQUEST_NOT_RELEVANT),"Request isn't relevant" };
+    ErrorResponse err = { unsigned char(RESPONSES::ERRORS::_ERROR),"AN ERROR OCCURED." };
     Buffer msg = JsonResponsePacketSerializer::serializeResponse(err);
     return RequestResult{ msg, this->m_handlerFactory.createLoginRequestHandler() };
 }

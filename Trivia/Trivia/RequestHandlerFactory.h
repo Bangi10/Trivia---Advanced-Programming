@@ -5,8 +5,6 @@
 #include "StatisticsManager.h"
 #include <memory>
 
-
-
 class RequestHandlerFactory
 {
 public:
@@ -18,6 +16,9 @@ public:
 	LoginManager& getLoginManager();
 	RoomManager& getRoomManager();
 	StatisticsManager& getStatisticsManager();
+	std::unique_ptr<IRequestHandler> createRoomAdminRequestHandler(LoggedUser& user, Room& room);
+	std::unique_ptr<IRequestHandler> createRoomMemberRequestHandler(LoggedUser& user, Room& room);
+
 
 private:
 	std::weak_ptr<IDatabase> m_database;
