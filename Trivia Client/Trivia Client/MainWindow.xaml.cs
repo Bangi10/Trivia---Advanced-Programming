@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.DirectoryServices;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -24,7 +25,24 @@ namespace Trivia_Client
         public MainWindow()
         {
             InitializeComponent();
-            mainFrame.Content = new Pages.Login();
         }
+
+        private void LoginButton_Click(object sender, RoutedEventArgs e)
+        {
+            //sends to the login page
+            Login login = new Login();
+            this.Content = login;
+        }
+        private void SignupButton_Click(object sender, RoutedEventArgs e)
+        {
+            //sends to the signup page
+            Signup signup = new Signup();
+            this.Content = signup;
+        }
+        private void ExitButton_Click(object sender, RoutedEventArgs e)
+        {
+            Application.Current.Shutdown();
+        }
+
     }
 }

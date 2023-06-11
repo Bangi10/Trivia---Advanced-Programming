@@ -16,24 +16,24 @@ using System.Windows.Shapes;
 namespace Trivia_Client.Pages
 {
     /// <summary>
-    /// Interaction logic for Login.xaml
+    /// Interaction logic for Signup.xaml
     /// </summary>
-    /// 
-    public partial class Login : Page
+    public partial class Signup : Page
     {
-        public Login()
+        public Signup()
         {
             InitializeComponent();
         }
 
-
-        private void Login_Click(object sender, RoutedEventArgs e)
+        //adding new player and sending him to the MainMenu
+        private void Signup_Click(object sender, RoutedEventArgs e)
         {
-            //needs to add player if he doesnt exists
+
+            //needs to add player
 
             //sending to MainMenu page
             //working but not as axpected
-            LoginFrame.Content = new MainMenu();
+            SignupFrame.Content = new MainMenu();
 
             //doesnt work but mabey it could help
             //MainMenu mainMenu = new MainMenu();
@@ -44,12 +44,10 @@ namespace Trivia_Client.Pages
         {
             Application.Current.Shutdown();
         }
-
         private void Back_Click(object sender, RoutedEventArgs e)
         {
             NavigationService?.Navigate(new MainWindow());
 
         }
-        
     }
 }

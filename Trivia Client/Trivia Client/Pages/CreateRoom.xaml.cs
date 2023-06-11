@@ -16,40 +16,29 @@ using System.Windows.Shapes;
 namespace Trivia_Client.Pages
 {
     /// <summary>
-    /// Interaction logic for Login.xaml
+    /// Interaction logic for CreateRoom.xaml
     /// </summary>
-    /// 
-    public partial class Login : Page
+    public partial class CreateRoom : Page
     {
-        public Login()
+        public CreateRoom()
         {
             InitializeComponent();
         }
-
-
-        private void Login_Click(object sender, RoutedEventArgs e)
+        private void CreateRoom_Click(object sender, RoutedEventArgs e)
         {
-            //needs to add player if he doesnt exists
-
-            //sending to MainMenu page
-            //working but not as axpected
-            LoginFrame.Content = new MainMenu();
-
-            //doesnt work but mabey it could help
-            //MainMenu mainMenu = new MainMenu();
-            //this.Content = mainMenu;
+            Room room = new Room();
+            this.Content = room;
         }
-
         private void Exit_Click(object sender, RoutedEventArgs e)
         {
             Application.Current.Shutdown();
         }
-
         private void Back_Click(object sender, RoutedEventArgs e)
         {
-            NavigationService?.Navigate(new MainWindow());
 
+            NavigationService?.Navigate(new Pages.MainMenu());
         }
         
+
     }
 }
