@@ -14,7 +14,7 @@
 
     <Canvas Margin="-10,-26,0,0">
         <Grid>
-            <Frame Name="SignupFrame" NavigationUIVisibility="Hidden" Panel.ZIndex="1" ></Frame>
+            <Frame Name="StatisticsFrame" NavigationUIVisibility="Hidden" Panel.ZIndex="1" ></Frame>
         </Grid>
 
         <!-- Buttons must be in canvas -->

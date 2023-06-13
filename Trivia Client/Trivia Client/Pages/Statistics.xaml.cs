@@ -26,13 +26,21 @@ namespace Trivia_Client.Pages
         }
         private void MyStats_Click(object sender, RoutedEventArgs e)
         {
-            MyStats myStats = new MyStats();
-            this.Content = myStats;
+            //working but not as axpected
+            StatisticsFrame.Content = new MyStats();
+
+            //doesnt work but mabey it could help
+            //MyStats myStats = new MyStats();
+            //this.Content = myStats;
         }
         private void HighScores_Click(object sender, RoutedEventArgs e)
         {
-            HighScores highScores = new HighScores();
-            this.Content = highScores;
+            //working but not as axpected
+            StatisticsFrame.Content = new HighScores();
+
+            //doesnt work but mabey it could help
+            //HighScores highScores = new HighScores();
+            //this.Content = highScores;
         }
         private void Exit_Click(object sender, RoutedEventArgs e)
         {
