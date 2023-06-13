@@ -13,18 +13,23 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Trivia_Client.Code;
 using Trivia_Client.Pages;
+using Json = System.Text.Json;
 
 namespace Trivia_Client
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
+    /// 
     public partial class MainWindow : Window
     {
         public MainWindow()
         {
             InitializeComponent();
+            mainFrame.Content = new Pages.Login();
+            //Console.WriteLine(Encoding.UTF8.GetString(BitConverter.GetBytes(12302).Length));
         }
 
         private void LoginButton_Click(object sender, RoutedEventArgs e)
