@@ -1,34 +1,26 @@
 #pragma once
-#include <iostream>
-#include <queue>
-//#include <mutex>
-//#include <condition_variable>
 #include <WinSock2.h>
-#include "LoginRequestHandler.h"
 #include <map>
-#include <string>
-#include <thread>
 #include <memory>
+#include "IRequestHandler.h"
+#include "RequestHandlerFactory.h"
 
-enum SERVER_DETAILS{SERVER_PORT = 8826, IFACE = 0};
-enum MESSAGE_DETAILS{MSG_LEN = 5, FLAGS = 0};
+enum SERVER_DETAILS { SERVER_PORT = 8826, IFACE = 0 };
+enum class LENGTH_OF { CODE = 1, MSG_LENGTH = 4 };
+
 class Communicator
 {
 public:
-	Communicator();
+	Communicator(RequestHandlerFactory& handlerFactory);
 	~Communicator();
 	void startHandleRequests();
 
 private:
 	SOCKET m_serverSocket;
 	std::map<SOCKET, std::unique_ptr<IRequestHandler>> m_clients;
+	RequestHandlerFactory& m_handlerFactory;
+	IRequestHandler* getClientHandler(const SOCKET sock);
 
 	void bindAndListen();
-	void handleNewClient(SOCKET sock);
-
-	//std::queue<std::string> _messageHandler;
-
-	//std::mutex _mtxReceivedMessages;
-	//std::condition_variable _msgQueueCondition;
-
+	void handleNewClient(const SOCKET sock);
 };
