@@ -15,7 +15,7 @@ namespace Trivia_Client
     {
         private static readonly Socket m_socket;
 
-        static ClientCommuinactor()
+        private static ClientCommuinactor()
         {
             Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
             IPAddress ipAddress = IPAddress.Parse("127.0.0.0");
