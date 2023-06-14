@@ -37,6 +37,12 @@ namespace Trivia_Client.Pages
         {
             
         }
+        private void Exit_Click(object sender, RoutedEventArgs e)
+        {
+            //logout
+            Application.Current.Shutdown();
+
+        }
         private void RoomsList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             ComboBox comboBox = (ComboBox)sender;

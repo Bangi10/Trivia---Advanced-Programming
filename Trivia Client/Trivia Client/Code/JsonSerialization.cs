@@ -27,9 +27,9 @@ namespace Trivia_Client.Code
         /// Function only gets json bytes without code and length
         /// Function may return default <typeparamref name="T"/> if not succeeded
         /// </summary>
-        public static T? deserializeResponse<T>(byte[] responseBuffer) 
+        public static T? deserializeResponse<T>(byte[] jsonBuffer) 
         {
-            string responseStr = Encoding.ASCII.GetString(responseBuffer);
+            string responseStr = Encoding.ASCII.GetString(jsonBuffer);
             try
             {
                 T? responseObject = Json.JsonSerializer.Deserialize<T>(responseStr); //might fail and throw an exception 

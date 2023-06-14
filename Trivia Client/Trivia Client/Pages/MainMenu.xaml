@@ -14,9 +14,6 @@
 
     <Canvas Margin="-10,-26,0,0">
 
-        <Grid>
-            <Frame Name="MainMenuFrame" NavigationUIVisibility="Hidden" Panel.ZIndex="1" Height="0" VerticalAlignment="Top" ></Frame>
-        </Grid>
         <!-- Buttons must be in canvas -->
         <Button Canvas.Left="317" Canvas.Top="249" Click="JoinRoom_Click" Height="73" Width="167" BorderBrush="Transparent" HorizontalAlignment="Center" VerticalAlignment="Top" Cursor="Hand" >
             <Button.Template>

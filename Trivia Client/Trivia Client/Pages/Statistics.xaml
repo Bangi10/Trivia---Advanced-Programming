@@ -13,9 +13,6 @@
     </Page.Background>
 
     <Canvas Margin="-10,-26,0,0">
-        <Grid>
-            <Frame Name="StatisticsFrame" NavigationUIVisibility="Hidden" Panel.ZIndex="1" ></Frame>
-        </Grid>
 
         <!-- Buttons must be in canvas -->
         <!-- my stats button -->

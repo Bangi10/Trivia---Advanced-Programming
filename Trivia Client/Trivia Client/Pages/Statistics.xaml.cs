@@ -26,24 +26,16 @@ namespace Trivia_Client.Pages
         }
         private void MyStats_Click(object sender, RoutedEventArgs e)
         {
-            //working but not as axpected
-            StatisticsFrame.Content = new MyStats();
 
-            //doesnt work but mabey it could help
-            //MyStats myStats = new MyStats();
-            //this.Content = myStats;
+            NavigationService?.Navigate(new Pages.MyStats());
         }
         private void HighScores_Click(object sender, RoutedEventArgs e)
         {
-            //working but not as axpected
-            StatisticsFrame.Content = new HighScores();
-
-            //doesnt work but mabey it could help
-            //HighScores highScores = new HighScores();
-            //this.Content = highScores;
+            NavigationService?.Navigate(new Pages.HighScores());
         }
         private void Exit_Click(object sender, RoutedEventArgs e)
         {
+            //logout
             Application.Current.Shutdown();
         }
         private void Back_Click(object sender, RoutedEventArgs e)

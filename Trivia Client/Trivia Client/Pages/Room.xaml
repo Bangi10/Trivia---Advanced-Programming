@@ -17,10 +17,6 @@
         <TextBox VerticalContentAlignment="Center" HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top" Width="300" FontStyle="Italic" Canvas.Left="400" Canvas.Top="350" Height="119"/>
         <Label Foreground="White" FontFamily="Nunito" FontWeight="Bold" FontSize="16" Canvas.Left="698" Canvas.Top="138" HorizontalAlignment="Left" VerticalAlignment="Top">Admin</Label>
 
-        <Grid>
-            <Frame Name="LoginFrame" NavigationUIVisibility="Hidden" Panel.ZIndex="1" ></Frame>
-        </Grid>
-
         <!-- Buttons must be in canvas -->
         <!-- Create Room button -->
 

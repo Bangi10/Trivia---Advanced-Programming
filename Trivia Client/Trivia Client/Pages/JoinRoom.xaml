@@ -38,6 +38,17 @@
 
         
         <!-- Buttons must be in canvas -->
+        <Button Canvas.Left="925" Canvas.Top="100" Click="Exit_Click" Height="50" Width="55" BorderBrush="Transparent" Cursor="Hand">
+            <Button.Template>
+                <ControlTemplate TargetType="Button">
+                    <Grid>
+                        <Image Source="pack://application:,,,/Trivia Client;component/images/exit.png" Stretch="Fill"/>
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Grid>
+                </ControlTemplate>
+            </Button.Template>
+        </Button>
+        
         <Button Canvas.Left="501" Canvas.Top="405" Click="JoinRoom_Click" Height="50" Width="100" BorderBrush="Transparent" HorizontalAlignment="Left" VerticalAlignment="Center" >
             <Button.Template>
                 <ControlTemplate TargetType="Button">

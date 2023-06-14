@@ -26,6 +26,7 @@ namespace Trivia_Client.Pages
         }
         private void Exit_Click(object sender, RoutedEventArgs e)
         {
+            //logout
             Application.Current.Shutdown();
         }
         private void Back_Click(object sender, RoutedEventArgs e)
