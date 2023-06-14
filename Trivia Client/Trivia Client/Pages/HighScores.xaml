@@ -27,10 +27,6 @@
         </Label>
         <TextBox VerticalContentAlignment="Center" HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top" Width="114" FontStyle="Italic" Canvas.Left="515" Canvas.Top="338" Height="5"/>
 
-        <Grid>
-            <Frame Name="LoginFrame" NavigationUIVisibility="Hidden" Panel.ZIndex="1" ></Frame>
-        </Grid>
-
         <!-- Buttons must be in canvas -->
         <!-- Exit button -->
         <Button Canvas.Left="927" Canvas.Top="100" Click="Exit_Click" Height="50" Width="55" BorderBrush="Transparent" Cursor="Hand">

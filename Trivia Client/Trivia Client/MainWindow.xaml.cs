@@ -28,26 +28,10 @@ namespace Trivia_Client
         public MainWindow()
         {
             InitializeComponent();
-            mainFrame.Content = new Pages.Login();
-            //Console.WriteLine(Encoding.UTF8.GetString(BitConverter.GetBytes(12302).Length));
+            mainFrame.Content = new Pages.Start();
         }
 
-        private void LoginButton_Click(object sender, RoutedEventArgs e)
-        {
-            //sends to the login page
-            Login login = new Login();
-            this.Content = login;
-        }
-        private void SignupButton_Click(object sender, RoutedEventArgs e)
-        {
-            //sends to the signup page
-            Signup signup = new Signup();
-            this.Content = signup;
-        }
-        private void ExitButton_Click(object sender, RoutedEventArgs e)
-        {
-            Application.Current.Shutdown();
-        }
+        
 
     }
 }

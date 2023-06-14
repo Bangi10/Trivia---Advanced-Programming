@@ -26,12 +26,13 @@ namespace Trivia_Client.Pages
         }
         private void CreateRoom_Click(object sender, RoutedEventArgs e)
         {
-            Room room = new Room();
-            this.Content = room;
+            NavigationService?.Navigate(new Room());
         }
         private void Exit_Click(object sender, RoutedEventArgs e)
         {
+            //logout
             Application.Current.Shutdown();
+            
         }
         private void Back_Click(object sender, RoutedEventArgs e)
         {

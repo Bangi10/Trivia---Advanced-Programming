@@ -28,25 +28,17 @@ namespace Trivia_Client.Pages
         //adding new player and sending him to the MainMenu
         private void Signup_Click(object sender, RoutedEventArgs e)
         {
-
-            //needs to add player
-
-            //sending to MainMenu page
-            //working but not as axpected
-            SignupFrame.Content = new MainMenu();
-
-            //doesnt work but mabey it could help
-            //MainMenu mainMenu = new MainMenu();
-            //this.Content = mainMenu;
+            NavigationService?.Navigate(new Start());
         }
 
         private void Exit_Click(object sender, RoutedEventArgs e)
         {
+            //logout
             Application.Current.Shutdown();
         }
         private void Back_Click(object sender, RoutedEventArgs e)
         {
-            NavigationService?.Navigate(new MainWindow());
+            NavigationService?.Navigate(new Start());
 
         }
     }

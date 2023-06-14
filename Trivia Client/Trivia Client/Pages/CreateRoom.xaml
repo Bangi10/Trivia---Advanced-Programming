@@ -20,10 +20,6 @@
         <Label Foreground="White" FontFamily="Nunito" FontWeight="Bold" FontSize="16" Canvas.Left="439" Canvas.Top="391" HorizontalAlignment="Left" VerticalAlignment="Top">Max Players:</Label>
         <TextBox VerticalContentAlignment="Center" HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top" Width="157" FontStyle="Italic" Canvas.Left="553" Canvas.Top="344" Height="32"/>
 
-        <Grid>
-            <Frame Name="LoginFrame" NavigationUIVisibility="Hidden" Panel.ZIndex="1" ></Frame>
-        </Grid>
-
         <!-- Buttons must be in canvas -->
         <!-- Create Room button -->
         <Button Canvas.Left="490" Canvas.Top="459" Click="CreateRoom_Click" Height="50" Width="126" BorderBrush="Transparent" HorizontalAlignment="Left" VerticalAlignment="Top" >

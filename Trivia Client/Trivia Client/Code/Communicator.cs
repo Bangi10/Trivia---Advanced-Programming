@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Interop;
 
-namespace Trivia_Client
+namespace Trivia_Client.Code
 {
     public class ClientCommuinactor 
     {

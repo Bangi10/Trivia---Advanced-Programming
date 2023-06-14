@@ -16,20 +16,25 @@ using System.Windows.Shapes;
 namespace Trivia_Client.Pages
 {
     /// <summary>
-    /// Interaction logic for MyStats.xaml
+    /// Interaction logic for Start.xaml
     /// </summary>
-    public partial class MyStats : Page
+    public partial class Start : Page
     {
-        public MyStats()
+        public Start()
         {
             InitializeComponent();
         }
-        private void Back_Click(object sender, RoutedEventArgs e)
+        private void LoginButton_Click(object sender, RoutedEventArgs e)
         {
-            NavigationService?.Navigate(new Pages.MainMenu());
+            NavigationService?.Navigate(new Login());
         }
-        private void Exit_Click(object sender, RoutedEventArgs e)
+        private void SignupButton_Click(object sender, RoutedEventArgs e)
         {
+            NavigationService?.Navigate(new Signup());
+        }
+        private void ExitButton_Click(object sender, RoutedEventArgs e)
+        {
+            //logout
             Application.Current.Shutdown();
         }
     }

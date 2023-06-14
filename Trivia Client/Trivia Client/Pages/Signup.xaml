@@ -20,9 +20,6 @@
         <Label Foreground="White" FontFamily="Nunito" FontWeight="Bold" FontSize="16" Canvas.Left="450" Canvas.Top="331" HorizontalAlignment="Left" VerticalAlignment="Top">Email:</Label>
         <TextBox VerticalContentAlignment="Center" HorizontalAlignment="Left" TextWrapping="Wrap" Text="" VerticalAlignment="Center" Width="157" FontStyle="Italic" Canvas.Left="511" Canvas.Top="331" Height="32"/>
 
-        <Grid>
-            <Frame Name="SignupFrame" NavigationUIVisibility="Hidden" Panel.ZIndex="1" ></Frame>
-        </Grid>
 
         <!-- Buttons must be in canvas -->
         <!-- Signup button -->

@@ -33,7 +33,7 @@ namespace Trivia_Client.Pages
 
             //sending to MainMenu page
             //working but not as axpected
-            LoginFrame.Content = new MainMenu();
+            NavigationService?.Navigate(new Start());
 
             //doesnt work but mabey it could help
             //MainMenu mainMenu = new MainMenu();
@@ -47,7 +47,7 @@ namespace Trivia_Client.Pages
 
         private void Back_Click(object sender, RoutedEventArgs e)
         {
-            NavigationService?.Navigate(new MainWindow());
+            NavigationService?.Navigate(new Start());
 
         }
         
