@@ -28,7 +28,6 @@ namespace Trivia_Client
         public MainWindow()
         {
             InitializeComponent();
-            mainFrame.Content = new Pages.Login();
             //Console.WriteLine(Encoding.UTF8.GetString(BitConverter.GetBytes(12302).Length));
         }
 
