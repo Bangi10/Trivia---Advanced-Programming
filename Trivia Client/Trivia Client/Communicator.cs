@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data.SqlTypes;
 using System.Linq;
+using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,7 +15,13 @@ namespace Trivia_Client
     {
         private static readonly Socket m_socket;
 
-        static ClientCommuinactor() { }
+        static ClientCommuinactor()
+        {
+            Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+            IPAddress ipAddress = IPAddress.Parse("127.0.0.0");
+            IPEndPoint remoteEndPoint = new IPEndPoint(ipAddress, 8826);
+            socket.Connect(remoteEndPoint);
+        }
 
         public static byte[] readBytes()
         {
