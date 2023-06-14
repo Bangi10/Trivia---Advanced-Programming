@@ -5,8 +5,54 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Trivia_Client"
         mc:Ignorable="d"
-        Title="MainWindow" Height="615" Width="1090"> 
-    <Grid>
-        <Frame Name="mainFrame" NavigationUIVisibility="Hidden" Panel.ZIndex="1" ></Frame>
-    </Grid>
+        Title="MainWindow" Height="615" Width="1090">
+    <Window.Background>
+        <ImageBrush ImageSource="pack://application:,,,/Trivia Client;component/images/background.png" Stretch="UniformToFill"></ImageBrush>
+    </Window.Background>
+
+    <Canvas Margin="-10,-26,0,0">
+        <Grid>
+            <Frame x:Name="MainFrame" NavigationUIVisibility="Hidden" Panel.ZIndex="1" ></Frame>
+        </Grid>
+
+        <!-- Buttons must be in canvas -->
+        <!-- Login button -->
+        <Button Canvas.Left="500" Canvas.Top="337" Click="LoginButton_Click" Height="50" Width="100" BorderBrush="Transparent" >
+            <Button.Template>
+                <ControlTemplate TargetType="Button">
+                    <Grid>
+                        <Image Source="pack://application:,,,/Trivia Client;component/images/button.png" Stretch="Fill"/>
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" Cursor="Hand"/>
+                    </Grid>
+                </ControlTemplate>
+            </Button.Template>
+            <Label FontFamily="Nunito" FontWeight="Bold" FontSize="16">Login</Label>
+        </Button>
+        
+        <!-- Signup button -->
+        <Button Canvas.Left="500" Canvas.Top="400" Click="SignupButton_Click" Height="50" Width="100" BorderBrush="Transparent" >
+            <Button.Template>
+                <ControlTemplate TargetType="Button">
+                    <Grid>
+                        <Image Source="pack://application:,,,/Trivia Client;component/images/button.png" Stretch="Fill"/>
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" Cursor="Hand"/>
+                    </Grid>
+                </ControlTemplate>
+            </Button.Template>
+            <Label FontFamily="Nunito" FontWeight="Bold" FontSize="16">Signup</Label>
+        </Button>
+        
+        <!-- Exit button -->
+        <Button Canvas.Left="910" Canvas.Top="90" Click="ExitButton_Click" Height="50" Width="55" BorderBrush="Transparent" Cursor="Hand">
+            <Button.Template>
+                <ControlTemplate TargetType="Button">
+                    <Grid>
+                        <Image Source="pack://application:,,,/Trivia Client;component/images/exit.png" Stretch="Fill"/>
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Grid>
+                </ControlTemplate>
+            </Button.Template>
+        </Button>
+
+    </Canvas>
 </Window>

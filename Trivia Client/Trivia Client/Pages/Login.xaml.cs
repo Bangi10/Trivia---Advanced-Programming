@@ -21,7 +21,6 @@ namespace Trivia_Client.Pages
     /// 
     public partial class Login : Page
     {
-        public string boolbool = "";
         public Login()
         {
             InitializeComponent();
@@ -30,12 +29,27 @@ namespace Trivia_Client.Pages
 
         private void Login_Click(object sender, RoutedEventArgs e)
         {
-            
+            //needs to add player if he doesnt exists
+
+            //sending to MainMenu page
+            //working but not as axpected
+            LoginFrame.Content = new MainMenu();
+
+            //doesnt work but mabey it could help
+            //MainMenu mainMenu = new MainMenu();
+            //this.Content = mainMenu;
         }
 
         private void Exit_Click(object sender, RoutedEventArgs e)
         {
             Application.Current.Shutdown();
         }
+
+        private void Back_Click(object sender, RoutedEventArgs e)
+        {
+            NavigationService?.Navigate(new MainWindow());
+
+        }
+        
     }
 }

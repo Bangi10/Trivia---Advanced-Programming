@@ -30,19 +30,41 @@ namespace Trivia_Client.Pages
         }
         private void JoinRoom_Click(object sender, RoutedEventArgs e)
         {
+            //working but not as axpected
+            MainMenuFrame.Content = new JoinRoom();
 
+            //doesnt work but mabey it could help
+            //JoinRoom joinRoom = new JoinRoom();
+            //this.Content = joinRoom;
         }
         private void CreateRoom_Click(object sender, RoutedEventArgs e)
         {
+            //working but not as axpected
+            MainMenuFrame.Content = new CreateRoom();
 
+            //doesnt work but mabey it could help
+            //CreateRoom createRoom = new CreateRoom();
+            //this.Content = createRoom;
         }
-        private void MyStats_Click(object sender, RoutedEventArgs e)
+        private void Stats_Click(object sender, RoutedEventArgs e)
         {
 
+            //working but not as axpected
+            MainMenuFrame.Content = new Statistics();
+
+            //doesnt work but mabey it could help
+            //Statistics statistics = new Statistics();
+            //this.Content = statistics;
         }
         private void HighScores_Click(object sender, RoutedEventArgs e)
         {
 
+            //working but not as axpected
+            MainMenuFrame.Content = new HighScores();
+
+            //doesnt work but mabey it could help
+            //HighScores highScore = new HighScores();
+            //this.Content = highScore;
         }
         private void Logout_Click(object sender, RoutedEventArgs e)
         {

@@ -1,8 +1,14 @@
 #pragma once
-#include <iostream>
 #include <vector>
 #include <string>
-#include "json.hpp"
+
+
+namespace RESPONSES {
+	enum class ERRORS :unsigned char { REQUEST_NOT_RELEVANT = 50 };
+	enum class LOGOUT :unsigned char { SUCCESS = 90 };
+	enum class LOGIN :unsigned char { SUCCESS = 100, NAME_NOT_EXISTS = 101, PASSWORD_MISMATCH = 102, USER_ALREADY_LOGINED = 103 };
+	enum class SIGNUP :unsigned char { SUCCESS = 110, NAME_ALREADY_EXISTS = 111 };
+};
 
 struct ErrorResponse {
 	std::string message;
@@ -16,10 +22,7 @@ struct SignupResponse {
 	unsigned int status;
 };
 
-typedef std::vector<unsigned char> Buffer;
-
-enum class RESPONSES { ERROR = 255, LOGIN_Y = 101, LOGIN_N = 102, SIGNUP_Y = 111, SIGNUP_N = 112 };
-enum class REQUESTS { LOGIN = 100, SIGNUP = 110 };
+using Buffer = std::vector<unsigned char>;
 
 class JsonResponsePacketSerializer
 {

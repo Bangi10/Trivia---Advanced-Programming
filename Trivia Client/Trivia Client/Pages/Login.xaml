@@ -11,34 +11,51 @@
     <Page.Background>
         <ImageBrush ImageSource="pack://application:,,,/Trivia Client;component/images/background.png" Stretch="UniformToFill"></ImageBrush>
     </Page.Background>
+    
 
-    
-    
+
     <Canvas Margin="-10,-26,0,0">
         <Label Foreground="White" FontFamily="Nunito" FontWeight="Bold" FontSize="16" Canvas.Left="416" Canvas.Top="235" HorizontalAlignment="Left" VerticalAlignment="Center">Username:</Label>
         <TextBox VerticalContentAlignment="Center" HorizontalAlignment="Left" TextWrapping="Wrap" Text="" VerticalAlignment="Center" Width="157" FontStyle="Italic" Canvas.Left="511" Canvas.Top="235" Height="32"/>
         <Label Foreground="White" FontFamily="Nunito" FontWeight="Bold" FontSize="16" Canvas.Left="419" Canvas.Top="283" HorizontalAlignment="Left" VerticalAlignment="Top">Password:</Label>
         <TextBox VerticalContentAlignment="Center" HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top" Width="157" FontStyle="Italic" Canvas.Left="511" Canvas.Top="283" Height="32"/>
 
+        <Grid>
+            <Frame Name="LoginFrame" NavigationUIVisibility="Hidden" Panel.ZIndex="1" ></Frame>
+        </Grid>
 
         <!-- Buttons must be in canvas -->
-        <Button Canvas.Left="492" Canvas.Top="337" Click="Login_Click" Height="50" Width="100" BorderBrush="Transparent" >
+        <!-- Login button -->
+        <Button Canvas.Left="500" Canvas.Top="337" Click="Login_Click" Height="50" Width="100" BorderBrush="Transparent" >
             <Button.Template>
                 <ControlTemplate TargetType="Button">
                     <Grid>
                         <Image Source="pack://application:,,,/Trivia Client;component/images/button.png" Stretch="Fill"/>
-                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" Cursor="Hand"/>
                     </Grid>
                 </ControlTemplate>
             </Button.Template>
             <Label FontFamily="Nunito" FontWeight="Bold" FontSize="16">Login</Label>
         </Button>
 
-            <Button Canvas.Left="910" Canvas.Top="90" Click="Login_Click" Height="50" Width="55" BorderBrush="Transparent" >
+        <!-- Exit button -->
+        <Button Canvas.Left="925" Canvas.Top="100" Click="Exit_Click" Height="50" Width="55" BorderBrush="Transparent" Cursor="Hand">
             <Button.Template>
                 <ControlTemplate TargetType="Button">
                     <Grid>
                         <Image Source="pack://application:,,,/Trivia Client;component/images/exit.png" Stretch="Fill"/>
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Grid>
+                </ControlTemplate>
+            </Button.Template>
+        </Button>
+
+        <!-- back button -->
+        <Button Canvas.Left="125" Canvas.Top="100" Click="Back_Click" Height="50" Width="55" BorderBrush="Transparent" Cursor="Hand">
+            <Button.Template>
+                <ControlTemplate TargetType="Button">
+                    <Grid>
+                        <Image Source="pack://application:,,,/Trivia Client;component/images/back.png" Stretch="Fill"/>
                         <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
                     </Grid>
                 </ControlTemplate>

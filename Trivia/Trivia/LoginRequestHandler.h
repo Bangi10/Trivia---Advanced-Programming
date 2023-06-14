@@ -1,13 +1,22 @@
 #pragma once
+#include "RequestHandlerFactory.h"
 #include "IRequestHandler.h"
 
-enum class REQUESTS { LOGIN = 100, SIGNUP = 110 };
-enum class RESPONSES { ERROR = 255, LOGIN_Y = 101, LOGIN_N = 102, SIGNUP_Y = 111, SIGNUP_N = 112 };
+class RequestHandlerFactory;
 
 class LoginRequestHandler : public IRequestHandler
 {
 public:
-	~LoginRequestHandler();
+	LoginRequestHandler(RequestHandlerFactory& handlerFactory);
+	~LoginRequestHandler() override = default;
+
 	bool isRequestRelevant(const RequestInfo& requestInfo) const override;
 	RequestResult handleRequest(const RequestInfo& requestInfo) override;
+
+	RequestResult createErrorResponse();
+private:
+	RequestHandlerFactory& m_handlerFactory;
+
+	RequestResult login(const RequestInfo& info);
+	RequestResult signup(const RequestInfo& info);
 };
