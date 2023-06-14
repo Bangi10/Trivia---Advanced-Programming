@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Trivia_Client.Code;
 
 namespace Trivia_Client.Pages
 {
@@ -20,6 +21,7 @@ namespace Trivia_Client.Pages
     /// </summary>
     public partial class Start : Page
     {
+        public static ClientCommuinactor Commuinactor;
         public Start()
         {
             InitializeComponent();

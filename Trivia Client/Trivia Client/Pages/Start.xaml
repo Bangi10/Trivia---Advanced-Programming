@@ -16,7 +16,7 @@
 
         <!-- Buttons must be in canvas -->
         <!-- Login button -->
-        <Button Canvas.Left="477" Canvas.Top="267" Click="LoginButton_Click" Height="67" Width="146" BorderBrush="Transparent" HorizontalAlignment="Left" VerticalAlignment="Top" >
+        <Button Cursor="Hand" Canvas.Left="477" Canvas.Top="267" Click="LoginButton_Click" Height="67" Width="146" BorderBrush="Transparent" HorizontalAlignment="Left" VerticalAlignment="Top" >
             <Button.Template>
                 <ControlTemplate TargetType="Button">
                     <Grid>
@@ -29,7 +29,7 @@
         </Button>
 
         <!-- Signup button -->
-        <Button Canvas.Left="477" Canvas.Top="362" Click="SignupButton_Click" Height="67" Width="146" BorderBrush="Transparent" HorizontalAlignment="Left" VerticalAlignment="Top" >
+        <Button Cursor="Hand" Canvas.Left="477" Canvas.Top="362" Click="SignupButton_Click" Height="67" Width="146" BorderBrush="Transparent" HorizontalAlignment="Left" VerticalAlignment="Top" >
             <Button.Template>
                 <ControlTemplate TargetType="Button">
                     <Grid>

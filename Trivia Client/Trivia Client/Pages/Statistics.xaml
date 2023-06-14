@@ -16,7 +16,7 @@
 
         <!-- Buttons must be in canvas -->
         <!-- my stats button -->
-        <Button Canvas.Left="500" Canvas.Top="291" Click="MyStats_Click" Height="50" Width="100" BorderBrush="Transparent" >
+        <Button Cursor="Hand" Canvas.Left="500" Canvas.Top="291" Click="MyStats_Click" Height="50" Width="100" BorderBrush="Transparent" >
             <Button.Template>
                 <ControlTemplate TargetType="Button">
                     <Grid>
@@ -52,7 +52,7 @@
             </Button.Template>
         </Button>
         <!-- High Scores button -->
-        <Button Canvas.Left="500" Canvas.Top="411" Click="HighScores_Click" Height="50" Width="100" BorderBrush="Transparent" HorizontalAlignment="Left" VerticalAlignment="Top" >
+        <Button Cursor="Hand" Canvas.Left="500" Canvas.Top="411" Click="HighScores_Click" Height="50" Width="100" BorderBrush="Transparent" HorizontalAlignment="Left" VerticalAlignment="Top" >
             <Button.Template>
                 <ControlTemplate TargetType="Button">
                     <Grid>

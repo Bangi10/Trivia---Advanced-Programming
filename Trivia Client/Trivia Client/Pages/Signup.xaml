@@ -23,7 +23,7 @@
 
         <!-- Buttons must be in canvas -->
         <!-- Signup button -->
-        <Button Canvas.Left="500" Canvas.Top="400" Click="Signup_Click" Height="50" Width="100" BorderBrush="Transparent" >
+        <Button Canvas.Left="500" Canvas.Top="400" Click="Signup_Click" Height="50" Width="100" BorderBrush="Transparent" Cursor="Hand">
             <Button.Template>
                 <ControlTemplate TargetType="Button">
                     <Grid>

@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Trivia_Client.Code;
 
 namespace Trivia_Client.Pages
 {
@@ -29,15 +30,18 @@ namespace Trivia_Client.Pages
 
         private void Login_Click(object sender, RoutedEventArgs e)
         {
-            //needs to add player if he doesnt exists
+            //needs to add playerm if he doesnt exists
+            LoginRequest request = new LoginRequest(username.Text, password.Text);
+            byte[] requestBuffer = JsonSerialization.serializeRequest<LoginRequest>(request, RequestsCodes.LOGIN);
+            ClientCommuinactor comm = ClientCommuinactor.Instance;
+            comm.sendBytes(requestBuffer);
 
-            //sending to MainMenu page
-            //working but not as axpected
+            byte[] jsonBuffer = comm.readBytes();
+            LoginResponse response = JsonSerialization.deserializeResponse<LoginResponse>(jsonBuffer);
+            if (response)
+
+
             NavigationService?.Navigate(new Start());
-
-            //doesnt work but mabey it could help
-            //MainMenu mainMenu = new MainMenu();
-            //this.Content = mainMenu;
         }
 
         private void Exit_Click(object sender, RoutedEventArgs e)
