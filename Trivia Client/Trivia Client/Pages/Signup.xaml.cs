@@ -31,8 +31,8 @@ namespace Trivia_Client.Pages
         {
             SignupRequest signupRequest = new SignupRequest(Username.Text, Password.Text, Email.Text);
             byte[] requestBuffer = JsonSerialization.serializeRequest(signupRequest, RequestsCodes.SIGNUP);
-            //ClientCommuinactor clientCommuinactor = ClientCommuinactor.Instance;
-            ClientCommuinactor.sendBytes(requestBuffer);
+            ClientCommuinactor clientCommuinactor = ClientCommuinactor.Instance;
+            clientCommuinactor.sendBytes(requestBuffer);
             NavigationService?.Navigate(new MainMenu());
         }
 
