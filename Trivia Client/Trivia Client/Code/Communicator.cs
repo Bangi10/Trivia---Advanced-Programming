@@ -17,16 +17,14 @@ namespace Trivia_Client.Code
         private static object syncRoot = new Object();
 
         //fields
-        private Socket m_socket;
-        private TcpClient client;
         private NetworkStream clientStream;
-
 
         private ClientCommuinactor()
         {
-            client = new TcpClient();
+            TcpClient client = new TcpClient();
             IPEndPoint serverEndPoint = new IPEndPoint(IPAddress.Parse("127.0.0.1"), 8826);
             client.Connect(serverEndPoint);
+            this.clientStream = client.GetStream();
         }
         public static ClientCommuinactor Instance
         {
@@ -48,25 +46,24 @@ namespace Trivia_Client.Code
         {
             //first byte
             byte[] firstPart = new byte[1];
-            Int32 firstBytes = clientStream.Read(firstPart, 0, 1);
+            Int32 firstBytes = this.clientStream.Read(firstPart, 0, 1);
 
             //second to fifth bytes(size of the next text)
             byte[] secondPart = new byte[4];
-            Int32 secondBytes = clientStream.Read(secondPart, 0, 4);
+            Int32 secondBytes = this.clientStream.Read(secondPart, 0, 4);
 
             //rest of the bytes
             Int32 sizeOfText = BitConverter.ToInt32(secondPart);
             byte[] thirdPart = new byte[sizeOfText];
-            Int32 thirdBytes = clientStream.Read(thirdPart, 0, sizeOfText);
+            Int32 thirdBytes = this.clientStream.Read(thirdPart, 0, sizeOfText);
 
 
             return new Tuple<byte[], byte>(thirdPart, firstPart[0]);
         }
         public void sendBytes(byte[] bytesToSend)
         {
-            clientStream = client.GetStream();
-            clientStream.Write(bytesToSend, 0, bytesToSend.Length);
-            clientStream.Flush();
+            this.clientStream.Write(bytesToSend, 0, bytesToSend.Length);
+            this.clientStream.Flush();
         }
     }
 }
