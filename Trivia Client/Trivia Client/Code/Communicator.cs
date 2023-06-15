@@ -22,10 +22,17 @@ namespace Trivia_Client.Code
 
         private ClientCommuinactor()
         {
-            Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-            IPAddress ipAddress = IPAddress.Parse("127.0.0.0");
-            IPEndPoint remoteEndPoint = new IPEndPoint(ipAddress, 8826);
-            socket.Connect(remoteEndPoint);
+            TcpClient client = new TcpClient();
+            IPEndPoint serverEndPoint = new IPEndPoint(IPAddress.Parse("127.0.0.1"), 8826);
+            client.Connect(serverEndPoint);
+            ////sending message
+            //NetworkStream clientStream = client.GetStream();
+            //byte[] buffer = new ASCIIEncoding().GetBytes("Hello Server!");
+            //clientStream.Write(buffer, 0, buffer.Length);
+            //clientStream.Flush();
+            ////getting message
+            //buffer = new byte[4096];
+            //int bytesRead = clientStream.Read(buffer, 0, 4096);
         }
         public static ClientCommuinactor Instance
         {
@@ -43,7 +50,7 @@ namespace Trivia_Client.Code
                 return instance;
             }
         }
-        public byte[] readBytes()
+        public Tuple<byte[], byte> readBytes()
         {
             //first byte
             byte[] firstPart = new byte[1];
@@ -54,12 +61,12 @@ namespace Trivia_Client.Code
             Int32 secondBytes = m_socket.Receive(secondPart, 4, 0);
 
             //rest of the bytes
-
             Int32 sizeOfText = BitConverter.ToInt32(secondPart);
             byte[] thirdPart = new byte[sizeOfText];
             Int32 thirdBytes = m_socket.Receive(thirdPart, sizeOfText, 0);
 
-            return thirdPart;
+
+            return new Tuple<byte[], byte>(thirdPart, firstPart[0]);
         }
         public void sendBytes(byte[] bytesToSend)
         {

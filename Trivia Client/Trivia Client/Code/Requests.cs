@@ -8,9 +8,10 @@ namespace Trivia_Client.Code
 {
     public enum RequestsCodes
     {
-        LOGIN = 200, SIGNUP = 201, LOGOUT = 202, CREATE_ROOM = 120,
-        GET_ROOMS = 121, GET_PLAYERS_IN_ROOM = 122, JOIN_ROOM = 123,
-        GET_STATISTICS = 124
+        LOGIN = 200, SIGNUP = 201, LOGOUT = 202, CREATE_ROOM = 203,
+        GET_ROOMS = 204, GET_PLAYERS_IN_ROOM = 205, JOIN_ROOM = 206,
+        GET_STATISTICS = 207, GET_HIGH_SCORE = 208, CLOSE_ROOM = 209, START_GAME = 210,
+        GET_ROOM_STATE = 211, LEAVE_ROOM = 212
     }
     public record struct LoginRequest(string username, string password);
     public record struct SignupRequest(string username, string password, string email);
