@@ -17,20 +17,12 @@ namespace Trivia_Client.Code
             var jsonString = Json.JsonSerializer.Serialize(request);
 
             requestBuffer.Add((byte)status);
-            requestBuffer.AddRange(getBigEndianBytesFromInt(jsonString.Length));
+            requestBuffer.AddRange(BitConverter.GetBytes(jsonString.Length));
             requestBuffer.AddRange(Encoding.ASCII.GetBytes(jsonString));
 
             return requestBuffer.ToArray();
         }
-        public static byte[] getBigEndianBytesFromInt(int num)
-        {
-            byte[] bytes = BitConverter.GetBytes(num);
-
-            if (BitConverter.IsLittleEndian)
-                Array.Reverse(bytes);
-            return bytes;
-        }
-
+        
         /// <summary>
         /// Function only gets json bytes without code and length
         /// Function may return default <typeparamref name="T"/> if not succeeded

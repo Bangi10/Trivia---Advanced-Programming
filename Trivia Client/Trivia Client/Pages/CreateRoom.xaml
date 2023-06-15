@@ -22,7 +22,7 @@
 
         <!-- Buttons must be in canvas -->
         <!-- Create Room button -->
-        <Button Canvas.Left="490" Canvas.Top="459" Click="CreateRoom_Click" Height="50" Width="126" BorderBrush="Transparent" HorizontalAlignment="Left" VerticalAlignment="Top" >
+        <Button Canvas.Left="490" Canvas.Top="459" Click="CreateRoom_Click" Height="50" Width="126" BorderBrush="Transparent" HorizontalAlignment="Left" VerticalAlignment="Top" Cursor="Hand">
             <Button.Template>
                 <ControlTemplate TargetType="Button">
                     <Grid>

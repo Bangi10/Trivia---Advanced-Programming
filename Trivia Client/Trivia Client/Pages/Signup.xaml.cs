@@ -12,7 +12,6 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using Trivia_Client.Code;
 
 namespace Trivia_Client.Pages
 {
@@ -29,11 +28,7 @@ namespace Trivia_Client.Pages
         //adding new player and sending him to the MainMenu
         private void Signup_Click(object sender, RoutedEventArgs e)
         {
-            SignupRequest signupRequest = new SignupRequest(Username.Text, Password.Text, Email.Text);
-            byte[] requestBuffer = JsonSerialization.serializeRequest(signupRequest, RequestsCodes.SIGNUP);
-            ClientCommuinactor clientCommuinactor = ClientCommuinactor.Instance;
-            clientCommuinactor.sendBytes(requestBuffer);
-            NavigationService?.Navigate(new MainMenu());
+            NavigationService?.Navigate(new Start());
         }
 
         private void Exit_Click(object sender, RoutedEventArgs e)
@@ -44,6 +39,7 @@ namespace Trivia_Client.Pages
         private void Back_Click(object sender, RoutedEventArgs e)
         {
             NavigationService?.Navigate(new Start());
+
         }
     }
 }

@@ -37,7 +37,7 @@
                 </ControlTemplate>
             </Button.Template>
         </Button>
-        <Button Canvas.Left="598" Canvas.Top="251" Click="CreateRoom_Click" Height="73" Width="167" BorderBrush="Transparent" HorizontalAlignment="Center" VerticalAlignment="Top" Cursor="Hand" >
+        <Button Canvas.Left="612" Canvas.Top="251" Click="CreateRoom_Click" Height="73" Width="167" BorderBrush="Transparent" HorizontalAlignment="Left" VerticalAlignment="Center" Cursor="Hand" >
             <Button.Template>
                 <ControlTemplate TargetType="{x:Type Button}">
                     <Grid>
@@ -48,7 +48,7 @@
             </Button.Template>
             <Label FontFamily="Nunito" FontWeight="Bold" FontSize="25" Content="Create Room"/>
         </Button>
-        <Button Canvas.Left="317" Canvas.Top="344" Click="Stats_Click" Height="73" Width="167" BorderBrush="Transparent" HorizontalAlignment="Center" VerticalAlignment="Top" Cursor="Hand">
+        <Button Canvas.Left="458" Canvas.Top="343" Click="Stats_Click" Height="73" Width="167" BorderBrush="Transparent" HorizontalAlignment="Center" VerticalAlignment="Top" Cursor="Hand">
             <Button.Template>
                 <ControlTemplate TargetType="{x:Type Button}">
                     <Grid>
@@ -58,17 +58,6 @@
                 </ControlTemplate>
             </Button.Template>
             <Label FontFamily="Nunito" FontWeight="Bold" FontSize="25" Content="Stats"/>
-        </Button>
-        <Button Canvas.Left="598" Canvas.Top="344" Click="HighScores_Click" Height="73" Width="167" BorderBrush="Transparent" HorizontalAlignment="Center" VerticalAlignment="Top" Cursor="Hand">
-            <Button.Template>
-                <ControlTemplate TargetType="{x:Type Button}">
-                    <Grid>
-                        <Image Source="pack://application:,,,/Trivia Client;component/images/button.png" Stretch="Fill"/>
-                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                    </Grid>
-                </ControlTemplate>
-            </Button.Template>
-            <Label FontFamily="Nunito" FontWeight="Bold" FontSize="25" Content="High Scores"/>
         </Button>
         <Button Canvas.Left="473" Canvas.Top="442" Click="Logout_Click" Height="55" Width="137" BorderBrush="Transparent" HorizontalAlignment="Center" VerticalAlignment="Top" Cursor="Hand">
             <Button.Template>

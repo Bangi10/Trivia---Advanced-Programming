@@ -26,7 +26,7 @@ namespace Trivia_Client.Pages
         }
         private void Back_Click(object sender, RoutedEventArgs e)
         {
-            NavigationService?.Navigate(new Pages.MainMenu());
+            NavigationService?.Navigate(new Pages.Statistics());
         }
         private void Exit_Click(object sender, RoutedEventArgs e)
         {
