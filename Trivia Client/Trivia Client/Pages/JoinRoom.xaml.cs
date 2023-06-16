@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Trivia_Client.Code;
 
 namespace Trivia_Client.Pages
 {
@@ -39,8 +40,11 @@ namespace Trivia_Client.Pages
         }
         private void Exit_Click(object sender, RoutedEventArgs e)
         {
-            //logout
-            Application.Current.Shutdown();
+            bool successLogout = Helper.Logout();
+            if (successLogout)
+            {
+                Application.Current.Shutdown();
+            }
 
         }
         private void RoomsList_SelectionChanged(object sender, SelectionChangedEventArgs e)

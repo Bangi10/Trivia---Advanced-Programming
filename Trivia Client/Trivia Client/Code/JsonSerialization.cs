@@ -17,12 +17,23 @@ namespace Trivia_Client.Code
             var jsonString = Json.JsonSerializer.Serialize(request);
 
             requestBuffer.Add((byte)status);
-            requestBuffer.AddRange(BitConverter.GetBytes(jsonString.Length));
+            requestBuffer.AddRange(getBigEndianBytesFromInt(jsonString.Length));
             requestBuffer.AddRange(Encoding.ASCII.GetBytes(jsonString));
 
             return requestBuffer.ToArray();
         }
-        
+        public static byte[] serializeRequestCode(RequestsCodes status) //even though status is in response, isn't accessible
+        {
+            List<byte> requestBuffer = new List<byte>();
+            var jsonString = "{}";
+
+            requestBuffer.Add((byte)status);
+            requestBuffer.AddRange(getBigEndianBytesFromInt(jsonString.Length));
+            requestBuffer.AddRange(Encoding.ASCII.GetBytes(jsonString));
+
+            return requestBuffer.ToArray();
+        }
+
         /// <summary>
         /// Function only gets json bytes without code and length
         /// Function may return default <typeparamref name="T"/> if not succeeded
@@ -40,6 +51,15 @@ namespace Trivia_Client.Code
                 Console.WriteLine(e.ToString());
             }
             return default(T);
+
+        }
+        public static byte[] getBigEndianBytesFromInt(int num)
+        {
+            byte[] bytes = BitConverter.GetBytes(num);
+
+            if (BitConverter.IsLittleEndian)
+                Array.Reverse(bytes);
+            return bytes;
         }
 
     }

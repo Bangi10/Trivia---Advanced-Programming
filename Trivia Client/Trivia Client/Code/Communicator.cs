@@ -17,15 +17,14 @@ namespace Trivia_Client.Code
         private static object syncRoot = new Object();
 
         //fields
-        private Socket m_socket;
-        
+        private NetworkStream clientStream;
 
         private ClientCommuinactor()
         {
-            Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-            IPAddress ipAddress = IPAddress.Parse("127.0.0.0");
-            IPEndPoint remoteEndPoint = new IPEndPoint(ipAddress, 8826);
-            socket.Connect(remoteEndPoint);
+            TcpClient client = new TcpClient();
+            IPEndPoint serverEndPoint = new IPEndPoint(IPAddress.Parse("127.0.0.1"), 8826);
+            client.Connect(serverEndPoint);
+            this.clientStream = client.GetStream();
         }
         public static ClientCommuinactor Instance
         {
@@ -43,27 +42,28 @@ namespace Trivia_Client.Code
                 return instance;
             }
         }
-        public byte[] readBytes()
+        public Tuple<byte[], byte> readBytes()
         {
             //first byte
             byte[] firstPart = new byte[1];
-            Int32 firstBytes = m_socket.Receive(firstPart, 1, 0);
+            Int32 firstBytes = this.clientStream.Read(firstPart, 0, 1);
 
             //second to fifth bytes(size of the next text)
             byte[] secondPart = new byte[4];
-            Int32 secondBytes = m_socket.Receive(secondPart, 4, 0);
+            Int32 secondBytes = this.clientStream.Read(secondPart, 0, 4);
 
             //rest of the bytes
-            
             Int32 sizeOfText = BitConverter.ToInt32(secondPart);
             byte[] thirdPart = new byte[sizeOfText];
-            Int32 thirdBytes = m_socket.Receive(thirdPart, sizeOfText, 0);
+            Int32 thirdBytes = this.clientStream.Read(thirdPart, 0, sizeOfText);
 
-            return thirdPart;
+
+            return new Tuple<byte[], byte>(thirdPart, firstPart[0]);
         }
         public void sendBytes(byte[] bytesToSend)
         {
-            m_socket.Send(bytesToSend, 0, bytesToSend.Length, SocketFlags.None);
+            this.clientStream.Write(bytesToSend, 0, bytesToSend.Length);
+            this.clientStream.Flush();
         }
     }
 }

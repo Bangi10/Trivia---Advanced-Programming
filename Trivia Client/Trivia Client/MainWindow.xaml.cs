@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.DirectoryServices;
 using System.Linq;
 using System.Text;
@@ -30,8 +31,30 @@ namespace Trivia_Client
             InitializeComponent();
             mainFrame.Content = new Pages.Start();
         }
-
-        
+        void DataWindow_Closing(object sender, CancelEventArgs e)
+        {
+            string msg = "Are you sure you want to exit?";
+            MessageBoxResult result =
+                MessageBox.Show(
+                msg,
+                "Data App",
+                MessageBoxButton.YesNo,
+                MessageBoxImage.Warning);
+            if (result == MessageBoxResult.No)
+            {
+                // If user doesn't want to close, cancel closure
+                e.Cancel = true;
+            }
+            else if (isLoggedIn())
+            {
+                bool successLogout = Helper.Logout();
+            }
+        }
+        private bool isLoggedIn()
+        {
+            //needs to check if current page is not start, signup and login. 
+            return false;
+        }
 
     }
 }

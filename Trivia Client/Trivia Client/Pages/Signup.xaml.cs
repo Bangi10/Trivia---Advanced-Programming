@@ -33,7 +33,7 @@ namespace Trivia_Client.Pages
 
         private void Exit_Click(object sender, RoutedEventArgs e)
         {
-            //logout
+            //no need to logout, user didn't connect login yet
             Application.Current.Shutdown();
         }
         private void Back_Click(object sender, RoutedEventArgs e)

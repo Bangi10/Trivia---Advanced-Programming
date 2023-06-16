@@ -34,18 +34,42 @@ namespace Trivia_Client.Pages
             LoginRequest request = new LoginRequest(username.Text, password.Text);
             byte[] requestBuffer = JsonSerialization.serializeRequest<LoginRequest>(request, RequestsCodes.LOGIN);
             ClientCommuinactor comm = ClientCommuinactor.Instance;
+
             comm.sendBytes(requestBuffer);
 
-            byte[] jsonBuffer = comm.readBytes();
-            LoginResponse response = JsonSerialization.deserializeResponse<LoginResponse>(jsonBuffer);
-            if (response)
+            var readTuple = comm.readBytes();
+            byte[] jsonBuffer = readTuple.Item1;
+            byte code = readTuple.Item2;
 
-
-            NavigationService?.Navigate(new Start());
+            if ( Helper.isInEnum<ResponseCodes.ERRORS>(code) )
+            {
+                ErrorResponse response = JsonSerialization.deserializeResponse<ErrorResponse>(jsonBuffer);
+                ErrorLabel.Content = response.message;
+            }
+            else
+            {
+                switch (code)
+                {
+                    case (byte)ResponseCodes.LOGIN.SUCCESS:
+                        User.Instance(request.username);
+                        NavigationService?.Navigate(new MainMenu());
+                        break;
+                    case (byte)ResponseCodes.LOGIN.NAME_NOT_EXISTS:
+                        ErrorLabel.Content = "username doesn't exist";
+                        break;
+                    case (byte)ResponseCodes.LOGIN.PASSWORD_MISMATCH:
+                        ErrorLabel.Content = "username and password doesn't match";
+                        break;
+                    case (byte)ResponseCodes.LOGIN.USER_ALREADY_LOGINED:
+                        ErrorLabel.Content = "user already logined";
+                        break;
+                }
+            }
         }
 
         private void Exit_Click(object sender, RoutedEventArgs e)
         {
+            //no need to logout, user didn't connect login yet
             Application.Current.Shutdown();
         }
 

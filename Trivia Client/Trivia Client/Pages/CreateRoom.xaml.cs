@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Trivia_Client.Code;
 
 namespace Trivia_Client.Pages
 {
@@ -26,13 +27,51 @@ namespace Trivia_Client.Pages
         }
         private void CreateRoom_Click(object sender, RoutedEventArgs e)
         {
-            NavigationService?.Navigate(new Room());
+            //needs to add playerm if he doesnt exists
+            CreateRoomRequest request = new CreateRoomRequest(roomName.Text, Convert.ToUInt32(maxPlayers.Text),
+                                                              Convert.ToUInt32(numberOfQuestions.Text), Convert.ToUInt32(timePerQuestion.Text));
+            byte[] requestBuffer = JsonSerialization.serializeRequest<CreateRoomRequest>(request, RequestsCodes.CREATE_ROOM);
+            ClientCommuinactor comm = ClientCommuinactor.Instance;
+
+            comm.sendBytes(requestBuffer);
+
+            var readTuple = comm.readBytes();
+            byte[] jsonBuffer = readTuple.Item1;
+            byte code = readTuple.Item2;
+
+            if (Helper.isInEnum<ResponseCodes.ERRORS>(code))
+            {
+                ErrorResponse response = JsonSerialization.deserializeResponse<ErrorResponse>(jsonBuffer);
+                ErrorLabel.Content = response.message;
+            }
+            else
+            {
+                switch (code)
+                {
+                    case (byte)ResponseCodes.LOGIN.SUCCESS:
+                        User.Instance(request.username);
+                        NavigationService?.Navigate(new MainMenu());
+                        break;
+                    case (byte)ResponseCodes.LOGIN.NAME_NOT_EXISTS:
+                        ErrorLabel.Content = "username doesn't exist";
+                        break;
+                    case (byte)ResponseCodes.LOGIN.PASSWORD_MISMATCH:
+                        ErrorLabel.Content = "username and password doesn't match";
+                        break;
+                    case (byte)ResponseCodes.LOGIN.USER_ALREADY_LOGINED:
+                        ErrorLabel.Content = "user already logined";
+                        break;
+                }
+            }
         }
         private void Exit_Click(object sender, RoutedEventArgs e)
         {
-            //logout
-            Application.Current.Shutdown();
-            
+            bool successLogout = Helper.Logout();
+            if (successLogout)
+            {
+                Application.Current.Shutdown();
+            }
+
         }
         private void Back_Click(object sender, RoutedEventArgs e)
         {
