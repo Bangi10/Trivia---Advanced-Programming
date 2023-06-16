@@ -7,7 +7,7 @@
 class LoginManager
 {
 public:
-	LoginManager() = default;
+	LoginManager() = delete;
 	LoginManager(std::shared_ptr<IDatabase>& db);
 	~LoginManager();
 
