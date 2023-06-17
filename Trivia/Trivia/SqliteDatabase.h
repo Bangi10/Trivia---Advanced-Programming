@@ -19,7 +19,7 @@ public:
 	float getPlayerAverageAnswerTime(const std::string& username) const override;
 	int getNumOfCorrectAnswers(const std::string& username) const override;
 	int getNumOfTotalAnswers(const std::string& username) const override;
-	int getNumOfPlayerGames(const std::string& username) const override;
+	int getNumOfPlayedGames(const std::string& username) const override;
 	int getPlayerScore(const std::string& username) const override;
 	std::string getHighScores() const override;
 private:

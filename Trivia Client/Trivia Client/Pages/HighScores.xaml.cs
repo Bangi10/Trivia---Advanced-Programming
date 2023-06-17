@@ -24,6 +24,12 @@ namespace Trivia_Client.Pages
         public HighScores()
         {
             InitializeComponent();
+            first.Text = $"{Application.Current.Properties["first"].ToString()}";
+            firstPoints.Text = $"{Application.Current.Properties["firstPoints"].ToString()}";
+            second.Text = $"{Application.Current.Properties["second"].ToString()}";
+            secondPoints.Text = $"{Application.Current.Properties["secondPoints"].ToString()}";
+            third.Text = $"{Application.Current.Properties["third"].ToString()}";
+            thirdPoints.Text = $"{Application.Current.Properties["thirdPoints"].ToString()}";
         }
         private void Exit_Click(object sender, RoutedEventArgs e)
         {

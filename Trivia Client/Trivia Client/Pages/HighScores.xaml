@@ -51,7 +51,7 @@
                 </ControlTemplate>
             </Button.Template>
         </Button>
-        <Label Foreground="White" FontFamily="Nunito" FontWeight="Bold" FontSize="16" Canvas.Left="405" Canvas.Top="364" Content="1:" RenderTransformOrigin="0.5,0.5" Width="34" HorizontalAlignment="Left" VerticalAlignment="Top">
+        <Label Foreground="White" FontFamily="Nunito" FontWeight="Bold" FontSize="16" Canvas.Left="405" Canvas.Top="370" Content="1:" RenderTransformOrigin="0.5,0.5" Width="34" HorizontalAlignment="Left" VerticalAlignment="Top">
             <Label.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform/>
@@ -61,7 +61,7 @@
                 </TransformGroup>
             </Label.RenderTransform>
         </Label>
-        <Label Foreground="White" FontFamily="Nunito" FontWeight="Bold" FontSize="16" Canvas.Left="405" Canvas.Top="395" Content="2:" RenderTransformOrigin="0.5,0.5" Width="34" HorizontalAlignment="Left" VerticalAlignment="Top">
+        <Label Foreground="White" FontFamily="Nunito" FontWeight="Bold" FontSize="16" Canvas.Left="405" Canvas.Top="415" Content="2:" RenderTransformOrigin="0.5,0.5" Width="34" HorizontalAlignment="Left" VerticalAlignment="Top">
             <Label.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform/>
@@ -71,7 +71,7 @@
                 </TransformGroup>
             </Label.RenderTransform>
         </Label>
-        <Label Foreground="White" FontFamily="Nunito" FontWeight="Bold" FontSize="16" Canvas.Left="405" Canvas.Top="427" Content="3:" RenderTransformOrigin="0.5,0.5" Width="34" HorizontalAlignment="Left" VerticalAlignment="Top">
+        <Label Foreground="White" FontFamily="Nunito" FontWeight="Bold" FontSize="16" Canvas.Left="405" Canvas.Top="460" Content="3:" RenderTransformOrigin="0.5,0.5" Width="34" HorizontalAlignment="Left" VerticalAlignment="Top">
             <Label.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform/>
@@ -81,6 +81,13 @@
                 </TransformGroup>
             </Label.RenderTransform>
         </Label>
+        <TextBlock x:Name ="first" Foreground="LightGray" FontSize="20" Canvas.Left="515" TextWrapping="Wrap" Text="" Canvas.Top="370" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+        <TextBlock x:Name ="firstPoints" Foreground="LightGray" FontSize="20" Canvas.Left="629" TextWrapping="Wrap" Text="" Canvas.Top="370" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+        <TextBlock x:Name ="second" Foreground="LightGray" FontSize="20" Canvas.Left="515" TextWrapping="Wrap" Text="" Canvas.Top="415" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+        <TextBlock x:Name ="secondPoints" Foreground="LightGray" FontSize="20" Canvas.Left="629" TextWrapping="Wrap" Text="" Canvas.Top="415" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+        <TextBlock x:Name ="third" Foreground="LightGray" FontSize="20" Canvas.Left="515" TextWrapping="Wrap" Text="" Canvas.Top="460" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+        <TextBlock x:Name ="thirdPoints" Foreground="LightGray" FontSize="20" Canvas.Left="629" TextWrapping="Wrap" Text="" Canvas.Top="460" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+            
 
     </Canvas>
 </Page>

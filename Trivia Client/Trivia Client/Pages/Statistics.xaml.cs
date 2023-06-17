@@ -45,14 +45,21 @@ namespace Trivia_Client.Pages
             else if (code == (byte)ResponseCodes.ROOM.GOT_PERSONAL_STATS)
             {
                 GetPersonalStatusResponse response = JsonSerialization.deserializeResponse<GetPersonalStatusResponse>(jsonBuffer);
-                Application.Current.Properties["avgTimeForAnswer"] = response.statistics[0];
-                Application.Current.Properties["numOfRightAnswers"] = response.statistics[1];
-                int totalAnswers = Convert.ToInt32(response.statistics[2]);
-                int rightAnswers = Convert.ToInt32(response.statistics[1]);
-                int wrongAnswers = totalAnswers - rightAnswers;
-                Application.Current.Properties["numOfWrongAnswers"] = wrongAnswers.ToString();
-                Application.Current.Properties["numOfGamesPlayed"] = response.statistics[3];
-                NavigationService?.Navigate(new MyStats());
+                if (response.status == (byte)ResponseCodes.ROOM.GOT_PERSONAL_STATS)
+                {
+                    Application.Current.Properties["avgTimeForAnswer"] = response.statistics[0];
+                    Application.Current.Properties["numOfRightAnswers"] = response.statistics[1];
+                    int totalAnswers = Convert.ToInt32(response.statistics[2]);
+                    int rightAnswers = Convert.ToInt32(response.statistics[1]);
+                    int wrongAnswers = totalAnswers - rightAnswers;
+                    Application.Current.Properties["numOfWrongAnswers"] = wrongAnswers.ToString();
+                    Application.Current.Properties["numOfGamesPlayed"] = response.statistics[3];
+                    NavigationService?.Navigate(new MyStats());
+                }
+                else
+                {
+                    ErrorLabel.Content = "you dont have stats right now";
+                }
             }
         }
         private void HighScores_Click(object sender, RoutedEventArgs e)
@@ -75,16 +82,21 @@ namespace Trivia_Client.Pages
             else if (code == (byte)ResponseCodes.ROOM.GOT_PERSONAL_STATS)
             {
                 GetHighScoreResponse response = JsonSerialization.deserializeResponse<GetHighScoreResponse>(jsonBuffer);
-                Application.Current.Properties["avgTimeForAnswer"] = response.statistics[0];
-                Application.Current.Properties["numOfRightAnswers"] = response.statistics[1];
-                int totalAnswers = Convert.ToInt32(response.statistics[2]);
-                int rightAnswers = Convert.ToInt32(response.statistics[1]);
-                int wrongAnswers = totalAnswers - rightAnswers;
-                Application.Current.Properties["numOfWrongAnswers"] = wrongAnswers.ToString();
-                Application.Current.Properties["numOfGamesPlayed"] = response.statistics[3];
-                NavigationService?.Navigate(new MyStats());
+                if (response.status == (byte)ResponseCodes.ROOM.GOT_PERSONAL_STATS)
+                {
+                    Application.Current.Properties["first"] = response.statistics[0];
+                    Application.Current.Properties["firstPoints"] = response.statistics[1];
+                    Application.Current.Properties["second"] = response.statistics[2];
+                    Application.Current.Properties["secondPoints"] = response.statistics[3];
+                    Application.Current.Properties["third"] = response.statistics[4];
+                    Application.Current.Properties["thirdPoints"] = response.statistics[5];
+                    NavigationService?.Navigate(new HighScores());
+                }
+                else
+                {
+                    ErrorLabel.Content = "you dont have stats right now";
+                }
             }
-            NavigationService?.Navigate(new Pages.HighScores());
         }
         private void Exit_Click(object sender, RoutedEventArgs e)
         {

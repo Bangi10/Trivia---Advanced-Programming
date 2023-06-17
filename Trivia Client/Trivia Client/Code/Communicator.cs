@@ -53,7 +53,9 @@ namespace Trivia_Client.Code
             Int32 secondBytes = this.clientStream.Read(secondPart, 0, 4);
 
             //rest of the bytes
-            Int32 sizeOfText = BitConverter.ToInt32(secondPart);
+            if (BitConverter.IsLittleEndian)
+                Array.Reverse(secondPart);
+            int sizeOfText = BitConverter.ToInt32(secondPart,0);
             byte[] thirdPart = new byte[sizeOfText];
             Int32 thirdBytes = this.clientStream.Read(thirdPart, 0, sizeOfText);
 
