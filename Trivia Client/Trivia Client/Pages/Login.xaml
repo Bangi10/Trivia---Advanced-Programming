@@ -11,7 +11,7 @@
     <Page.Background>
         <ImageBrush ImageSource="pack://application:,,,/Trivia Client;component/images/background.png" Stretch="UniformToFill"></ImageBrush>
     </Page.Background>
-    
+
 
 
     <Canvas Margin="-10,-26,0,0">
@@ -58,5 +58,8 @@
             </Button.Template>
         </Button>
 
+        <Label x:Name="ErrorLabel" Foreground="Red" FontFamily="Nunito" FontWeight="Bold" FontSize="13" Canvas.Left="534" Canvas.Top="392" HorizontalAlignment="Left" VerticalAlignment="Top"></Label>
+
     </Canvas>
 </Page>
+
