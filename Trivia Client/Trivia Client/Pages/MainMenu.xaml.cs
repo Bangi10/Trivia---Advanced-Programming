@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Trivia_Client.Code;
 
 namespace Trivia_Client.Pages
 {
@@ -28,6 +29,7 @@ namespace Trivia_Client.Pages
         private void Exit_Click(object sender, RoutedEventArgs e)
         {
             //logout
+            Logout_Click(sender, e);
             Application.Current.Shutdown();
         }
         private void JoinRoom_Click(object sender, RoutedEventArgs e)
@@ -49,7 +51,12 @@ namespace Trivia_Client.Pages
         }
         private void Logout_Click(object sender, RoutedEventArgs e)
         {
-
+            //it doesnt matter what type it is as long as we send to seriailiz "RequestsCodes.LOGOUT"
+            SignupRequest request = new SignupRequest();
+            byte[] requestBuffer = JsonSerialization.serializeRequest<SignupRequest>(request, RequestsCodes.LOGOUT);
+            ClientCommuinactor comm = ClientCommuinactor.Instance;
+            comm.sendBytes(requestBuffer);
+            NavigationService?.Navigate(new Start());
         }
     }
 }
