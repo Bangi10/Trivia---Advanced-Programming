@@ -26,7 +26,7 @@ namespace Trivia_Client.Pages
             InitializeComponent();
             welcomeTextBox.Text = $"welcome {Application.Current.Properties["Name"].ToString()}";
         }
-        private void Exit_Click(object sender, RoutedEventArgs e)
+        private void ExitButton_Click(object sender, RoutedEventArgs e)
         {
             //logout
             Logout_Click(sender, e);

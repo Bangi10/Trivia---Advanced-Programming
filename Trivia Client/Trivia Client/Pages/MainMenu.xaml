@@ -27,7 +27,8 @@
             <Label FontFamily="Nunito" FontWeight="Bold" FontSize="25" Content="Join Room"/>
         </Button>
 
-        <Button Canvas.Left="926" Canvas.Top="106" Click="Exit_Click" Height="50" Width="55" BorderBrush="Transparent" Cursor="Hand">
+        <!-- Exit button -->
+        <Button Canvas.Left="918" Canvas.Top="105" Click="ExitButton_Click" Height="50" Width="55" BorderBrush="Transparent" Cursor="Hand">
             <Button.Template>
                 <ControlTemplate TargetType="Button">
                     <Grid>

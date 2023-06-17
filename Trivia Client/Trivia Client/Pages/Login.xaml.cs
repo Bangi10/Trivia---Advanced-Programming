@@ -68,7 +68,7 @@ namespace Trivia_Client.Pages
             }
         }
 
-        private void Exit_Click(object sender, RoutedEventArgs e)
+        private void ExitButton_Click(object sender, RoutedEventArgs e)
         {
             //no need to logout, user didn't connect login yet
             Application.Current.Shutdown();

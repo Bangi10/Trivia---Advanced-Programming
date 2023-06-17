@@ -31,7 +31,7 @@ namespace Trivia_Client.Pages
             third.Text = $"{Application.Current.Properties["third"].ToString()}";
             thirdPoints.Text = $"{Application.Current.Properties["thirdPoints"].ToString()}";
         }
-        private void Exit_Click(object sender, RoutedEventArgs e)
+        private void ExitButton_Click(object sender, RoutedEventArgs e)
         {
             //it doesnt matter what type it is as long as we send to seriailiz "RequestsCodes.LOGOUT"
             SignupRequest request = new SignupRequest();

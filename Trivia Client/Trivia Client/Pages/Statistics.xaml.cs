@@ -101,7 +101,7 @@ namespace Trivia_Client.Pages
                 }
             }
         }
-        private void Exit_Click(object sender, RoutedEventArgs e)
+        private void ExitButton_Click(object sender, RoutedEventArgs e)
         {
             //logout
             //it doesnt matter what type it is as long as we send to seriailiz "RequestsCodes.LOGOUT"
