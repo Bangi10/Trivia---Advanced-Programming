@@ -186,7 +186,7 @@ int SqliteDatabase::getNumOfPlayedGames(const std::string& username) const
 	int numOfPlayedGames;
 	sqlite3_exec(this->_db, sqlStatement.c_str(), getIntCallback, &numOfPlayedGames, nullptr);
 	if (numOfPlayedGames < 0)
-		numOfPlayedGames = 1;
+		numOfPlayedGames = 0;
 	return numOfPlayedGames;
 }
 

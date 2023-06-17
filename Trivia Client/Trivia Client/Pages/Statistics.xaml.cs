@@ -47,13 +47,16 @@ namespace Trivia_Client.Pages
                 GetPersonalStatusResponse response = JsonSerialization.deserializeResponse<GetPersonalStatusResponse>(jsonBuffer);
                 if (response.status == (byte)ResponseCodes.ROOM.GOT_PERSONAL_STATS)
                 {
-                    Application.Current.Properties["avgTimeForAnswer"] = response.statistics[0];
-                    Application.Current.Properties["numOfRightAnswers"] = response.statistics[1];
-                    int totalAnswers = Convert.ToInt32(response.statistics[2]);
-                    int rightAnswers = Convert.ToInt32(response.statistics[1]);
+
+                    int avg = Convert.ToInt32(response.statistics[4][0]);
+
+                    Application.Current.Properties["avgTimeForAnswer"] = response.statistics[4][0];
+                    Application.Current.Properties["numOfRightAnswers"] = response.statistics[1][0];
+                    int totalAnswers = Convert.ToInt32(response.statistics[2][0]);
+                    int rightAnswers = Convert.ToInt32(response.statistics[1][0]);
                     int wrongAnswers = totalAnswers - rightAnswers;
                     Application.Current.Properties["numOfWrongAnswers"] = wrongAnswers.ToString();
-                    Application.Current.Properties["numOfGamesPlayed"] = response.statistics[3];
+                    Application.Current.Properties["numOfGamesPlayed"] = response.statistics[3][0];
                     NavigationService?.Navigate(new MyStats());
                 }
                 else

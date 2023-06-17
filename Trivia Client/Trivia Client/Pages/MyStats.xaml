@@ -27,10 +27,10 @@
                 <ListBoxItem x:Name="wrongAnswers" IsHitTestVisible="False">Number of wrong answers -</ListBoxItem>
                 <ListBoxItem x:Name="avgTime" IsHitTestVisible="False">Average time for answer -</ListBoxItem>
             </ListBox>
-            <TextBlock x:Name ="numOfGamesPlayed" Foreground="LightGray" FontSize="20" Canvas.Left="500" TextWrapping="Wrap" Text="" Canvas.Top="224" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="-44,19,0,0"/>
-            <TextBlock x:Name ="numOfRightAnswers" Foreground="LightGray" FontSize="20" Canvas.Left="500" TextWrapping="Wrap" Text="" Canvas.Top="224" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="-44,59,0,0"/>
-            <TextBlock x:Name ="numOfWrongAnswers" Foreground="LightGray" FontSize="20" Canvas.Left="500" TextWrapping="Wrap" Text="" Canvas.Top="224" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="-34,96,0,0"/>
-            <TextBlock x:Name ="avgTimeForAnswer" Foreground="LightGray" FontSize="20" Canvas.Left="500" TextWrapping="Wrap" Text="" Canvas.Top="224" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="-56,140,0,0"/>
+            <TextBlock x:Name ="numOfGamesPlayed" Foreground="LightGray" FontSize="20" Canvas.Left="500" TextWrapping="Wrap" Text="" Canvas.Top="224" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="-40,19,0,0"/>
+            <TextBlock x:Name ="numOfRightAnswers" Foreground="LightGray" FontSize="20" Canvas.Left="500" TextWrapping="Wrap" Text="" Canvas.Top="224" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="-40,59,0,0"/>
+            <TextBlock x:Name ="numOfWrongAnswers" Foreground="LightGray" FontSize="20" Canvas.Left="500" TextWrapping="Wrap" Text="" Canvas.Top="224" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="-40,96,0,0"/>
+            <TextBlock x:Name ="avgTimeForAnswer" Foreground="LightGray" FontSize="20" Canvas.Left="500" TextWrapping="Wrap" Text="" Canvas.Top="224" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="-40,136,0,0"/>
 
         </Grid>
 
