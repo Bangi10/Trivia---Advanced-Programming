@@ -52,6 +52,7 @@ namespace Trivia_Client.Pages
                 {
                     case (byte)ResponseCodes.LOGIN.SUCCESS:
                         User.Instance(request.username);
+                        Application.Current.Properties["Name"] = username.Text;
                         NavigationService?.Navigate(new MainMenu());
                         break;
                     case (byte)ResponseCodes.LOGIN.NAME_NOT_EXISTS:

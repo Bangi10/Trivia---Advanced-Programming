@@ -70,7 +70,7 @@
             </Button.Template>
             <Label FontFamily="Nunito" FontWeight="Bold" FontSize="25" Content="Logout"/>
         </Button>
-        <TextBlock Foreground="LightGray" FontSize="20" Canvas.Left="482" TextWrapping="Wrap" Text="Welcome user1" Canvas.Top="224" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+        <TextBlock x:Name ="welcomeTextBox" Foreground="LightGray" FontSize="20" Canvas.Left="482" TextWrapping="Wrap" Text="" Canvas.Top="224" HorizontalAlignment="Left" VerticalAlignment="Top"/>
 
     </Canvas>
 </Page>

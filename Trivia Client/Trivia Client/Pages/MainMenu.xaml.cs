@@ -23,6 +23,7 @@ namespace Trivia_Client.Pages
         public MainMenu()
         {
             InitializeComponent();
+            welcomeTextBox.Text = $"welcome {Application.Current.Properties["Name"].ToString()}";
         }
         private void Exit_Click(object sender, RoutedEventArgs e)
         {

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -50,6 +51,7 @@ namespace Trivia_Client.Pages
                 {
                     case (byte)ResponseCodes.SIGNUP.SUCCESS:
                         User.Instance(request.username);
+                        Application.Current.Properties["Name"] = username.Text;
                         NavigationService?.Navigate(new MainMenu());
                         break;
                     case (byte)ResponseCodes.SIGNUP.NAME_ALREADY_EXISTS:
