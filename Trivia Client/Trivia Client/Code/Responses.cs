@@ -9,7 +9,7 @@ namespace Trivia_Client.Code
     public class ResponseCodes
     {
         public enum ERRORS : byte { _ERROR = 50 };
-        public enum LOGOUT : byte { SUCCESS = 90 };
+        public enum LOGOUT : byte { SUCCESS = 90, USER_NOT_LOGINED = 91, NAME_NOT_EXISTS = 92 };
         public enum LOGIN : byte { SUCCESS = 100, NAME_NOT_EXISTS = 101, PASSWORD_MISMATCH = 102, USER_ALREADY_LOGINED = 103 };
         public enum SIGNUP : byte { SUCCESS = 110, NAME_ALREADY_EXISTS = 111 };
         public enum ROOM : byte

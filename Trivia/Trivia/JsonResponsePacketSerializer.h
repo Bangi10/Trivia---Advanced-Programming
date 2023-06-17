@@ -7,7 +7,7 @@
 
 namespace RESPONSES {
 	enum class ERRORS :unsigned char { REQUEST_NOT_RELEVANT = 50 };
-	enum class LOGOUT :unsigned char { SUCCESS = 90};
+	enum class LOGOUT :unsigned char { SUCCESS = 90, USER_NOT_LOGINED = 91, NAME_NOT_EXISTS = 92};
 	enum class LOGIN :unsigned char { SUCCESS = 100, NAME_NOT_EXISTS = 101, PASSWORD_MISMATCH = 102, USER_ALREADY_LOGINED = 103 };
 	enum class SIGNUP :unsigned char { SUCCESS = 110, NAME_ALREADY_EXISTS = 111 };
 	enum class ROOM :unsigned char {

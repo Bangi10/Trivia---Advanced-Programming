@@ -46,7 +46,7 @@ RequestResult LoginRequestHandler::login(const RequestInfo& info)
     if (!request)
         return createErrorResponse();
 
-    auto loginManager = this->m_handlerFactory.getLoginManager();
+    auto& loginManager = this->m_handlerFactory.getLoginManager();
     int loginStatus = loginManager.login(request.value().username, request.value().password);
 
     LoginResponse loginRes;

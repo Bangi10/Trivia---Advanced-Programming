@@ -53,15 +53,31 @@ int LoginManager::login(const std::string& username, const std::string& password
 int LoginManager::logout(const std::string& username)
 {
 	auto sharedDb = this->m_database.lock();
-	for (auto it = m_LoggedUsers.begin(); it != m_LoggedUsers.end(); it++)
+	if (sharedDb->doesUserExists(username))
 	{
-		if (it->getUsername() == username)
+		if (isLoggedIn(username))
 		{
-			m_LoggedUsers.erase(it);
-			break;
+			for (auto it = m_LoggedUsers.begin(); it != m_LoggedUsers.end(); it++)
+			{
+				if (it->getUsername() == username)
+				{
+					m_LoggedUsers.erase(it);
+					break;
+				}
+			}
+			return int(RESPONSES::LOGOUT::SUCCESS);
+		}
+		else
+		{
+			std::cout << "logout error:username does not logged in";
+			return int(RESPONSES::LOGOUT::USER_NOT_LOGINED);
 		}
 	}
-	return int(RESPONSES::LOGOUT::SUCCESS);
+	else
+	{
+		std::cout << "logout error:username does not exist";
+		return int(RESPONSES::LOGOUT::NAME_NOT_EXISTS);
+	}
 }
 
 bool LoginManager::isLoggedIn(const std::string& username)

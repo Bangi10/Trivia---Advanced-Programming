@@ -55,7 +55,7 @@ namespace Trivia_Client.Pages
                         NavigationService?.Navigate(new MainMenu());
                         break;
                     case (byte)ResponseCodes.SIGNUP.NAME_ALREADY_EXISTS:
-                        ErrorLabel.Content = "username with this name already exxists exist";
+                        ErrorLabel.Content = "username with this name already exists";
                         break;
                 }
             }
