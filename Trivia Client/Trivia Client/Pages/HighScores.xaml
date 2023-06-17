@@ -87,7 +87,9 @@
         <TextBlock x:Name ="secondPoints" Foreground="LightGray" FontSize="20" Canvas.Left="629" TextWrapping="Wrap" Text="" Canvas.Top="415" HorizontalAlignment="Left" VerticalAlignment="Center"/>
         <TextBlock x:Name ="third" Foreground="LightGray" FontSize="20" Canvas.Left="515" TextWrapping="Wrap" Text="" Canvas.Top="460" HorizontalAlignment="Center" VerticalAlignment="Top"/>
         <TextBlock x:Name ="thirdPoints" Foreground="LightGray" FontSize="20" Canvas.Left="629" TextWrapping="Wrap" Text="" Canvas.Top="460" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-            
+
+        <Label x:Name="ErrorLabel" Foreground="Red" FontFamily="Nunito" FontWeight="Bold" FontSize="13" Canvas.Left="456" Canvas.Top="486" HorizontalAlignment="Left" VerticalAlignment="Top"></Label>
+
 
     </Canvas>
 </Page>

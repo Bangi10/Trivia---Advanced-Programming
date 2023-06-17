@@ -32,7 +32,30 @@ namespace Trivia_Client.Pages
             byte[] requestBuffer = JsonSerialization.serializeRequest<SignupRequest>(request, RequestsCodes.LOGOUT);
             ClientCommuinactor comm = ClientCommuinactor.Instance;
             comm.sendBytes(requestBuffer);
-            Application.Current.Shutdown();
+            var readTuple = comm.readBytes();
+            byte[] jsonBuffer = readTuple.Item1;
+            byte code = readTuple.Item2;
+
+            if (Helper.isInEnum<ResponseCodes.ERRORS>(code))
+            {
+                ErrorResponse response = JsonSerialization.deserializeResponse<ErrorResponse>(jsonBuffer);
+                ErrorLabel.Content = response.message;
+            }
+            else
+            {
+                switch (code)
+                {
+                    case (byte)ResponseCodes.LOGOUT.SUCCESS:
+                        NavigationService?.Navigate(new Start());
+                        break;
+                    case (byte)ResponseCodes.LOGOUT.NAME_NOT_EXISTS:
+                        ErrorLabel.Content = "username doesn't exist";
+                        break;
+                    case (byte)ResponseCodes.LOGOUT.USER_NOT_LOGINED:
+                        ErrorLabel.Content = "usern isnt logined";
+                        break;
+                }
+            }
         }
         private void Back_Click(object sender, RoutedEventArgs e)
         {

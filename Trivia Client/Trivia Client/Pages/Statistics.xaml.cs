@@ -85,8 +85,13 @@ namespace Trivia_Client.Pages
             else if (code == (byte)ResponseCodes.ROOM.GOT_HIGH_SCORE)
             {
                 GetHighScoreResponse response = JsonSerialization.deserializeResponse<GetHighScoreResponse>(jsonBuffer);
-                if (response.status == (byte)ResponseCodes.ROOM.GOT_PERSONAL_STATS)
+                if (response.status == (byte)ResponseCodes.ROOM.GOT_HIGH_SCORE)
                 {
+                    if (response.statistics[0]=="{}")
+                    {
+                        for (int i = 0; i < 5; i++)
+                            response.statistics.Add("");
+                    }
                     Application.Current.Properties["first"] = response.statistics[0];
                     Application.Current.Properties["firstPoints"] = response.statistics[1];
                     Application.Current.Properties["second"] = response.statistics[2];
@@ -95,21 +100,39 @@ namespace Trivia_Client.Pages
                     Application.Current.Properties["thirdPoints"] = response.statistics[5];
                     NavigationService?.Navigate(new HighScores());
                 }
-                else
-                {
-                    ErrorLabel.Content = "nobody have score right now";
-                }
             }
         }
         private void ExitButton_Click(object sender, RoutedEventArgs e)
         {
-            //logout
             //it doesnt matter what type it is as long as we send to seriailiz "RequestsCodes.LOGOUT"
             SignupRequest request = new SignupRequest();
             byte[] requestBuffer = JsonSerialization.serializeRequest<SignupRequest>(request, RequestsCodes.LOGOUT);
             ClientCommuinactor comm = ClientCommuinactor.Instance;
             comm.sendBytes(requestBuffer);
-            Application.Current.Shutdown();
+            var readTuple = comm.readBytes();
+            byte[] jsonBuffer = readTuple.Item1;
+            byte code = readTuple.Item2;
+
+            if (Helper.isInEnum<ResponseCodes.ERRORS>(code))
+            {
+                ErrorResponse response = JsonSerialization.deserializeResponse<ErrorResponse>(jsonBuffer);
+                ErrorLabel.Content = response.message;
+            }
+            else
+            {
+                switch (code)
+                {
+                    case (byte)ResponseCodes.LOGOUT.SUCCESS:
+                        NavigationService?.Navigate(new Start());
+                        break;
+                    case (byte)ResponseCodes.LOGOUT.NAME_NOT_EXISTS:
+                        ErrorLabel.Content = "username doesn't exist";
+                        break;
+                    case (byte)ResponseCodes.LOGOUT.USER_NOT_LOGINED:
+                        ErrorLabel.Content = "usern isnt logined";
+                        break;
+                }
+            }
         }
         private void Back_Click(object sender, RoutedEventArgs e)
         {
