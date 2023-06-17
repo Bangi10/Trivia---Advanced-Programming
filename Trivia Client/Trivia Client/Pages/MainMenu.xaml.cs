@@ -42,7 +42,6 @@ namespace Trivia_Client.Pages
         }
         private void Stats_Click(object sender, RoutedEventArgs e)
         {
-
             NavigationService?.Navigate(new Statistics());
         }
         private void HighScores_Click(object sender, RoutedEventArgs e)

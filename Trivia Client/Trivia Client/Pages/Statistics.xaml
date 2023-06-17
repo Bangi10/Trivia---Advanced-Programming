@@ -64,5 +64,7 @@
             <Label FontFamily="Nunito" FontWeight="Bold" FontSize="16">High Scores</Label>
         </Button>
 
+        <Label x:Name="ErrorLabel" Foreground="Red" FontFamily="Nunito" FontWeight="Bold" FontSize="13" Canvas.Left="534" Canvas.Top="392" HorizontalAlignment="Left" VerticalAlignment="Top"></Label>
+
     </Canvas>
 </Page>
