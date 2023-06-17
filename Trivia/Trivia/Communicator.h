@@ -6,7 +6,6 @@
 #include "RequestHandlerFactory.h"
 
 enum SERVER_DETAILS { SERVER_PORT = 8826, IFACE = 0 };
-enum class LENGTH_OF { CODE = 1, MSG_LENGTH = 4 };
 
 class Communicator
 {

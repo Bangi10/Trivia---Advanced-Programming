@@ -2,13 +2,15 @@
 #include <iostream>
 #include "JsonResponsePacketSerializer.h"
 
+//std::vector<LoggedUser> LoginManager::m_LoggedUsers = {};
+
 LoginManager::LoginManager(std::shared_ptr<IDatabase>& db) :m_database(db)
 {}
 
 
 LoginManager::~LoginManager()
 {
-	this->m_LoggedUsers.clear();
+	m_LoggedUsers.clear();
 }
 
 int LoginManager::signup(const std::string& username, const std::string& password, const std::string& email)
@@ -39,7 +41,7 @@ int LoginManager::login(const std::string& username, const std::string& password
 			return int(RESPONSES::LOGIN::PASSWORD_MISMATCH);
 		}
 		LoggedUser user(username);
-		this->m_LoggedUsers.push_back(user);
+		m_LoggedUsers.push_back(user);
 		return int(RESPONSES::LOGIN::SUCCESS);
 	}
 	std::cout << "login error:username does not exist" << std::endl;
@@ -51,11 +53,11 @@ int LoginManager::login(const std::string& username, const std::string& password
 int LoginManager::logout(const std::string& username)
 {
 	auto sharedDb = this->m_database.lock();
-	for (auto it = this->m_LoggedUsers.begin(); it != this->m_LoggedUsers.end(); it++)
+	for (auto it = m_LoggedUsers.begin(); it != m_LoggedUsers.end(); it++)
 	{
 		if (it->getUsername() == username)
 		{
-			this->m_LoggedUsers.erase(it);
+			m_LoggedUsers.erase(it);
 			break;
 		}
 	}
@@ -64,7 +66,7 @@ int LoginManager::logout(const std::string& username)
 
 bool LoginManager::isLoggedIn(const std::string& username)
 {
-	for (auto& it : this->m_LoggedUsers)
+	for (auto& it : m_LoggedUsers)
 	{
 		if (it.getUsername() == username)
 			return true;

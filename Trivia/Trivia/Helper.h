@@ -9,7 +9,7 @@ class Helper
 public:
 	static int getIntPartFromSocket(const SOCKET sc, const int bytesNum);
 	static std::string getStringPartFromSocket(SOCKET sc, const int bytesNum);
-	static void sendData(const SOCKET sc, const std::vector<unsigned char> dataVector);
+	static void sendData(const SOCKET sc, const std::vector<unsigned char>& dataVector);
 	static std::string getPaddedNumber(const int num, const int digits);
 	static unsigned char getSingleByteFromSocket(const SOCKET sc);
 	static unsigned int getSingleUInt32FromSocket(const SOCKET sc);

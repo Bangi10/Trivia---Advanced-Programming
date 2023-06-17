@@ -2,9 +2,11 @@
 #include <thread>
 #include "Communicator.h"
 #include "LoginRequestHandler.h"
-#include "RequestHandlerFactory.h"
-#include <thread>
+#include "JsonRequestPacketDeserializer.h"
+#include "JsonResponsePacketSerializer.h"
 #include <iostream>
+
+
 #include <ctime>
 #include <exception>
 #include "Helper.h"
@@ -37,7 +39,7 @@ void Communicator::startHandleRequests()
 		{
 			// the main thread is only accepting clients 
 			// and add then to the list of handlers
-			std::cout << "accepting client..." << std::endl;
+			//std::cout << "accepting client..." << std::endl;
 
 			SOCKET client_socket = accept(m_serverSocket, NULL, NULL);
 			if (client_socket == INVALID_SOCKET)
@@ -77,11 +79,11 @@ void Communicator::bindAndListen()
 	// again stepping out to the global namespace
 	if (::bind(m_serverSocket, (struct sockaddr*)&sa, sizeof(sa)) == SOCKET_ERROR)
 		throw std::exception(__FUNCTION__ " - bind");
-	std::cout << "Binded..." << std::endl;
+	//std::cout << "Binded..." << std::endl;
 
 	if (::listen(m_serverSocket, SOMAXCONN) == SOCKET_ERROR)
 		throw std::exception(__FUNCTION__ " - listen");
-	std::cout << "listening..." << std::endl;
+	//std::cout << "listening..." << std::endl;
 }
 
 void Communicator::handleNewClient(const SOCKET sock)
@@ -89,9 +91,6 @@ void Communicator::handleNewClient(const SOCKET sock)
 	unsigned char id = 0;
 	unsigned int jsonMsgLen = 0;
 	std::string jsonMsgStr;
-
-	cout << "handleNewClient" << endl;
-	
 
 	while (getClientHandler(sock) != nullptr)
 	{
@@ -120,5 +119,4 @@ void Communicator::handleNewClient(const SOCKET sock)
 	// cleanup
 	closesocket(sock);
 	WSACleanup();
-	//TODO remove user from map
 }
