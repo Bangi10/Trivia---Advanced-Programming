@@ -57,6 +57,9 @@ RequestResult MenuRequestHandler::handleRequest(const RequestInfo& requestInfo)
 	case REQUESTS::GET_STATISTICS:
 		ret = this->getPersonalStats(requestInfo);
 		break;
+	case REQUESTS::GET_HIGH_SCORE:
+		ret = this->getHighScore(requestInfo);
+		break;
 	case REQUESTS::JOIN_ROOM:
 		ret = this->joinRoom(requestInfo);
 		break;

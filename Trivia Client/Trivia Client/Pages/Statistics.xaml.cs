@@ -82,7 +82,7 @@ namespace Trivia_Client.Pages
                 ErrorResponse response = JsonSerialization.deserializeResponse<ErrorResponse>(jsonBuffer);
                 ErrorLabel.Content = response.message;
             }
-            else if (code == (byte)ResponseCodes.ROOM.GOT_PERSONAL_STATS)
+            else if (code == (byte)ResponseCodes.ROOM.GOT_HIGH_SCORE)
             {
                 GetHighScoreResponse response = JsonSerialization.deserializeResponse<GetHighScoreResponse>(jsonBuffer);
                 if (response.status == (byte)ResponseCodes.ROOM.GOT_PERSONAL_STATS)
@@ -97,7 +97,7 @@ namespace Trivia_Client.Pages
                 }
                 else
                 {
-                    ErrorLabel.Content = "you dont have stats right now";
+                    ErrorLabel.Content = "nobody have score right now";
                 }
             }
         }
