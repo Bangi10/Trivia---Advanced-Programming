@@ -18,9 +18,6 @@
     <ClInclude Include="Communicator.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="IRequestHandler.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="LoginRequestHandler.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -63,10 +60,37 @@
     <ClInclude Include="Room.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="LoginManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="LoggedUser.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="RoomData.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="User.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Question.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DBColumnNames.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="IRequestHandler.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MenuRequestHandler.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="RequestHandlerFactory.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="StatisticsManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Requests.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -108,6 +132,24 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="RoomManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="LoginManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="User.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Question.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MenuRequestHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="RequestHandlerFactory.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="StatisticsManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

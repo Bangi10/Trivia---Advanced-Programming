@@ -20652,13 +20652,13 @@ class basic_json // NOLINT(cppcoreguidelines-special-member-functions,hicpp-spec
         return is_array() ? m_data.m_value.array : nullptr;
     }
 
-    /// get a pointer to the value (string)
+    /// get a pointer to the value (const std::string& username)
     string_t* get_impl_ptr(string_t* /*unused*/) noexcept
     {
         return is_string() ? m_data.m_value.string : nullptr;
     }
 
-    /// get a pointer to the value (string)
+    /// get a pointer to the value (const std::string& username)
     constexpr const string_t* get_impl_ptr(const string_t* /*unused*/) const noexcept
     {
         return is_string() ? m_data.m_value.string : nullptr;

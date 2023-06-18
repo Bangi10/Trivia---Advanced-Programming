@@ -216,11 +216,95 @@ Buffer JsonResponsePacketSerializer::serializeResponse(const getPersonalStatusRe
     return buffer;
 }
 
+Buffer JsonResponsePacketSerializer::serializeResponse(const CloseRoomResponse& response)
+{
+    Buffer buffer;
+    //CODE: 1 BYTE
+    buffer.push_back(char(response.status));
+
+    //LEN: 4 BYTE
+    json j;
+    j["status"] = response.status;
+    std::string msg = j.dump();
+    addMsgLenToBuffer(buffer, msg);
+
+    //CONTENT: X BYTES
+    for (char& c : msg)
+    {
+        buffer.push_back(c);
+    }
+    return buffer;
+}
+
+Buffer JsonResponsePacketSerializer::serializeResponse(const StartGameResponse& response)
+{
+    Buffer buffer;
+    //CODE: 1 BYTE
+    buffer.push_back(char(response.status));
+
+    //LEN: 4 BYTE
+    json j;
+    j["status"] = response.status;
+    std::string msg = j.dump();
+    addMsgLenToBuffer(buffer, msg);
+
+    //CONTENT: X BYTES
+    for (char& c : msg)
+    {
+        buffer.push_back(c);
+    }
+    return buffer;
+}
+
+Buffer JsonResponsePacketSerializer::serializeResponse(const GetRoomStateResponse& response)
+{
+    Buffer buffer;
+    //CODE: 1 BYTE
+    buffer.push_back(char(response.status));
+
+    //LEN: 4 BYTE
+    json j;
+    j["status"] = response.status;
+    j["hasGameBegun"] = response.hasGameBegun;
+    j["players"] = response.players;
+    j["questionCount"] = response.questionCount;
+    j["answerTimeout"] = response.status;
+    std::string msg = j.dump();
+    addMsgLenToBuffer(buffer, msg);
+
+    //CONTENT: X BYTES
+    for (char& c : msg)
+    {
+        buffer.push_back(c);
+    }
+    return buffer;
+}
+
+Buffer JsonResponsePacketSerializer::serializeResponse(const LeaveRoomResponse& response)
+{
+    Buffer buffer;
+    //CODE: 1 BYTE
+    buffer.push_back(char(response.status));
+
+    //LEN: 4 BYTE
+    json j;
+    j["status"] = response.status;
+    std::string msg = j.dump();
+    addMsgLenToBuffer(buffer, msg);
+
+    //CONTENT: X BYTES
+    for (char& c : msg)
+    {
+        buffer.push_back(c);
+    }
+    return buffer;
+}
+
 void JsonResponsePacketSerializer::addMsgLenToBuffer(Buffer& buffer, const std::string& msg)
 {
     int len = msg.length();
     int shiftBy = 24;
-    
+
     //convert int into 4 chars
     for (int i = 0; i < sizeof(int); i++)
     {
@@ -228,4 +312,3 @@ void JsonResponsePacketSerializer::addMsgLenToBuffer(Buffer& buffer, const std::
         shiftBy -= 8;
     }
 }
-
