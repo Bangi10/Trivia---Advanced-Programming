@@ -87,17 +87,38 @@ namespace Trivia_Client.Pages
                 GetHighScoreResponse response = JsonSerialization.deserializeResponse<GetHighScoreResponse>(jsonBuffer);
                 if (response.status == (byte)ResponseCodes.ROOM.GOT_HIGH_SCORE)
                 {
-                    if (response.statistics[0]=="{}")
+                    if (response.statistics[0] != "{}")
                     {
-                        for (int i = 0; i < 5; i++)
-                            response.statistics.Add("");
+                        string firstName = response.statistics[0];
+                        char[] MyChar = { '{', '}', '"','"','}'};
+                        firstName = firstName.Trim(MyChar);
+                        string firstPoints = response.statistics[1];
+                        firstPoints = firstPoints.Trim(MyChar);
+                        Application.Current.Properties["first"] = firstName;
+                        Application.Current.Properties["firstPoints"] = firstPoints;
+                        if (response.statistics.Count()>2)
+                        {
+                            Application.Current.Properties["second"] = response.statistics[2];
+                            Application.Current.Properties["secondPoints"] = response.statistics[3];
+                            if (response.statistics.Count()>4)
+                            {
+                                Application.Current.Properties["third"] = response.statistics[4];
+                                Application.Current.Properties["thirdPoints"] = response.statistics[5];
+                            }
+                            else
+                            {
+                                Application.Current.Properties["third"] = "";
+                                Application.Current.Properties["thirdPoints"] = "";
+                            }
+                        }
+                        else
+                        {
+                            Application.Current.Properties["second"] = "";
+                            Application.Current.Properties["secondPoints"] = "";
+                            Application.Current.Properties["third"] = "";
+                            Application.Current.Properties["thirdPoints"] = "";
+                        }
                     }
-                    Application.Current.Properties["first"] = response.statistics[0];
-                    Application.Current.Properties["firstPoints"] = response.statistics[1];
-                    Application.Current.Properties["second"] = response.statistics[2];
-                    Application.Current.Properties["secondPoints"] = response.statistics[3];
-                    Application.Current.Properties["third"] = response.statistics[4];
-                    Application.Current.Properties["thirdPoints"] = response.statistics[5];
                     NavigationService?.Navigate(new HighScores());
                 }
             }

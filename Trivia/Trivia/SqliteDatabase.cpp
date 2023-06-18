@@ -138,6 +138,9 @@ void SqliteDatabase::addNewUser(const std::string& username, const std::string& 
 		std::string msg = "INSERT INTO USERS VALUES('" + username + "', '" + password + "', '" + email + "'); ";
 		const char* sqlStatement = msg.c_str();
 		sqlite3_exec(this->_db, sqlStatement, nullptr, nullptr, nullptr);
+		msg = "insert into STATISTICS values('" + username + "', '0', '0.0', '0', '0', '0');";
+		sqlStatement = msg.c_str();
+		sqlite3_exec(this->_db, sqlStatement, nullptr, nullptr, nullptr);
 	}
 
 }

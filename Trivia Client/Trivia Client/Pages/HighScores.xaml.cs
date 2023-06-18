@@ -28,12 +28,19 @@ namespace Trivia_Client.Pages
                 ErrorLabel.Content = "nobody have score right now";
             else
             {
-                first.Text = $"{Application.Current.Properties["first"].ToString()}";
-                firstPoints.Text = $"{Application.Current.Properties["firstPoints"].ToString()}";
-                second.Text = $"{Application.Current.Properties["second"].ToString()}";
-                secondPoints.Text = $"{Application.Current.Properties["secondPoints"].ToString()}";
-                third.Text = $"{Application.Current.Properties["third"].ToString()}";
-                thirdPoints.Text = $"{Application.Current.Properties["thirdPoints"].ToString()}";
+                first.Text = Application.Current.Properties["first"].ToString();
+                firstPoints.Text = Application.Current.Properties["firstPoints"].ToString();
+                second.Text = Application.Current.Properties["second"].ToString();
+                secondPoints.Text = Application.Current.Properties["secondPoints"].ToString();
+                third.Text = Application.Current.Properties["third"].ToString();
+                thirdPoints.Text = Application.Current.Properties["thirdPoints"].ToString();
+                congratsTextBox.Text = Application.Current.Properties["Name"].ToString();
+                if (first.Text.Equals(Application.Current.Properties["Name"].ToString()) || 
+                    second.Text.Equals(Application.Current.Properties["Name"].ToString()) ||
+                    third.Text.Equals(Application.Current.Properties["Name"].ToString()))
+                {
+                    congratsTextBox.Text = "WOW you are at the top 3 best players\n you must be really smart or just lucky\neither way great job!!!";
+                }
             }
         }
         private void ExitButton_Click(object sender, RoutedEventArgs e)

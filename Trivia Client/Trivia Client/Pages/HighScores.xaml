@@ -15,7 +15,7 @@
 
 
     <Canvas Margin="-10,-26,0,0">
-        <Label Foreground="White" FontFamily="Nunito" FontWeight="Bold" FontSize="16" Canvas.Left="519" Canvas.Top="315" HorizontalAlignment="Left" VerticalAlignment="Top" Content="top 3 players" RenderTransformOrigin="0.5,0.5" Width="108">
+        <Label Foreground="White" FontFamily="Nunito" FontWeight="Bold" FontSize="16" Canvas.Left="519" Canvas.Top="315" HorizontalAlignment="Left" VerticalAlignment="Center" Content="top 3 best players" RenderTransformOrigin="0.5,0.5" Width="148">
             <Label.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform/>
@@ -25,7 +25,8 @@
                 </TransformGroup>
             </Label.RenderTransform>
         </Label>
-        <TextBox VerticalContentAlignment="Center" HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top" Width="114" FontStyle="Italic" Canvas.Left="515" Canvas.Top="338" Height="5"/>
+        <TextBox VerticalContentAlignment="Center" HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Center" Width="145" FontStyle="Italic" Canvas.Left="515" Canvas.Top="338" Height="5"/>
+        <TextBlock x:Name ="congratsTextBox" Foreground="LightGray" FontSize="20" Canvas.Left="128" TextWrapping="Wrap" Text="" Canvas.Top="241" HorizontalAlignment="Center" VerticalAlignment="Top" Width="260" Height="322"/>
 
         <!-- Buttons must be in canvas -->
         <!-- Exit button -->
