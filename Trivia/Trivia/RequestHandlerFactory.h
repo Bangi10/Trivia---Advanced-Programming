@@ -18,6 +18,9 @@ public:
 	LoginManager& getLoginManager();
 	RoomManager& getRoomManager();
 	StatisticsManager& getStatisticsManager();
+	std::unique_ptr<IRequestHandler> createRoomAdminRequestHandler(LoggedUser& user, Room& room);
+	std::unique_ptr<IRequestHandler> createRoomMamberRequestHandler(LoggedUser& user, Room& room);
+
 
 private:
 	std::weak_ptr<IDatabase> m_database;

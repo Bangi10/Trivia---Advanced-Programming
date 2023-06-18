@@ -2,7 +2,6 @@
 #include "LoginRequestHandler.h"
 #include "MenuRequestHandler.h"
 
-
 RequestHandlerFactory::RequestHandlerFactory(std::shared_ptr<IDatabase>& db)
 	:m_database(db), m_loginManager(db),m_statisticsManager(db)
 {

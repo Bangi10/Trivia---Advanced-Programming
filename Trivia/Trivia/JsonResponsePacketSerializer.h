@@ -13,13 +13,17 @@ namespace RESPONSES {
 	enum class ROOM :unsigned char {
 		CREATED_ROOM = 120, GOT_ROOMS = 121, GOT_PLAYERS_IN_ROOM = 122,
 		JOINED_ROOM = 123, GOT_HIGH_SCORE = 124, GOT_PERSONAL_STATS = 125, CLOSED_ROOM = 126,
-		STARTED_GAME = 127, GOT_ROOM_STATE = 128, LEFT_ROOM = 129
+		STARTED_GAME = 127, GOT_ROOM_STATE = 128, LEFT_ROOM = 129,
 	};
 
 };
 
+enum class ROOM {
+	STARTED = 130
+};
 
 struct ErrorResponse {
+	unsigned int status;
 	std::string message;
 };
 
@@ -41,6 +45,7 @@ struct GetRoomsResponse {
 };
 
 struct GetPlayersInRoomResponse {
+	unsigned int status;
 	std::vector<std::string> players;
 };
 
@@ -65,16 +70,19 @@ struct CreateRoomResponse {
 struct CloseRoomResponse {
 	unsigned int status;
 };
+
 struct StartGameResponse {
 	unsigned int status;
 };
+
 struct GetRoomStateResponse {
 	unsigned int status;
 	bool hasGameBegun;
 	std::vector <std::string> players;
 	unsigned int questionCount;
-	answerTimeout
+	unsigned int answerTimeout;
 };
+
 struct LeaveRoomResponse {
 	unsigned int status;
 };

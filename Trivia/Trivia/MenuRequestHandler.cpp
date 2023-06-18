@@ -1,7 +1,6 @@
 #include "MenuRequestHandler.h"
 #include "JsonRequestPacketDeserializer.h"
 #include "JsonResponsePacketSerializer.h"
-#include "RoomManager.h"
 
 //getting string that is separated by ":" and converting it to vector<string>
 std::vector<std::string> stringToVectorSplit(std::string str, std::string delimiter)
@@ -109,7 +108,7 @@ RequestResult MenuRequestHandler::getPersonalStats(const RequestInfo& requestInf
 	auto statisticsManager = this->m_handlerFactory.getStatisticsManager();
 	std::string userStatisticsString = statisticsManager.getUserStatistics(m_user.getUsername());
 	std::vector<std::string> userStatistics = stringToVectorSplit(userStatisticsString, ":");
-	getPersonalStatsResponse response = { unsigned char(RESPONSES::ROOM::GOT_PERSONAL_STATS), userStatistics };
+	getPersonalStatusResponse response = { unsigned char(RESPONSES::ROOM::GOT_PERSONAL_STATS), userStatistics };
 	result.response = JsonResponsePacketSerializer::serializeResponse(response);
 	result.newHandler = this->m_handlerFactory.createMenuRequestHandler(m_user);
 	return result;
@@ -155,4 +154,5 @@ RequestResult MenuRequestHandler::createRoom(const RequestInfo& requestInfo)
 	result.newHandler = nullptr;//needs to be new handler "RoomManagerRequestHandler" look in the state nachine uml
 	return result;
 }
+
 
