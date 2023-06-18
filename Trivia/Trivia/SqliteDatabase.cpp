@@ -1,70 +1,28 @@
 #include "SqliteDatabase.h"
 #include <iostream>
-#include "User.h"
-#include <list>
-#include <algorithm>
-//defines
-const std::string fileName = "DB.sqlite";
-const std::string USERNAME = "USERNAME";
-const std::string PASSWORD = "PASSWORD";
-const std::string EMAIL = "EMAIL";
-
-
-int getUsersCallback(void* data, int argc, char** argv, char** azColName)
-{
-	auto users = (std::list<User>*)data;
-	User user;
-	for (int i = 0; i < argc; i++) {
-		if (std::string(azColName[i]) == USERNAME) {
-			user.setUsername(argv[i]);
-		}
-		else if (std::string(azColName[i]) == PASSWORD) {
-			user.setPassword(argv[i]);
-		}
-		else if (std::string(azColName[i]) == EMAIL) {
-			user.setEmail(argv[i]);
-		}
-	}
-	users->push_back(user);
-	return 0;
-}
 
 bool SqliteDatabase::doesUserExists(const std::string& username) const
 {
-	//TODO add shared lock, shared mutex - multiple readers, one writer
-	std::string msg = "SELECT * FROM USERS where USERS.USERNAME='" + username + "';";
-	const char* sqlStatement = msg.c_str();
-	char** errMessage = nullptr;
-	std::list<User> usersList;
-	int res = sqlite3_exec(this->_db, sqlStatement, getUsersCallback, &usersList, errMessage);
-	if (res != SQLITE_OK) {
-		return false;
+	for (int i = 0; i < _username.size(); i++)
+	{
+		if (_username[i] == username)
+		{
+			return true;
+		}
 	}
-	
-	auto it = std::find_if(
-			usersList.begin(),
-			usersList.end(),
-			[username](const User& u) {return u.getUsername() == username; });
-	return it != usersList.end();
+	return false;
 }
 
 bool SqliteDatabase::doesPasswordMatch(const std::string& username, const std::string& password) const
 {
-	//TODO add shared lock, shared mutex - multiple readers, one writer
 	if (doesUserExists(username))
 	{
-		std::string msg = "SELECT* FROM USERS where USERS.USERNAME = '" + username + "' and USERS.PASSWORD = '" + password + "';";
-		const char* sqlStatement = msg.c_str();
-		char** errMessage = nullptr;
-		std::list<User> usersList;
-		int res = sqlite3_exec(this->_db, sqlStatement, getUsersCallback, &usersList, errMessage);
-		if (res != SQLITE_OK) {
-			return false;
-		}
-		for (auto it = usersList.begin(); it != usersList.end(); it++)
+		for (int i = 0; i < _username.size(); i++)
 		{
-			if (it->getUsername() == username && it->getPassword() == password)
+			if (_username[i] == username && _password[i] == password)
+			{
 				return true;
+			}
 		}
 		std::cout << "username and password mismatch" << std::endl;
 		return false;
@@ -73,20 +31,35 @@ bool SqliteDatabase::doesPasswordMatch(const std::string& username, const std::s
 	return false;
 }
 
-void SqliteDatabase::addNewUser(const std::string& username, const std::string& password, const std::string& email)
+void SqliteDatabase::addNewUser(const std::string& username, const std::string& password, const std::string& email) 
 {
-	//TODO add unique lock, shared mutex - multiple readers, one writer
-	if (doesUserExists(username))
+	for (int i = 0; i < _username.size(); i++)
 	{
-		std::cout << "add new user error:user already in DB" << std::endl;
+		if (_username[i] == username && _password[i] == password && _email[i] == email)
+		{
+			std::cout << "this user already exists" << std::endl;
+			return;
+		}
 	}
-	else
-	{
-		std::string msg = "INSERT INTO USERS VALUES('" + username + "', '" + password + "', '" + email + "'); ";
-		const char* sqlStatement = msg.c_str();
-		sqlite3_exec(this->_db, sqlStatement, nullptr, nullptr, nullptr);
-	}
+	addUsername(username);
+	addPassword(password);
+	addEmail(email);
+	std::cout << "added user successfully" << std::endl;
+}
 
+void SqliteDatabase::addUsername(const std::string& username)
+{
+	this->_username.push_back(username);
+}
+
+void SqliteDatabase::addPassword(const std::string& password)
+{
+	_password.push_back(password);
+}
+
+void SqliteDatabase::addEmail(const std::string& email)
+{
+	_email.push_back(email);
 }
 
 SqliteDatabase::SqliteDatabase()
@@ -103,12 +76,15 @@ SqliteDatabase::SqliteDatabase()
 
 SqliteDatabase::~SqliteDatabase()
 {
+	_username.clear();
+	_password.clear();
+	_email.clear();
 	close();
 }
 
 bool SqliteDatabase::open()
 {
-	std::string dbFileName = fileName;
+	std::string dbFileName = "DB.sqlite";
 	int res = sqlite3_open(dbFileName.c_str(), &_db);
 	if (res != SQLITE_OK) {
 		_db = nullptr;
