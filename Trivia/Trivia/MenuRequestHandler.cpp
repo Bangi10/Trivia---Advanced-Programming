@@ -23,7 +23,7 @@ std::vector<std::string> stringToVectorSplit(std::string str, std::string delimi
 			start += (length + delimiter.size());
 		} while (true);
 		v.push_back(str.substr(start));
-	}
+}
 	return v;
 }
 

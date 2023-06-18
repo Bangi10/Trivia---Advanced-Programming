@@ -58,15 +58,15 @@ int LoginManager::logout(const std::string& username)
 		if (isLoggedIn(username))
 		{
 			for (auto it = m_LoggedUsers.begin(); it != m_LoggedUsers.end(); it++)
-			{
-				if (it->getUsername() == username)
-				{
+	{
+		if (it->getUsername() == username)
+		{
 					m_LoggedUsers.erase(it);
-					break;
-				}
-			}
-			return int(RESPONSES::LOGOUT::SUCCESS);
+			break;
 		}
+	}
+	return int(RESPONSES::LOGOUT::SUCCESS);
+}
 		else
 		{
 			std::cout << "logout error:username does not logged in";

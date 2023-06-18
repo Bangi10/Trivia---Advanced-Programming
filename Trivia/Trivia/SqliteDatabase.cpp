@@ -93,11 +93,11 @@ bool SqliteDatabase::doesUserExists(const std::string& username) const
 	if (res != SQLITE_OK) {
 		return false;
 	}
-
+	
 	auto it = std::find_if(
-		usersList.begin(),
-		usersList.end(),
-		[username](const User& u) {return u.getUsername() == username; });
+			usersList.begin(),
+			usersList.end(),
+			[username](const User& u) {return u.getUsername() == username; });
 	return it != usersList.end();
 }
 
