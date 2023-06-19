@@ -34,7 +34,7 @@ RequestResult LoginRequestHandler::handleRequest(const RequestInfo& requestInfo)
 
 RequestResult LoginRequestHandler::createErrorResponse()
 {
-    ErrorResponse err = { "Request isn't relevant" };
+    ErrorResponse err = { unsigned char(RESPONSES::ERRORS::REQUEST_NOT_RELEVANT),"Request isn't relevant" };
     Buffer msg = JsonResponsePacketSerializer::serializeResponse(err);
     return RequestResult{ msg, this->m_handlerFactory.createLoginRequestHandler() };
 }
@@ -46,7 +46,7 @@ RequestResult LoginRequestHandler::login(const RequestInfo& info)
     if (!request)
         return createErrorResponse();
 
-    auto loginManager = this->m_handlerFactory.getLoginManager();
+    auto& loginManager = this->m_handlerFactory.getLoginManager();
     int loginStatus = loginManager.login(request.value().username, request.value().password);
 
     LoginResponse loginRes;
@@ -55,7 +55,8 @@ RequestResult LoginRequestHandler::login(const RequestInfo& info)
 
     if (loginStatus == int(RESPONSES::LOGIN::SUCCESS))
     {
-        RequestResult requestRes = { responseBuffer, this->m_handlerFactory.createMenuRequestHandler() };
+        LoggedUser user = { request->username };
+        RequestResult requestRes = { responseBuffer, this->m_handlerFactory.createMenuRequestHandler(user) };
         return requestRes;
     }
     RequestResult requestRes = { responseBuffer, this->m_handlerFactory.createLoginRequestHandler() };
@@ -71,7 +72,7 @@ RequestResult LoginRequestHandler::signup(const RequestInfo& info)
     auto request = JsonRequestPacketDeserializer::deserializeSignupRequest(info.buffer);
     if (!request)
         return createErrorResponse();
-    auto loginManager = this->m_handlerFactory.getLoginManager();
+    auto& loginManager = this->m_handlerFactory.getLoginManager();
     int signupStatus = loginManager.signup(request.value().username, request.value().password, request.value().email);
 
     SignupResponse signupRes;

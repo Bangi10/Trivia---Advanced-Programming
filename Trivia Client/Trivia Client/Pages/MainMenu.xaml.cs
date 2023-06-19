@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Trivia_Client.Code;
 
 namespace Trivia_Client.Pages
 {
@@ -23,10 +24,12 @@ namespace Trivia_Client.Pages
         public MainMenu()
         {
             InitializeComponent();
+            welcomeTextBox.Text = $"welcome {Application.Current.Properties["Name"].ToString()}";
         }
-        private void Exit_Click(object sender, RoutedEventArgs e)
+        private void ExitButton_Click(object sender, RoutedEventArgs e)
         {
             //logout
+            Logout_Click(sender, e);
             Application.Current.Shutdown();
         }
         private void JoinRoom_Click(object sender, RoutedEventArgs e)
@@ -39,7 +42,6 @@ namespace Trivia_Client.Pages
         }
         private void Stats_Click(object sender, RoutedEventArgs e)
         {
-
             NavigationService?.Navigate(new Statistics());
         }
         private void HighScores_Click(object sender, RoutedEventArgs e)
@@ -48,7 +50,35 @@ namespace Trivia_Client.Pages
         }
         private void Logout_Click(object sender, RoutedEventArgs e)
         {
+            //it doesnt matter what type it is as long as we send to seriailiz "RequestsCodes.LOGOUT"
+            SignupRequest request = new SignupRequest();
+            byte[] requestBuffer = JsonSerialization.serializeRequest<SignupRequest>(request, RequestsCodes.LOGOUT);
+            ClientCommuinactor comm = ClientCommuinactor.Instance;
+            comm.sendBytes(requestBuffer);
+            var readTuple = comm.readBytes();
+            byte[] jsonBuffer = readTuple.Item1;
+            byte code = readTuple.Item2;
 
+            if (Helper.isInEnum<ResponseCodes.ERRORS>(code))
+            {
+                ErrorResponse response = JsonSerialization.deserializeResponse<ErrorResponse>(jsonBuffer);
+                ErrorLabel.Content = response.message;
+            }
+            else
+            {
+                switch (code)
+                {
+                    case (byte)ResponseCodes.LOGOUT.SUCCESS:
+                        NavigationService?.Navigate(new Start());
+                        break;
+                    case (byte)ResponseCodes.LOGOUT.NAME_NOT_EXISTS:
+                        ErrorLabel.Content = "username doesn't exist";
+                        break;
+                    case (byte)ResponseCodes.LOGOUT.USER_NOT_LOGINED:
+                        ErrorLabel.Content = "usern isnt logined";
+                        break;
+                }
+            }
         }
     }
 }

@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Trivia_Client.Code;
 
 namespace Trivia_Client.Pages
 {
@@ -29,19 +30,47 @@ namespace Trivia_Client.Pages
 
         private void Login_Click(object sender, RoutedEventArgs e)
         {
-            //needs to add player if he doesnt exists
+            //needs to add playerm if he doesnt exists
+            LoginRequest request = new LoginRequest(username.Text, password.Text);
+            byte[] requestBuffer = JsonSerialization.serializeRequest<LoginRequest>(request, RequestsCodes.LOGIN);
+            ClientCommuinactor comm = ClientCommuinactor.Instance;
 
-            //sending to MainMenu page
-            //working but not as axpected
-            NavigationService?.Navigate(new Start());
+            comm.sendBytes(requestBuffer);
 
-            //doesnt work but mabey it could help
-            //MainMenu mainMenu = new MainMenu();
-            //this.Content = mainMenu;
+            var readTuple = comm.readBytes();
+            byte[] jsonBuffer = readTuple.Item1;
+            byte code = readTuple.Item2;
+
+            if (Helper.isInEnum<ResponseCodes.ERRORS>(code))
+            {
+                ErrorResponse response = JsonSerialization.deserializeResponse<ErrorResponse>(jsonBuffer);
+                ErrorLabel.Content = response.message;
+            }
+            else
+            {
+                switch (code)
+                {
+                    case (byte)ResponseCodes.LOGIN.SUCCESS:
+                        User.Instance(request.username);
+                        Application.Current.Properties["Name"] = username.Text;
+                        NavigationService?.Navigate(new MainMenu());
+                        break;
+                    case (byte)ResponseCodes.LOGIN.NAME_NOT_EXISTS:
+                        ErrorLabel.Content = "username doesn't exist";
+                        break;
+                    case (byte)ResponseCodes.LOGIN.PASSWORD_MISMATCH:
+                        ErrorLabel.Content = "username and password doesn't match";
+                        break;
+                    case (byte)ResponseCodes.LOGIN.USER_ALREADY_LOGINED:
+                        ErrorLabel.Content = "user already logined";
+                        break;
+                }
+            }
         }
 
-        private void Exit_Click(object sender, RoutedEventArgs e)
+        private void ExitButton_Click(object sender, RoutedEventArgs e)
         {
+            //no need to logout, user didn't connect login yet
             Application.Current.Shutdown();
         }
 
@@ -50,6 +79,6 @@ namespace Trivia_Client.Pages
             NavigationService?.Navigate(new Start());
 
         }
-        
+
     }
 }

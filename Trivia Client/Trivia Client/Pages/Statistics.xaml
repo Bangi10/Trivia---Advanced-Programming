@@ -16,7 +16,7 @@
 
         <!-- Buttons must be in canvas -->
         <!-- my stats button -->
-        <Button Canvas.Left="500" Canvas.Top="291" Click="MyStats_Click" Height="50" Width="100" BorderBrush="Transparent" >
+        <Button Cursor="Hand" Canvas.Left="500" Canvas.Top="291" Click="MyStats_Click" Height="50" Width="100" BorderBrush="Transparent" >
             <Button.Template>
                 <ControlTemplate TargetType="Button">
                     <Grid>
@@ -29,7 +29,7 @@
         </Button>
 
         <!-- Exit button -->
-        <Button Canvas.Left="932" Canvas.Top="100" Click="Exit_Click" Height="50" Width="55" BorderBrush="Transparent" Cursor="Hand">
+        <Button Canvas.Left="918" Canvas.Top="105" Click="ExitButton_Click" Height="50" Width="55" BorderBrush="Transparent" Cursor="Hand">
             <Button.Template>
                 <ControlTemplate TargetType="Button">
                     <Grid>
@@ -52,7 +52,7 @@
             </Button.Template>
         </Button>
         <!-- High Scores button -->
-        <Button Canvas.Left="500" Canvas.Top="411" Click="HighScores_Click" Height="50" Width="100" BorderBrush="Transparent" HorizontalAlignment="Left" VerticalAlignment="Top" >
+        <Button Cursor="Hand" Canvas.Left="500" Canvas.Top="411" Click="HighScores_Click" Height="50" Width="100" BorderBrush="Transparent" HorizontalAlignment="Left" VerticalAlignment="Top" >
             <Button.Template>
                 <ControlTemplate TargetType="Button">
                     <Grid>
@@ -63,6 +63,8 @@
             </Button.Template>
             <Label FontFamily="Nunito" FontWeight="Bold" FontSize="16">High Scores</Label>
         </Button>
+
+        <Label x:Name="ErrorLabel" Foreground="Red" FontFamily="Nunito" FontWeight="Bold" FontSize="13" Canvas.Left="456" Canvas.Top="486" HorizontalAlignment="Left" VerticalAlignment="Top"></Label>
 
     </Canvas>
 </Page>

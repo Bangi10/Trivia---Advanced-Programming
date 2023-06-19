@@ -11,47 +11,61 @@ using System.Windows.Interop;
 
 namespace Trivia_Client.Code
 {
-    public class ClientCommuinactor 
+    public sealed class ClientCommuinactor
     {
-        private static readonly Socket m_socket;
+        public static volatile ClientCommuinactor instance;
+        private static object syncRoot = new Object();
 
-        static ClientCommuinactor()
+        //fields
+        private NetworkStream clientStream;
+
+        private ClientCommuinactor()
         {
-            Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-            IPAddress ipAddress = IPAddress.Parse("127.0.0.0");
-            IPEndPoint remoteEndPoint = new IPEndPoint(ipAddress, 8826);
-            socket.Connect(remoteEndPoint);
+            TcpClient client = new TcpClient();
+            IPEndPoint serverEndPoint = new IPEndPoint(IPAddress.Parse("127.0.0.1"), 8826);
+            client.Connect(serverEndPoint);
+            this.clientStream = client.GetStream();
         }
+        public static ClientCommuinactor Instance
+        {
+            get
+            {
+                if (instance == null)
+                {
+                    lock (syncRoot)
+                    {
+                        if (instance == null)
+                            instance = new ClientCommuinactor();
+                    }
+                }
 
-        public static byte[] readBytes()
+                return instance;
+            }
+        }
+        public Tuple<byte[], byte> readBytes()
         {
             //first byte
             byte[] firstPart = new byte[1];
-            Int32 firstBytes = m_socket.Receive(firstPart, 1, 0);
+            Int32 firstBytes = this.clientStream.Read(firstPart, 0, 1);
+
             //second to fifth bytes(size of the next text)
             byte[] secondPart = new byte[4];
-            Int32 secondBytes = m_socket.Receive(secondPart, 4, 0);
+            Int32 secondBytes = this.clientStream.Read(secondPart, 0, 4);
+
             //rest of the bytes
-            Int32 sizeOfText = secondBytes;
+            if (BitConverter.IsLittleEndian)
+                Array.Reverse(secondPart);
+            int sizeOfText = BitConverter.ToInt32(secondPart,0);
             byte[] thirdPart = new byte[sizeOfText];
-            Int32 thirdBytes = m_socket.Receive(thirdPart, sizeOfText, 0);
-            //all bytes together
-            byte[] allParts = new byte[firstBytes + secondBytes + thirdBytes];
-            allParts[0] = firstPart[0];
-            int i = 1;
-            for (int j = 0; j < secondPart.Length; j++, i++)
-            {
-                allParts[i] = secondPart[j];
-            }
-            for (int j = 0; j < thirdPart.Length; j++, i++)
-            {
-                allParts[i] = thirdPart[j];
-            }
-            return allParts;
+            Int32 thirdBytes = this.clientStream.Read(thirdPart, 0, sizeOfText);
+
+
+            return new Tuple<byte[], byte>(thirdPart, firstPart[0]);
         }
-        public static void sendBytes(byte[] bytesToSend)
+        public void sendBytes(byte[] bytesToSend)
         {
-            m_socket.Send(bytesToSend, 0, bytesToSend.Length, SocketFlags.None);
+            this.clientStream.Write(bytesToSend, 0, bytesToSend.Length);
+            this.clientStream.Flush();
         }
     }
 }

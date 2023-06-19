@@ -46,5 +46,7 @@
         <TextBox VerticalContentAlignment="Center" TextWrapping="Wrap" Width="103" FontStyle="Italic" Canvas.Left="290" Canvas.Top="163" Height="4" HorizontalAlignment="Left" VerticalAlignment="Top"/>
         <TextBox VerticalContentAlignment="Center" TextWrapping="Wrap" Width="60" FontStyle="Italic" Canvas.Left="698" Canvas.Top="159" Height="4" HorizontalAlignment="Left" VerticalAlignment="Top"/>
 
+        <Label x:Name="ErrorLabel" Foreground="Red" FontFamily="Nunito" FontWeight="Bold" FontSize="13" Canvas.Left="456" Canvas.Top="486" HorizontalAlignment="Left" VerticalAlignment="Top"></Label>
+
     </Canvas>
 </Page>

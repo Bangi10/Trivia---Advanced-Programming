@@ -70,7 +70,7 @@ std::string Helper::getPartFromSocket(const SOCKET sc, const int bytesNum)
 
 // send data to socket
 // this is private function
-void Helper::sendData(const SOCKET sc, std::vector<unsigned char> dataVector)
+void Helper::sendData(const SOCKET sc, const std::vector<unsigned char>& dataVector)
 {
 	const char* data = (char*)(dataVector.data());
 

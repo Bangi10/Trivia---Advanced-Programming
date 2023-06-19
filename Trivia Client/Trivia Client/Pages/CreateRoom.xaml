@@ -22,7 +22,7 @@
 
         <!-- Buttons must be in canvas -->
         <!-- Create Room button -->
-        <Button Canvas.Left="490" Canvas.Top="459" Click="CreateRoom_Click" Height="50" Width="126" BorderBrush="Transparent" HorizontalAlignment="Left" VerticalAlignment="Top" >
+        <Button Canvas.Left="490" Canvas.Top="459" Click="CreateRoom_Click" Height="50" Width="126" BorderBrush="Transparent" HorizontalAlignment="Left" VerticalAlignment="Top" Cursor="Hand">
             <Button.Template>
                 <ControlTemplate TargetType="Button">
                     <Grid>
@@ -67,6 +67,8 @@
                 </TransformGroup>
             </TextBox.RenderTransform>
         </TextBox>
+
+        <Label x:Name="ErrorLabel" Foreground="Red" FontFamily="Nunito" FontWeight="Bold" FontSize="13" Canvas.Left="456" Canvas.Top="486" HorizontalAlignment="Left" VerticalAlignment="Top"></Label>
 
     </Canvas>
 </Page>

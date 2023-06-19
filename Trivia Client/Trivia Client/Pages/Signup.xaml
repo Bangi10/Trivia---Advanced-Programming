@@ -14,16 +14,16 @@
 
     <Canvas Margin="-10,-26,0,0">
         <Label Foreground="White" FontFamily="Nunito" FontWeight="Bold" FontSize="16" Canvas.Left="416" Canvas.Top="235" HorizontalAlignment="Left" VerticalAlignment="Center">Username:</Label>
-        <TextBox VerticalContentAlignment="Center" HorizontalAlignment="Left" TextWrapping="Wrap" Text="" VerticalAlignment="Center" Width="157" FontStyle="Italic" Canvas.Left="511" Canvas.Top="235" Height="32"/>
+        <TextBox x:Name ="username" VerticalContentAlignment="Center" HorizontalAlignment="Left" TextWrapping="Wrap" Text="" VerticalAlignment="Center" Width="157" FontStyle="Italic" Canvas.Left="511" Canvas.Top="235" Height="32"/>
         <Label Foreground="White" FontFamily="Nunito" FontWeight="Bold" FontSize="16" Canvas.Left="419" Canvas.Top="283" HorizontalAlignment="Left" VerticalAlignment="Top">Password:</Label>
-        <TextBox VerticalContentAlignment="Center" HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top" Width="157" FontStyle="Italic" Canvas.Left="511" Canvas.Top="283" Height="32"/>
+        <TextBox x:Name ="password" VerticalContentAlignment="Center" HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top" Width="157" FontStyle="Italic" Canvas.Left="511" Canvas.Top="283" Height="32"/>
         <Label Foreground="White" FontFamily="Nunito" FontWeight="Bold" FontSize="16" Canvas.Left="450" Canvas.Top="331" HorizontalAlignment="Left" VerticalAlignment="Top">Email:</Label>
-        <TextBox VerticalContentAlignment="Center" HorizontalAlignment="Left" TextWrapping="Wrap" Text="" VerticalAlignment="Center" Width="157" FontStyle="Italic" Canvas.Left="511" Canvas.Top="331" Height="32"/>
+        <TextBox x:Name ="email" VerticalContentAlignment="Center" HorizontalAlignment="Left" TextWrapping="Wrap" Text="" VerticalAlignment="Center" Width="157" FontStyle="Italic" Canvas.Left="511" Canvas.Top="331" Height="32"/>
 
 
         <!-- Buttons must be in canvas -->
         <!-- Signup button -->
-        <Button Canvas.Left="500" Canvas.Top="400" Click="Signup_Click" Height="50" Width="100" BorderBrush="Transparent" >
+        <Button Canvas.Left="500" Canvas.Top="400" Click="Signup_Click" Height="50" Width="100" BorderBrush="Transparent" Cursor="Hand">
             <Button.Template>
                 <ControlTemplate TargetType="Button">
                     <Grid>
@@ -36,7 +36,7 @@
         </Button>
 
         <!-- Exit button -->
-        <Button Canvas.Left="925" Canvas.Top="100" Click="Exit_Click" Height="50" Width="55" BorderBrush="Transparent" Cursor="Hand">
+        <Button Canvas.Left="918" Canvas.Top="105" Click="ExitButton_Click" Height="50" Width="55" BorderBrush="Transparent" Cursor="Hand">
             <Button.Template>
                 <ControlTemplate TargetType="Button">
                     <Grid>
@@ -46,7 +46,7 @@
                 </ControlTemplate>
             </Button.Template>
         </Button>
-        
+
         <!-- back button -->
         <Button Canvas.Left="125" Canvas.Top="100" Click="Back_Click" Height="50" Width="55" BorderBrush="Transparent" Cursor="Hand">
             <Button.Template>
@@ -58,6 +58,8 @@
                 </ControlTemplate>
             </Button.Template>
         </Button>
-        
+
+        <Label x:Name="ErrorLabel" Foreground="Red" FontFamily="Nunito" FontWeight="Bold" FontSize="13" Canvas.Left="457" Canvas.Top="476" HorizontalAlignment="Left" VerticalAlignment="Top"></Label>
+
     </Canvas>
 </Page>

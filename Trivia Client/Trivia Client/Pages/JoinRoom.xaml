@@ -48,8 +48,8 @@
                 </ControlTemplate>
             </Button.Template>
         </Button>
-        
-        <Button Canvas.Left="501" Canvas.Top="405" Click="JoinRoom_Click" Height="50" Width="100" BorderBrush="Transparent" HorizontalAlignment="Left" VerticalAlignment="Center" >
+
+        <Button Canvas.Left="501" Canvas.Top="405" Click="JoinRoom_Click" Height="50" Width="100" BorderBrush="Transparent" HorizontalAlignment="Left" VerticalAlignment="Center" Cursor="Hand">
             <Button.Template>
                 <ControlTemplate TargetType="Button">
                     <Grid>
@@ -61,7 +61,7 @@
             <Label FontFamily="Nunito" FontWeight="Bold" FontSize="16" Content="Join Room"/>
         </Button>
 
-        <Button Canvas.Left="134" Canvas.Top="82" Click="Back_Click" Height="50" Width="55" BorderBrush="Transparent" >
+        <Button Canvas.Left="134" Canvas.Top="82" Click="Back_Click" Height="50" Width="55" BorderBrush="Transparent" Cursor="Hand">
             <Button.Template>
                 <ControlTemplate TargetType="Button">
                     <Grid>
@@ -71,7 +71,7 @@
                 </ControlTemplate>
             </Button.Template>
         </Button>
-        <Button Canvas.Left="357" Canvas.Top="383" Click="Refresh_Click" Height="64" Width="68" BorderBrush="Transparent" HorizontalAlignment="Left" VerticalAlignment="Center" >
+        <Button Canvas.Left="357" Canvas.Top="383" Click="Refresh_Click" Height="64" Width="68" BorderBrush="Transparent" HorizontalAlignment="Left" VerticalAlignment="Center" Cursor="Hand">
             <Button.Template>
                 <ControlTemplate TargetType="{x:Type Button}">
                     <Grid>
@@ -81,6 +81,8 @@
                 </ControlTemplate>
             </Button.Template>
         </Button>
+
+        <Label x:Name="ErrorLabel" Foreground="Red" FontFamily="Nunito" FontWeight="Bold" FontSize="13" Canvas.Left="456" Canvas.Top="486" HorizontalAlignment="Left" VerticalAlignment="Top"></Label>
 
     </Canvas>
 </Page>
