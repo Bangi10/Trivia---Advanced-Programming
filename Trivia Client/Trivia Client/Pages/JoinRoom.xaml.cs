@@ -41,8 +41,8 @@ namespace Trivia_Client.Pages
         }
         private void Back_Click(object sender, RoutedEventArgs e)
         {
-            safeNavigateInThreadZone(new Pages.MainMenu());
-
+            isInThisPage = false;
+            NavigationService?.Navigate(new Pages.MainMenu());
         }
         private void JoinRoom_Click(object sender, RoutedEventArgs e)
         {
@@ -76,7 +76,8 @@ namespace Trivia_Client.Pages
                 {
                     User.Instance().SetRoom(GetRoom(selectedRoomName));
                 }
-                safeNavigateInThreadZone(new Pages.Room());
+                isInThisPage = false;
+                NavigationService?.Navigate(new Pages.Room());
 
             }
         }
@@ -239,11 +240,6 @@ namespace Trivia_Client.Pages
                 }
             });
             return roomName;
-        }
-        private void safeNavigateInThreadZone(Page page)
-        {
-            isInThisPage = false;
-            NavigationService?.Navigate(page);
         }
     }
 }

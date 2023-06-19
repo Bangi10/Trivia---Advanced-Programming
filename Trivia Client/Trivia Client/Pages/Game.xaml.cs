@@ -23,8 +23,8 @@ namespace Trivia_Client.Pages
     {
         public Game()
         {
-            //InitializeComponent();
-            //usernameLabel.Content = User.Instance().GetUsername();
+            InitializeComponent();
+            usernameLabel.Content = User.Instance().GetUsername();
         }
     }
 }

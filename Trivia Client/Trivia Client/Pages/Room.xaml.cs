@@ -85,15 +85,22 @@ namespace Trivia_Client.Pages
                 if (isRoomClosed(response.players)) 
                 {
                     //room deleted in server, handlers are changed in server, so all players "left room". all needed is to move screen on ui
-                    safeNavigateInThreadZone(new Pages.MainMenu());
-
+                    this.Dispatcher.Invoke(() =>
+                    {
+                        isInThisPage = false;
+                        NavigationService?.Navigate(new Pages.MainMenu());
+                    });
                 }
                 else
                 {
                     UpdatePlayersListUI(response.players);
                     if (response.hasGameBegun)
                     {
-                        safeNavigateInThreadZone(new Pages.Game());
+                        this.Dispatcher.Invoke(() =>
+                        {
+                            isInThisPage = false;
+                            NavigationService?.Navigate(new Pages.Game());
+                        });   
 
                     }
                 }
@@ -145,7 +152,8 @@ namespace Trivia_Client.Pages
             }
             else
             {
-                safeNavigateInThreadZone(new Pages.MainMenu());
+                isInThisPage = false;
+                NavigationService?.Navigate(new Pages.MainMenu());
 
                 User.Instance().SetIsRoomAdmin(false);
                 User.Instance().ClearRoom();
@@ -172,7 +180,8 @@ namespace Trivia_Client.Pages
             }
             else
             {
-                safeNavigateInThreadZone(new Pages.Game());
+                isInThisPage = false;
+                NavigationService?.Navigate(new Pages.Game());
 
             }
         }
@@ -201,18 +210,11 @@ namespace Trivia_Client.Pages
             }
             else
             {
-                safeNavigateInThreadZone(new Pages.MainMenu());
+                isInThisPage = false;
+                NavigationService?.Navigate(new Pages.MainMenu());
                 User.Instance().SetIsRoomAdmin(false);
                 User.Instance().ClearRoom();
             }
-        }
-        private void safeNavigateInThreadZone(Page page)
-        {
-            this.Dispatcher.Invoke(() =>
-            {
-                isInThisPage = false;
-                NavigationService?.Navigate(page);
-            });
         }
         
     }
