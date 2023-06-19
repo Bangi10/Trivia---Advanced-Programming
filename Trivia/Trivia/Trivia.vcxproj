@@ -131,7 +131,6 @@
     <ClInclude Include="Communicator.h" />
     <ClInclude Include="DBColumnNames.h" />
     <ClInclude Include="Question.h" />
-    <ClInclude Include="Requests.h" />
     <ClInclude Include="RoomData.h" />
     <ClInclude Include="LoggedUser.h" />
     <ClInclude Include="Room.h" />

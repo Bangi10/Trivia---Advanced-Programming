@@ -118,5 +118,5 @@ void Communicator::handleNewClient(const SOCKET sock)
 	}
 	// cleanup
 	closesocket(sock);
-	WSACleanup();
+	//WSACleanup();
 }

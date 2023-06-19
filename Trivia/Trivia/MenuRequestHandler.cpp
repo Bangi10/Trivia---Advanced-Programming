@@ -80,7 +80,7 @@ RequestResult MenuRequestHandler::logout(const RequestInfo& requestInfo)
 RequestResult MenuRequestHandler::getRooms(const RequestInfo& requestInfo)
 {
 	RequestResult result;
-	auto roomManager = this->m_handlerFactory.getRoomManager();
+	auto& roomManager = this->m_handlerFactory.getRoomManager();
 	GetRoomsResponse response = { unsigned char(RESPONSES::ROOM::GOT_ROOMS), roomManager.getRooms()};
 	result.response = JsonResponsePacketSerializer::serializeResponse(response);
 	result.newHandler = this->m_handlerFactory.createMenuRequestHandler(m_user);
@@ -90,7 +90,7 @@ RequestResult MenuRequestHandler::getRooms(const RequestInfo& requestInfo)
 RequestResult MenuRequestHandler::getPlayersInRoom(const RequestInfo& requestInfo)
 {
 	RequestResult result;
-	auto roomManager = this->m_handlerFactory.getRoomManager();
+	auto& roomManager = this->m_handlerFactory.getRoomManager();
 	GetPlayersInRoomRequest getPlayersInRoomRequest = JsonRequestPacketDeserializer::deserializeGetPlayersRequest(requestInfo.buffer);
 	unsigned int roomId = getPlayersInRoomRequest.roomId;
 	auto players = roomManager.getRoom(roomId).getAllUsers();
@@ -103,7 +103,7 @@ RequestResult MenuRequestHandler::getPlayersInRoom(const RequestInfo& requestInf
 RequestResult MenuRequestHandler::getPersonalStats(const RequestInfo& requestInfo)
 {
 	RequestResult result;
-	auto statisticsManager = this->m_handlerFactory.getStatisticsManager();
+	auto& statisticsManager = this->m_handlerFactory.getStatisticsManager();
 	std::string userStatisticsString = statisticsManager.getUserStatistics(m_user.getUsername());
 	std::vector<std::string> userStatistics = stringToVectorSplit(userStatisticsString, ":");
 	getPersonalStatsResponse response = { unsigned char(RESPONSES::ROOM::GOT_PERSONAL_STATS), userStatistics };
@@ -115,7 +115,7 @@ RequestResult MenuRequestHandler::getPersonalStats(const RequestInfo& requestInf
 RequestResult MenuRequestHandler::getHighScore(const RequestInfo& requestInfo)
 {
 	RequestResult result;
-	auto statisticsManager = this->m_handlerFactory.getStatisticsManager();
+	auto& statisticsManager = this->m_handlerFactory.getStatisticsManager();
 	std::string highScoresString = statisticsManager.getHighScores();
 	std::vector<std::string> highScores = stringToVectorSplit(highScoresString, ":");
 	getHighScoreResponse response = { unsigned char(RESPONSES::ROOM::GOT_HIGH_SCORE), highScores };
@@ -127,7 +127,7 @@ RequestResult MenuRequestHandler::getHighScore(const RequestInfo& requestInfo)
 RequestResult MenuRequestHandler::joinRoom(const RequestInfo& requestInfo)
 {
 	RequestResult result;
-	auto roomManager = this->m_handlerFactory.getRoomManager();
+	auto& roomManager = this->m_handlerFactory.getRoomManager();
 	JoinRoomRequest joinRoomRequest = JsonRequestPacketDeserializer::deserializeJoinRoomRequest(requestInfo.buffer);
 	unsigned int roomId = joinRoomRequest.roomId;
 	roomManager.getRoom(roomId).addUser(m_user);
@@ -140,13 +140,14 @@ RequestResult MenuRequestHandler::joinRoom(const RequestInfo& requestInfo)
 RequestResult MenuRequestHandler::createRoom(const RequestInfo& requestInfo)
 {
 	RequestResult result;
-	auto roomManager = this->m_handlerFactory.getRoomManager();
+	auto& roomManager = this->m_handlerFactory.getRoomManager();
 	CreateRoomRequest createRoomRequest = JsonRequestPacketDeserializer::deserializeCreateRoomRequest(requestInfo.buffer);
 	auto rooms = roomManager.getRooms();
 	unsigned int roomId = rooms.size() + 1;
 	RoomData roomData = { roomId,createRoomRequest.roomName,createRoomRequest.maxUsers,
 						 createRoomRequest.questionCount,createRoomRequest.answerTimeout,0 };
 	roomManager.createRoom(m_user, roomData);
+	roomManager.getRoom(roomId).addUser(m_user);
 	CreateRoomResponse response = { unsigned char(RESPONSES::ROOM::CREATED_ROOM) };
 	result.response = JsonResponsePacketSerializer::serializeResponse(response);
 	result.newHandler = nullptr;//needs to be new handler "RoomManagerRequestHandler" look in the state nachine uml
