@@ -27,14 +27,16 @@ namespace Trivia_Client.Pages
     {
         private List<RoomData> rooms;
         private bool isInThisPage;
-        private static object syncRoot = new Object();
+        private static object socketMutex = new Object();
+        private static object roomsMutex = new Object();
+
         public JoinRoom()
         {
             InitializeComponent();
             isInThisPage = true;
             Thread thread = new Thread(new ThreadStart(ThreadUpdateRoomsAndPlayersInSelected));
             thread.SetApartmentState(ApartmentState.STA);
-            thread.Start();
+            //thread.Start();
         }
         private void Back_Click(object sender, RoutedEventArgs e)
         {
@@ -47,11 +49,11 @@ namespace Trivia_Client.Pages
             if (GetSelectedRoomName() == "None")
                 return;
             JoinRoomRequest request = new JoinRoomRequest(GetRoomId(GetSelectedRoomName()));
-            byte[] requestBuffer = JsonSerialization.serializeRequest<JoinRoomRequest>(request, RequestsCodes.CREATE_ROOM);
+            byte[] requestBuffer = JsonSerialization.serializeRequest<JoinRoomRequest>(request, RequestsCodes.JOIN_ROOM);
             ClientCommuinactor comm = ClientCommuinactor.Instance;
 
             Tuple<byte[], byte> readTuple;
-            lock (syncRoot)
+            lock (socketMutex)
             {
                 comm.sendBytes(requestBuffer);
                 readTuple = comm.readBytes();
@@ -88,7 +90,7 @@ namespace Trivia_Client.Pages
         private void UpdateRoomsAndPlayersInSelected()
         {
             string previouslySelected = GetSelectedRoomName();
-            lock (syncRoot)
+            lock (roomsMutex)
             {
                 rooms = GetRooms();
             }
@@ -96,7 +98,7 @@ namespace Trivia_Client.Pages
             {
                 roomsList.Items.Clear();
 
-                if (rooms.Count != 0)
+                if (rooms != null && rooms.Count != 0)
                 {
                     availableRoomsLabel.Content = "";
                     foreach (RoomData roomData in rooms)
@@ -121,10 +123,7 @@ namespace Trivia_Client.Pages
                 {
                     playersList.Items.Clear();
                     List<string> players;
-                    lock (syncRoot)
-                    {
-                        players = GetPlayersInRoom(GetRoomId(previouslySelected));
-                    }
+                    players = GetPlayersInRoom(GetRoomId(previouslySelected));
                     if (players != null && players.Count != 0)
                     {
                         foreach (string player in players)
@@ -138,10 +137,13 @@ namespace Trivia_Client.Pages
         private uint GetRoomId(string roomName)
         {
             uint roomId = 0;
-            foreach (RoomData roomData in rooms)
+            lock(roomsMutex)
             {
-                if (roomData.name == roomName)
-                    roomId = roomData.id;
+                foreach (RoomData roomData in rooms)
+                {
+                    if (roomData.name == roomName)
+                        roomId = roomData.id;
+                }
             }
             return roomId;
         }
@@ -151,9 +153,12 @@ namespace Trivia_Client.Pages
             byte[] requestBuffer = JsonSerialization.serializeRequest<GetPlayersInRoomRequest>(request, RequestsCodes.GET_PLAYERS_IN_ROOM);
             ClientCommuinactor comm = ClientCommuinactor.Instance;
 
-            comm.sendBytes(requestBuffer);
-
-            var readTuple = comm.readBytes();
+            Tuple<byte[], byte> readTuple;
+            lock (socketMutex)
+            {
+                comm.sendBytes(requestBuffer);
+                readTuple = comm.readBytes();
+            }
             byte[] jsonBuffer = readTuple.Item1;
             byte code = readTuple.Item2;
 
@@ -165,9 +170,13 @@ namespace Trivia_Client.Pages
         {
             byte[] requestBuffer = JsonSerialization.serializeRequestCode(RequestsCodes.GET_ROOMS);
             ClientCommuinactor comm = ClientCommuinactor.Instance;
-            comm.sendBytes(requestBuffer);
+            Tuple<byte[], byte> readTuple;
 
-            var readTuple = comm.readBytes();
+            lock (socketMutex)
+            {
+                comm.sendBytes(requestBuffer);
+                readTuple = comm.readBytes();
+            }
             byte[] jsonBuffer = readTuple.Item1;
             byte code = readTuple.Item2;
 
