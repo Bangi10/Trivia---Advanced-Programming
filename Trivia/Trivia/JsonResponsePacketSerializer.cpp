@@ -204,7 +204,7 @@ Buffer JsonResponsePacketSerializer::serializeResponse(const getPersonalStatusRe
     //LEN: 4 BYTE
     json j;
     j["status"] = response.status;
-    j["UserStatistics"] = response.statistics;
+    j["statistics"] = response.statistics;
     std::string msg = j.dump();
     addMsgLenToBuffer(buffer, msg);
 
