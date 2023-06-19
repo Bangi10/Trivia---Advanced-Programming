@@ -18,5 +18,5 @@ namespace Trivia_Client.Code
     public record struct SignupRequest(string username, string password, string email);
     public record struct CreateRoomRequest(string roomName, uint maxUsers, uint questionCount, uint answerTimeout);
     public record struct GetPlayersInRoomRequest(uint roomId);
-    public record struct GetJoinRoomRequest(uint roomId);
+    public record struct JoinRoomRequest(uint roomId);
 }

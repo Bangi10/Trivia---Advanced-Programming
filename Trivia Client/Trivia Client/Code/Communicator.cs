@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Buffers.Binary;
 using System.Collections.Generic;
 using System.Data.SqlTypes;
 using System.Linq;
@@ -53,7 +54,7 @@ namespace Trivia_Client.Code
             Int32 secondBytes = this.clientStream.Read(secondPart, 0, 4);
 
             //rest of the bytes
-            Int32 sizeOfText = BitConverter.ToInt32(secondPart);
+            Int32 sizeOfText = BinaryPrimitives.ReadInt32BigEndian(secondPart);
             byte[] thirdPart = new byte[sizeOfText];
             Int32 thirdBytes = this.clientStream.Read(thirdPart, 0, sizeOfText);
 

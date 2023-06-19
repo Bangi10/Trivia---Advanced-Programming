@@ -62,6 +62,7 @@
                 </ControlTemplate>
             </Button.Template>
         </Button>
+        <Label x:Name="ErrorLabel" Foreground="Red" FontFamily="Nunito" FontWeight="Bold" FontSize="13" Canvas.Left="539" Canvas.Top="431" HorizontalAlignment="Left" VerticalAlignment="Top"></Label>
 
 
     </Canvas>

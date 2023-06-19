@@ -13,10 +13,20 @@
 
     <Canvas Margin="-10,-26,0,0">
         <Label Foreground="White" FontFamily="Nunito" FontWeight="Bold" FontSize="16" Canvas.Left="290" Canvas.Top="142" HorizontalAlignment="Left" VerticalAlignment="Top">Room Name</Label>
-        <Label Foreground="White" FontFamily="Nunito" FontWeight="Bold" FontSize="16" Canvas.Left="328" Canvas.Top="350" HorizontalAlignment="Left" VerticalAlignment="Top">Players:</Label>
-        <TextBox VerticalContentAlignment="Center" HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top" Width="300" FontStyle="Italic" Canvas.Left="400" Canvas.Top="350" Height="119"/>
         <Label Foreground="White" FontFamily="Nunito" FontWeight="Bold" FontSize="16" Canvas.Left="698" Canvas.Top="138" HorizontalAlignment="Left" VerticalAlignment="Top">Admin</Label>
 
+        <Label Foreground="White" FontFamily="Nunito" FontWeight="Bold" FontSize="16" Canvas.Left="324" Canvas.Top="271" HorizontalAlignment="Left" VerticalAlignment="Top">Players:</Label>
+        <Grid Canvas.Left="714" Canvas.Top="293" Height="162">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="5*"/>
+                <ColumnDefinition Width="9*"/>
+            </Grid.ColumnDefinitions>
+            <ListBox x:Name="playersList" Margin="-219,-46,0,16" HorizontalAlignment="Left" Width="132">
+                <ListBoxItem IsHitTestVisible="False">Player 1</ListBoxItem>
+                <ListBoxItem IsHitTestVisible="False">Player 2</ListBoxItem>
+                <ListBoxItem IsHitTestVisible="False">Player 3</ListBoxItem>
+            </ListBox>
+        </Grid>
         <!-- Buttons must be in canvas -->
         <!-- Create Room button -->
 
@@ -33,18 +43,43 @@
         </Button>
 
         <!-- back button(leave room button) -->
-        <Button Canvas.Left="125" Canvas.Top="100" Click="Back_Click" Height="50" Width="55" BorderBrush="Transparent" Cursor="Hand">
-            <Button.Template>
-                <ControlTemplate TargetType="Button">
-                    <Grid>
-                        <Image Source="pack://application:,,,/Trivia Client;component/images/back.png" Stretch="Fill"/>
-                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                    </Grid>
-                </ControlTemplate>
-            </Button.Template>
-        </Button>
         <TextBox VerticalContentAlignment="Center" TextWrapping="Wrap" Width="103" FontStyle="Italic" Canvas.Left="290" Canvas.Top="163" Height="4" HorizontalAlignment="Left" VerticalAlignment="Top"/>
         <TextBox VerticalContentAlignment="Center" TextWrapping="Wrap" Width="60" FontStyle="Italic" Canvas.Left="698" Canvas.Top="159" Height="4" HorizontalAlignment="Left" VerticalAlignment="Top"/>
 
+        <Button x:Name="closeRoomButton" Canvas.Left="450" Canvas.Top="470" Click="CloseRoom_Click" Height="50" Width="100" BorderBrush="Transparent" Cursor="Hand" HorizontalAlignment="Left" VerticalAlignment="Center">
+            <Button.Template>
+                <ControlTemplate TargetType="Button">
+                    <Grid>
+                        <Image Source="pack://application:,,,/Trivia Client;component/images/button.png" Stretch="Fill"/>
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" Cursor="Hand"/>
+                    </Grid>
+                </ControlTemplate>
+            </Button.Template>
+            <Label FontFamily="Nunito" FontWeight="Bold" FontSize="16">Close Room</Label>
+        </Button>
+
+        <Button x:Name="startGameButton" Canvas.Left="579" Canvas.Top="470" Click="StartGame_Click" Height="50" Width="100" BorderBrush="Transparent" Cursor="Hand">
+            <Button.Template>
+                <ControlTemplate TargetType="Button">
+                    <Grid>
+                        <Image Source="pack://application:,,,/Trivia Client;component/images/button.png" Stretch="Fill"/>
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" Cursor="Hand"/>
+                    </Grid>
+                </ControlTemplate>
+            </Button.Template>
+            <Label FontFamily="Nunito" FontWeight="Bold" FontSize="16">Start Game</Label>
+        </Button>
+
+        <Button x:Name="leaveRoomButton" Canvas.Left="510" Canvas.Top="470" Click="LeaveRoom_Click" Height="50" Width="100" BorderBrush="Transparent" Cursor="Hand">
+            <Button.Template>
+                <ControlTemplate TargetType="Button">
+                    <Grid>
+                        <Image Source="pack://application:,,,/Trivia Client;component/images/button.png" Stretch="Fill"/>
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" Cursor="Hand"/>
+                    </Grid>
+                </ControlTemplate>
+            </Button.Template>
+            <Label FontFamily="Nunito" FontWeight="Bold" FontSize="16">Leave Room</Label>
+        </Button>
     </Canvas>
 </Page>

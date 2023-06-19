@@ -24,19 +24,42 @@ namespace Trivia_Client.Pages
         public Room()
         {
             InitializeComponent();
+            if (User.Instance().GetIsRoomAdmin())
+            {
+                leaveRoomButton.Visibility = Visibility.Collapsed;
+            }
+            else
+            {
+                closeRoomButton.Visibility = Visibility.Collapsed;
+                startGameButton.Visibility = Visibility.Collapsed;
+            }
+        }
+        private void threadGetRoomState()
+        {
+            //will be future implemented
+        }
+        private void GetRoomState()
+        {
+
+            //will be future implemented
         }
         private void Exit_Click(object sender, RoutedEventArgs e)
         {
-            bool successLogout = Helper.Logout();
-            if (successLogout)
-            {
-                Application.Current.Shutdown();
-            }
+            //will trigger DataWindow_Closing
+            Application.Current.Shutdown();
         }
-        private void Back_Click(object sender, RoutedEventArgs e)
+        private void CloseRoom_Click(object sender, RoutedEventArgs e)
         {
-            NavigationService?.Navigate(new Pages.MainMenu());
+            
+        }
+        private void StartGame_Click(object sender, RoutedEventArgs e)
+        {
 
         }
+        private void LeaveRoom_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+        
     }
 }

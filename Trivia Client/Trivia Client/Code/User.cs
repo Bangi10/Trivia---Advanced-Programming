@@ -15,11 +15,13 @@ namespace Trivia_Client.Code
 
         //fields
         private string username;
+        private bool isRoomAdmin;
 
 
         private User(string username)
         {
             this.username = username;
+            this.isRoomAdmin = false;
         }
         public static User Instance(string username = "")
         {
@@ -34,9 +36,17 @@ namespace Trivia_Client.Code
 
             return instance;
         }
-        public string getUsername()
+        public string GetUsername()
         { 
             return username; 
+        }
+        public bool GetIsRoomAdmin()
+        {
+            return isRoomAdmin;
+        }
+        public void SetIsRoomAdmin(bool isRoomAdmin)
+        {
+            this.isRoomAdmin = isRoomAdmin;
         }
     }
 }

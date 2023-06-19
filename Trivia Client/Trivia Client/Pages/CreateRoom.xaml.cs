@@ -44,38 +44,20 @@ namespace Trivia_Client.Pages
                 ErrorResponse response = JsonSerialization.deserializeResponse<ErrorResponse>(jsonBuffer);
                 ErrorLabel.Content = response.message;
             }
-            else
+            else if (code == (byte)ResponseCodes.ROOM.CREATED_ROOM)
             {
-                switch (code)
-                {
-                    case (byte)ResponseCodes.LOGIN.SUCCESS:
-                        User.Instance(request.username);
-                        NavigationService?.Navigate(new MainMenu());
-                        break;
-                    case (byte)ResponseCodes.LOGIN.NAME_NOT_EXISTS:
-                        ErrorLabel.Content = "username doesn't exist";
-                        break;
-                    case (byte)ResponseCodes.LOGIN.PASSWORD_MISMATCH:
-                        ErrorLabel.Content = "username and password doesn't match";
-                        break;
-                    case (byte)ResponseCodes.LOGIN.USER_ALREADY_LOGINED:
-                        ErrorLabel.Content = "user already logined";
-                        break;
-                }
+                User.Instance().SetIsRoomAdmin(true);
+                NavigationService?.Navigate(new Room());
             }
         }
         private void Exit_Click(object sender, RoutedEventArgs e)
         {
-            bool successLogout = Helper.Logout();
-            if (successLogout)
-            {
-                Application.Current.Shutdown();
-            }
+            //will trigger DataWindow_Closing
+            Application.Current.Shutdown();
 
         }
         private void Back_Click(object sender, RoutedEventArgs e)
         {
-
             NavigationService?.Navigate(new Pages.MainMenu());
         }
         

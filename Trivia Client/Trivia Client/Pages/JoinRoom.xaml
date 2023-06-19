@@ -13,6 +13,7 @@
     </Page.Background>
 
     <Canvas Margin="-10,-26,0,0">
+        <Label x:Name="availableRoomsLabel" Foreground="White" FontFamily="Nunito" FontWeight="Bold" FontSize="13" Canvas.Left="288" Canvas.Top="323" HorizontalAlignment="Left" VerticalAlignment="Top"></Label>
         <Label Foreground="White" FontFamily="Nunito" FontWeight="Bold" FontSize="25" Canvas.Left="316" Canvas.Top="243" HorizontalAlignment="Center" VerticalAlignment="Top" Content="Rooms List:" Height="50" Width="144"/>
         <ComboBox x:Name="roomsList" Width="200" Height="30" SelectionChanged="RoomsList_SelectionChanged" Canvas.Left="288" Canvas.Top="293" HorizontalAlignment="Center" VerticalAlignment="Top">
             <ComboBoxItem Content="Item 1" />
@@ -36,7 +37,7 @@
             </ListBox>
         </Grid>
 
-        
+
         <!-- Buttons must be in canvas -->
         <Button Canvas.Left="925" Canvas.Top="100" Click="Exit_Click" Height="50" Width="55" BorderBrush="Transparent" Cursor="Hand">
             <Button.Template>
@@ -81,6 +82,6 @@
                 </ControlTemplate>
             </Button.Template>
         </Button>
-
+        <Label x:Name="ErrorLabel" Foreground="Red" FontFamily="Nunito" FontWeight="Bold" FontSize="13" Canvas.Left="525" Canvas.Top="475" HorizontalAlignment="Left" VerticalAlignment="Top"></Label>
     </Canvas>
 </Page>

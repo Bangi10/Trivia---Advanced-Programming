@@ -52,8 +52,9 @@ namespace Trivia_Client
         }
         private bool isLoggedIn()
         {
-            //needs to check if current page is not start, signup and login. 
-            return false;
+            return (mainFrame.Content is not Pages.Start &&
+                mainFrame.Content is not Pages.Login &&
+                mainFrame.Content is not Pages.Signup);
         }
 
     }

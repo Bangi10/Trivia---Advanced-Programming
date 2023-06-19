@@ -24,15 +24,12 @@ namespace Trivia_Client.Pages
         public MainMenu()
         {
             InitializeComponent();
-            usernameLabel.Content = "Welcome " + User.Instance().getUsername();
+            usernameLabel.Content = "Welcome " + User.Instance().GetUsername();
         }
         private void Exit_Click(object sender, RoutedEventArgs e)
         {
-            bool successLogout = Helper.Logout();
-            if (successLogout)
-            {
-                Application.Current.Shutdown();
-            }
+            //will trigger DataWindow_Closing
+            Application.Current.Shutdown();
         }
         private void JoinRoom_Click(object sender, RoutedEventArgs e)
         {
