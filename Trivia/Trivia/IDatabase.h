@@ -17,7 +17,7 @@ public:
 	virtual float getPlayerAverageAnswerTime(const std::string& username) const = 0;
 	virtual int getNumOfCorrectAnswers(const std::string& username) const = 0;
 	virtual int getNumOfTotalAnswers(const std::string& username) const = 0;
-	virtual int getNumOfPlayerGames(const std::string& username) const = 0;
+	virtual int getNumOfPlayedGames(const std::string& username) const = 0;
 	virtual int getPlayerScore(const std::string& username) const = 0;
 	virtual std::string getHighScores() const = 0;
 };

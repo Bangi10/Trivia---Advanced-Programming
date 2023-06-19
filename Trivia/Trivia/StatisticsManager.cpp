@@ -19,6 +19,6 @@ std::string StatisticsManager::getUserStatistics(const std::string& username) co
     jData["PlayerAverageAnswerTime"] = shared->getPlayerAverageAnswerTime(username);
     jData["NumOfCorrectAnswers"] = shared->getNumOfCorrectAnswers(username);
     jData["NumOfTotalAnswers"] = shared->getNumOfTotalAnswers(username);
-    jData["NumOfPlayerGames"] = shared->getNumOfPlayerGames(username);
+    jData["NumOfPlayedGames"] = shared->getNumOfPlayedGames(username);
     return jData.dump();
 }
