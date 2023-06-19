@@ -24,6 +24,7 @@ namespace Trivia_Client.Pages
         public MyStats()
         {
             InitializeComponent();
+            usernameLabel.Content = User.Instance().GetUsername();
         }
         private void Back_Click(object sender, RoutedEventArgs e)
         {

@@ -24,6 +24,7 @@ namespace Trivia_Client.Pages
         public CreateRoom()
         {
             InitializeComponent();
+            usernameLabel.Content = User.Instance().GetUsername();
         }
         private void CreateRoom_Click(object sender, RoutedEventArgs e)
         {
@@ -47,8 +48,37 @@ namespace Trivia_Client.Pages
             else if (code == (byte)ResponseCodes.ROOM.CREATED_ROOM)
             {
                 User.Instance().SetIsRoomAdmin(true);
+                User.Instance().SetRoom(new RoomData(0, roomName.Text, Convert.ToUInt32(maxPlayers.Text), Convert.ToUInt32(numberOfQuestions.Text), Convert.ToUInt32(timePerQuestion.Text), 0));
                 NavigationService?.Navigate(new Room());
             }
+        }
+        //private RoomData GetRoomFromServer(string _roomName)
+        //{
+        //    var rooms = GetRooms();
+        //    RoomData requestedRoom = new RoomData();
+        //    foreach (var room in rooms)
+        //    {
+        //        if (room.name == _roomName)
+        //        {
+        //            requestedRoom = room;
+        //        }
+        //    }
+        //    return requestedRoom;
+        //}
+        private List<RoomData> GetRooms()
+        {
+            byte[] requestBuffer = JsonSerialization.serializeRequestCode(RequestsCodes.GET_ROOMS);
+            ClientCommuinactor comm = ClientCommuinactor.Instance;
+            Tuple<byte[], byte> readTuple;
+
+            comm.sendBytes(requestBuffer);
+            readTuple = comm.readBytes();
+
+            byte[] jsonBuffer = readTuple.Item1;
+            byte code = readTuple.Item2;
+
+            GetRoomsResponse response = JsonSerialization.deserializeResponse<GetRoomsResponse>(jsonBuffer);
+            return response.rooms;
         }
         private void Exit_Click(object sender, RoutedEventArgs e)
         {

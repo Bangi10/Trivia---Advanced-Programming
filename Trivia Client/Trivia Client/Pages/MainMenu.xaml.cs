@@ -24,7 +24,7 @@ namespace Trivia_Client.Pages
         public MainMenu()
         {
             InitializeComponent();
-            usernameLabel.Content = "Welcome " + User.Instance().GetUsername();
+            usernameLabel.Content = User.Instance().GetUsername();
         }
         private void Exit_Click(object sender, RoutedEventArgs e)
         {

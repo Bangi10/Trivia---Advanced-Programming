@@ -30,7 +30,15 @@ namespace Trivia_Client.Code
     public record struct getPersonalStatusResponse(byte status, List<string> statistics);
     public record struct JoinRoomResponse(byte status);
     public record struct CreateRoomResponse(byte status);
+    public record struct CloseRoomResponse(byte status);
+    public record struct StartGameResponse(byte status);
+    public record struct GetRoomStateResponse(byte status, bool hasGameBegun, List<string> players, uint questionCount, uint answerTimeout);
+    public record struct LeaveRoomResponse(byte status);
 
-   
+
+
+
+
+
 }
 

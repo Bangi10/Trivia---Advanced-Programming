@@ -24,6 +24,7 @@ namespace Trivia_Client.Pages
         public HighScores()
         {
             InitializeComponent();
+            usernameLabel.Content = User.Instance().GetUsername();
         }
         private void Exit_Click(object sender, RoutedEventArgs e)
         {

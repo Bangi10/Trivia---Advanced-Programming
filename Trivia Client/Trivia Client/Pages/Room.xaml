@@ -12,16 +12,18 @@
     </Page.Background>
 
     <Canvas Margin="-10,-26,0,0">
-        <Label Foreground="White" FontFamily="Nunito" FontWeight="Bold" FontSize="16" Canvas.Left="290" Canvas.Top="142" HorizontalAlignment="Left" VerticalAlignment="Top">Room Name</Label>
-        <Label Foreground="White" FontFamily="Nunito" FontWeight="Bold" FontSize="16" Canvas.Left="698" Canvas.Top="138" HorizontalAlignment="Left" VerticalAlignment="Top">Admin</Label>
+        <Label x:Name="roomNameLabel" Foreground="White" FontFamily="Nunito" FontWeight="Bold" FontSize="16" Canvas.Left="269" Canvas.Top="247" HorizontalAlignment="Center" VerticalAlignment="Top" Content="Room Name: "/>
+        <Label x:Name="maxPlayersLabel" Foreground="White" FontFamily="Nunito" FontWeight="Bold" FontSize="16" Canvas.Left="270" Canvas.Top="284" Content="Max players: " HorizontalAlignment="Left" VerticalAlignment="Top"/>
+        <Label x:Name="numberOfQuestionsLabel" Foreground="White" FontFamily="Nunito" FontWeight="Bold" FontSize="16" Canvas.Left="270" Canvas.Top="321" Content="Number of questions: " HorizontalAlignment="Left" VerticalAlignment="Top"/>
+        <Label x:Name="timePerQuestionLabel" Foreground="White" FontFamily="Nunito" FontWeight="Bold" FontSize="16" Canvas.Left="269" Canvas.Top="358" Content="Time per question: " HorizontalAlignment="Center" VerticalAlignment="Top"/>
 
-        <Label Foreground="White" FontFamily="Nunito" FontWeight="Bold" FontSize="16" Canvas.Left="324" Canvas.Top="271" HorizontalAlignment="Left" VerticalAlignment="Top">Players:</Label>
+        <Label Foreground="White" FontFamily="Nunito" FontWeight="Bold" FontSize="16" Canvas.Left="570" Canvas.Top="246" HorizontalAlignment="Left" VerticalAlignment="Top">Players:</Label>
         <Grid Canvas.Left="714" Canvas.Top="293" Height="162">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="5*"/>
                 <ColumnDefinition Width="9*"/>
             </Grid.ColumnDefinitions>
-            <ListBox x:Name="playersList" Margin="-219,-46,0,16" HorizontalAlignment="Left" Width="132">
+            <ListBox x:Name="playersList" Margin="-52,-40,0,10" HorizontalAlignment="Left" Width="132" Grid.ColumnSpan="2">
                 <ListBoxItem IsHitTestVisible="False">Player 1</ListBoxItem>
                 <ListBoxItem IsHitTestVisible="False">Player 2</ListBoxItem>
                 <ListBoxItem IsHitTestVisible="False">Player 3</ListBoxItem>
@@ -43,8 +45,6 @@
         </Button>
 
         <!-- back button(leave room button) -->
-        <TextBox VerticalContentAlignment="Center" TextWrapping="Wrap" Width="103" FontStyle="Italic" Canvas.Left="290" Canvas.Top="163" Height="4" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-        <TextBox VerticalContentAlignment="Center" TextWrapping="Wrap" Width="60" FontStyle="Italic" Canvas.Left="698" Canvas.Top="159" Height="4" HorizontalAlignment="Left" VerticalAlignment="Top"/>
 
         <Button x:Name="closeRoomButton" Canvas.Left="450" Canvas.Top="470" Click="CloseRoom_Click" Height="50" Width="100" BorderBrush="Transparent" Cursor="Hand" HorizontalAlignment="Left" VerticalAlignment="Center">
             <Button.Template>
@@ -81,5 +81,7 @@
             </Button.Template>
             <Label FontFamily="Nunito" FontWeight="Bold" FontSize="16">Leave Room</Label>
         </Button>
+        <Label x:Name="usernameLabel" Foreground="LightGray" FontSize="20" Canvas.Left="209" Canvas.Top="102" HorizontalAlignment="Center" VerticalAlignment="Top">Welcome</Label>
+
     </Canvas>
 </Page>

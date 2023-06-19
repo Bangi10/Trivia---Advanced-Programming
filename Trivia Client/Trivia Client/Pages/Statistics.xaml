@@ -63,6 +63,7 @@
             </Button.Template>
             <Label FontFamily="Nunito" FontWeight="Bold" FontSize="16">High Scores</Label>
         </Button>
+        <Label x:Name="usernameLabel" Foreground="LightGray" FontSize="20" Canvas.Left="209" Canvas.Top="102" HorizontalAlignment="Center" VerticalAlignment="Top">Welcome</Label>
 
     </Canvas>
 </Page>

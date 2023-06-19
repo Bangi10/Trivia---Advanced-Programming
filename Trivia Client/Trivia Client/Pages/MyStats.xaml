@@ -51,6 +51,7 @@
                 </ControlTemplate>
             </Button.Template>
         </Button>
+        <Label x:Name="usernameLabel" Foreground="LightGray" FontSize="20" Canvas.Left="209" Canvas.Top="102" HorizontalAlignment="Center" VerticalAlignment="Top">Welcome</Label>
 
     </Canvas>
 </Page>

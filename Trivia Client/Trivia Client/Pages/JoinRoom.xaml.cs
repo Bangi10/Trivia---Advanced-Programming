@@ -33,22 +33,24 @@ namespace Trivia_Client.Pages
         public JoinRoom()
         {
             InitializeComponent();
+            usernameLabel.Content = User.Instance().GetUsername();
             isInThisPage = true;
             Thread thread = new Thread(new ThreadStart(ThreadUpdateRoomsAndPlayersInSelected));
             thread.SetApartmentState(ApartmentState.STA);
-            //thread.Start();
+            thread.Start();
         }
         private void Back_Click(object sender, RoutedEventArgs e)
         {
-            isInThisPage = false;
-            NavigationService?.Navigate(new Pages.MainMenu());
+            safeNavigateInThreadZone(new Pages.MainMenu());
+
         }
         private void JoinRoom_Click(object sender, RoutedEventArgs e)
         {
             //needs to add playerm if he doesnt exists
             if (GetSelectedRoomName() == "None")
                 return;
-            JoinRoomRequest request = new JoinRoomRequest(GetRoomId(GetSelectedRoomName()));
+            string selectedRoomName = GetSelectedRoomName();
+            JoinRoomRequest request = new JoinRoomRequest(GetRoomId(selectedRoomName));
             byte[] requestBuffer = JsonSerialization.serializeRequest<JoinRoomRequest>(request, RequestsCodes.JOIN_ROOM);
             ClientCommuinactor comm = ClientCommuinactor.Instance;
 
@@ -70,8 +72,12 @@ namespace Trivia_Client.Pages
             else if (code == (byte)ResponseCodes.ROOM.JOINED_ROOM)
             {
                 User.Instance().SetIsRoomAdmin(false);
-                isInThisPage = false;
-                NavigationService?.Navigate(new Room());
+                lock (roomsMutex)
+                {
+                    User.Instance().SetRoom(GetRoom(selectedRoomName));
+                }
+                safeNavigateInThreadZone(new Pages.Room());
+
             }
         }
         private void Refresh_Click(object sender, RoutedEventArgs e)
@@ -96,8 +102,20 @@ namespace Trivia_Client.Pages
             }
             this.Dispatcher.Invoke(() =>
             {
-                roomsList.Items.Clear();
+                UpdateRoomsListUI(previouslySelected);
+                if (previouslySelected != "None")
+                {
+                    List<string> players = GetPlayersInRoom(GetRoomId(previouslySelected)); ;
+                    UpdatePlayersListUI(players);
+                }
+            });
+        }
+        private void UpdateRoomsListUI(string previouslySelected)
+        {
+            roomsList.Items.Clear();
 
+            lock (roomsMutex)
+            {
                 if (rooms != null && rooms.Count != 0)
                 {
                     availableRoomsLabel.Content = "";
@@ -118,21 +136,19 @@ namespace Trivia_Client.Pages
                 {
                     availableRoomsLabel.Content = "No available rooms at the moment";
                 }
-
-                if (previouslySelected != "None")
+            }
+            
+        }
+        private void UpdatePlayersListUI(List<string> players)
+        {
+            playersList.Items.Clear();
+            if (players != null && players.Count != 0)
+            {
+                foreach (string player in players)
                 {
-                    playersList.Items.Clear();
-                    List<string> players;
-                    players = GetPlayersInRoom(GetRoomId(previouslySelected));
-                    if (players != null && players.Count != 0)
-                    {
-                        foreach (string player in players)
-                        {
-                            playersList.Items.Add(player);
-                        }
-                    }
+                    playersList.Items.Add(player);
                 }
-            });
+            }
         }
         private uint GetRoomId(string roomName)
         {
@@ -147,7 +163,20 @@ namespace Trivia_Client.Pages
             }
             return roomId;
         }
-        private List<string> GetPlayersInRoom(uint roomId)
+        private RoomData GetRoom(string roomName)
+        {
+            RoomData room = new RoomData();
+            lock (roomsMutex)
+            {
+                foreach (RoomData roomData in rooms)
+                {
+                    if (roomData.name == roomName)
+                        room = roomData;
+                }
+            }
+            return room;
+        }
+        private static List<string> GetPlayersInRoom(uint roomId)
         {
             GetPlayersInRoomRequest request = new GetPlayersInRoomRequest(roomId);
             byte[] requestBuffer = JsonSerialization.serializeRequest<GetPlayersInRoomRequest>(request, RequestsCodes.GET_PLAYERS_IN_ROOM);
@@ -166,7 +195,7 @@ namespace Trivia_Client.Pages
             return response.players;
 
         }
-        private List<RoomData> GetRooms()
+        public static List<RoomData> GetRooms()
         {
             byte[] requestBuffer = JsonSerialization.serializeRequestCode(RequestsCodes.GET_ROOMS);
             ClientCommuinactor comm = ClientCommuinactor.Instance;
@@ -210,6 +239,11 @@ namespace Trivia_Client.Pages
                 }
             });
             return roomName;
+        }
+        private void safeNavigateInThreadZone(Page page)
+        {
+            isInThisPage = false;
+            NavigationService?.Navigate(page);
         }
     }
 }
