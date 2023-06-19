@@ -48,11 +48,6 @@ struct getHighScoreResponse {
 	std::vector<std::string> statistics;
 };
 
-struct getPersonalStatsResponse {
-	unsigned char status;
-	std::vector<std::string> statistics;
-};
-
 struct JoinRoomResponse {
 	unsigned char status;
 };
@@ -66,6 +61,25 @@ struct getPersonalStatusResponse {
 	std::vector<std::string> statistics;
 };
 
+struct CloseRoomResponse {
+	unsigned int status;
+};
+
+struct StartGameResponse {
+	unsigned int status;
+};
+
+struct GetRoomStateResponse {
+	unsigned int status;
+	bool hasGameBegun;
+	std::vector <std::string> players;
+	unsigned int questionCount;
+	unsigned int answerTimeout;
+};
+
+struct LeaveRoomResponse {
+	unsigned int status;
+};
 using Buffer = std::vector<unsigned char>;
 
 class JsonResponsePacketSerializer
@@ -80,7 +94,11 @@ public:
 	static Buffer serializeResponse(const JoinRoomResponse& response);
 	static Buffer serializeResponse(const CreateRoomResponse& response);
 	static Buffer serializeResponse(const getHighScoreResponse& response);
-	static Buffer serializeResponse(const getPersonalStatsResponse& response);
+	static Buffer serializeResponse(const getPersonalStatusResponse& response);
+	static Buffer serializeResponse(const CloseRoomResponse& response);
+	static Buffer serializeResponse(const StartGameResponse& response);
+	static Buffer serializeResponse(const GetRoomStateResponse& response);
+	static Buffer serializeResponse(const LeaveRoomResponse& response);
 	static void addMsgLenToBuffer(Buffer& buffer, const std::string& msg);
 
 };

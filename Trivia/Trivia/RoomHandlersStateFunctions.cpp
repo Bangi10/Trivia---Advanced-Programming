@@ -50,7 +50,7 @@ RequestResult RoomHandlersStateFunctions::getRoomState(const RequestInfo& rInfo,
 	}
 	else
 	{
-		result.newHandler = m_handlerFactory.createGameRequestHandler(m_user, room);
+		result.newHandler = nullptr;//m_handlerFactory.createGameRequestHandler(m_user, room);
 	}
 	response = createRoomStateResponse(room);
 	result.response = JsonResponsePacketSerializer::serializeResponse(response);
