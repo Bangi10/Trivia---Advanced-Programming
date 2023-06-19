@@ -138,7 +138,7 @@ RequestResult MenuRequestHandler::joinRoom(const RequestInfo& requestInfo)
 	if (!joinRoomRequest)
 		return createErrorResponse();
 	unsigned int roomId = joinRoomRequest.value().roomId;
-	auto room = roomManager.getRoom(roomId);
+	auto& room = roomManager.getRoom(roomId);
 	room.addUser(m_user);
 	JoinRoomResponse response = { unsigned char(RESPONSES::ROOM::JOINED_ROOM)};
 	result.response = JsonResponsePacketSerializer::serializeResponse(response);
@@ -156,9 +156,9 @@ RequestResult MenuRequestHandler::createRoom(const RequestInfo& requestInfo)
 	auto rooms = roomManager.getRooms();
 	unsigned int roomId = rooms.size() + 1;
 	RoomData roomData = { roomId,createRoomRequest.value().roomName,createRoomRequest.value().maxUsers,
-						 createRoomRequest.value().questionCount,createRoomRequest.value().answerTimeout,0 };
+						 createRoomRequest.value().questionCount,createRoomRequest.value().answerTimeout,(unsigned int)ROOM_STATUS::WAITING};
 	roomManager.createRoom(m_user, roomData);
-	auto room = roomManager.getRoom(roomId);
+	auto& room = roomManager.getRoom(roomId);
 	CreateRoomResponse response = { unsigned char(RESPONSES::ROOM::CREATED_ROOM) };
 	result.response = JsonResponsePacketSerializer::serializeResponse(response);
 	result.newHandler = this->m_handlerFactory.createRoomAdminRequestHandler(m_user, room);;//needs to be new handler "RoomManagerRequestHandler" look in the state nachine uml

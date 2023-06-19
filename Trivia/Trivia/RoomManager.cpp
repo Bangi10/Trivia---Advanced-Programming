@@ -8,9 +8,11 @@ RoomManager::~RoomManager()
 }
 
 //i dont know what to do with user
-void RoomManager::createRoom(const LoggedUser& user, const RoomData& room)
+void RoomManager::createRoom(const LoggedUser& user, const RoomData& roomData)
 {
-	std::pair<unsigned int, Room> idAndRoom(room.id, room);
+	Room room(roomData);
+	room.addUser(user);
+	std::pair<unsigned int, Room> idAndRoom(roomData.id, room);
 	this->m_rooms.insert(idAndRoom);
 }
 

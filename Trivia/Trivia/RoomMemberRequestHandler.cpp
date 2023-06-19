@@ -40,8 +40,14 @@ RequestResult RoomMemberRequestHandler::leaveRoom(RequestInfo rInfo)
 {
 	RequestResult result;
 	auto& roomManager = this->m_handlerFactory.getRoomManager();
-	roomManager.getRoom(this->m_room.getRoomID()).removeUser(this->m_user);
-
+	try
+	{
+		roomManager.getRoom(this->m_room.getRoomID()).removeUser(this->m_user);
+	}
+	catch (std::exception& e)
+	{
+		//for cases a player leaves room in the same moment the owner closes it
+	}
 	LeaveRoomResponse response = { unsigned char(RESPONSES::ROOM::LEFT_ROOM) };
 	result.response = JsonResponsePacketSerializer::serializeResponse(response);
 	result.newHandler = this->m_handlerFactory.createMenuRequestHandler(m_user);
