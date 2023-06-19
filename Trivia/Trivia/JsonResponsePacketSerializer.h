@@ -57,20 +57,20 @@ struct CreateRoomResponse {
 };
 
 struct getPersonalStatusResponse {
-	unsigned int status;
+	unsigned char status;
 	std::vector<std::string> statistics;
 };
 
 struct CloseRoomResponse {
-	unsigned int status;
+	unsigned char status;
 };
 
 struct StartGameResponse {
-	unsigned int status;
+	unsigned char status;
 };
 
 struct GetRoomStateResponse {
-	unsigned int status;
+	unsigned char status;
 	bool hasGameBegun;
 	std::vector <std::string> players;
 	unsigned int questionCount;
@@ -78,7 +78,7 @@ struct GetRoomStateResponse {
 };
 
 struct LeaveRoomResponse {
-	unsigned int status;
+	unsigned char status;
 };
 using Buffer = std::vector<unsigned char>;
 
