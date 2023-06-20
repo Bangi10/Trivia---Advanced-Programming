@@ -69,16 +69,16 @@ namespace Trivia_Client.Pages
                 ErrorResponse response = JsonSerialization.deserializeResponse<ErrorResponse>(jsonBuffer);
                 ErrorLabel.Content = response.message;
             }
-            else if (code == (byte)ResponseCodes.ROOM.JOINED_ROOM)
+            else if (code == (byte)ResponseCodes.ROOM.JOIN_ROOM_FULL)
+            {
+                ErrorLabel.Content = "Room is full!";
+            }
+            else
             {
                 User.Instance().SetIsRoomAdmin(false);
-                lock (roomsMutex)
-                {
-                    User.Instance().SetRoom(GetRoom(selectedRoomName));
-                }
+                User.Instance().SetRoom(GetRoom(selectedRoomName));
                 isInThisPage = false;
                 NavigationService?.Navigate(new Pages.Room());
-
             }
         }
         private void Refresh_Click(object sender, RoutedEventArgs e)
@@ -124,7 +124,7 @@ namespace Trivia_Client.Pages
                     {
                         roomsList.Items.Add(roomData.name);
                     }
-                    if (previouslySelected == "None")
+                    if (previouslySelected == "None" || !doesRoomExist(previouslySelected))
                     {
                         roomsList.SelectedIndex = 0;
                     }
@@ -139,6 +139,18 @@ namespace Trivia_Client.Pages
                 }
             }
             
+        }
+        private bool doesRoomExist(string roomName)
+        {
+            lock (roomsMutex)
+            {
+                foreach (RoomData roomData in rooms)
+                {
+                    if (roomData.name == roomName)
+                        return true;
+                }
+            }
+            return false;
         }
         private void UpdatePlayersListUI(List<string> players)
         {
