@@ -58,9 +58,8 @@ namespace Trivia_Client.Pages
                     switch (code)
                     {
                         case (byte)ResponseCodes.SIGNUP.SUCCESS:
-                            User.Instance(request.username);
-                            Application.Current.Properties["Name"] = username.Text;
-                            NavigationService?.Navigate(new MainMenu());
+                            //User.Instance(request.username);
+                            NavigationService?.Navigate(new Start());
                             break;
                         case (byte)ResponseCodes.SIGNUP.NAME_ALREADY_EXISTS:
                             ErrorLabel.Content = "username with this name already exists";

@@ -23,8 +23,8 @@ namespace Trivia_Client.Pages
     {
         public Statistics()
         {
-            usernameLabel.Content = User.Instance().GetUsername();
             InitializeComponent();
+            usernameLabel.Content = User.Instance().GetUsername();
         }
         private void MyStats_Click(object sender, RoutedEventArgs e)
         {
