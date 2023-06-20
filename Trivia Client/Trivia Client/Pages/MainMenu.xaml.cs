@@ -24,9 +24,10 @@ namespace Trivia_Client.Pages
         public MainMenu()
         {
             InitializeComponent();
+            welcomeTextBox.Text = $"welcome {Application.Current.Properties["Name"].ToString()}";
             usernameLabel.Content = User.Instance().GetUsername();
         }
-        private void Exit_Click(object sender, RoutedEventArgs e)
+        private void ExitButton_Click(object sender, RoutedEventArgs e)
         {
             //will trigger DataWindow_Closing
             Application.Current.Shutdown();
@@ -41,7 +42,6 @@ namespace Trivia_Client.Pages
         }
         private void Stats_Click(object sender, RoutedEventArgs e)
         {
-
             NavigationService?.Navigate(new Statistics());
         }
         private void HighScores_Click(object sender, RoutedEventArgs e)

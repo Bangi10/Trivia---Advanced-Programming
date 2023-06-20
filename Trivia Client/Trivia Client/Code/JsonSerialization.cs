@@ -39,7 +39,7 @@ namespace Trivia_Client.Code
         /// Function only gets json bytes without code and length
         /// Function may return default <typeparamref name="T"/> if not succeeded
         /// </summary>
-        public static T? deserializeResponse<T>(byte[] jsonBuffer) 
+        public static T? deserializeResponse<T>(byte[] jsonBuffer)
         {
             string responseStr = Encoding.ASCII.GetString(jsonBuffer);
             try
@@ -65,3 +65,4 @@ namespace Trivia_Client.Code
 
     }
 }
+

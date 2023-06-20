@@ -64,7 +64,5 @@
         </Button>
         <Label x:Name="ErrorLabel" Foreground="Red" FontFamily="Nunito" FontWeight="Bold" FontSize="13" Canvas.Left="539" Canvas.Top="431" HorizontalAlignment="Left" VerticalAlignment="Top"></Label>
         <Label x:Name="usernameLabel" Foreground="LightGray" FontSize="20" Canvas.Left="209" Canvas.Top="102" HorizontalAlignment="Center" VerticalAlignment="Top">Welcome</Label>
-
-
     </Canvas>
 </Page>

@@ -41,7 +41,7 @@ namespace Trivia_Client.Pages
             byte[] jsonBuffer = readTuple.Item1;
             byte code = readTuple.Item2;
 
-            if ( Helper.isInEnum<ResponseCodes.ERRORS>(code) )
+            if (Helper.isInEnum<ResponseCodes.ERRORS>(code))
             {
                 ErrorResponse response = JsonSerialization.deserializeResponse<ErrorResponse>(jsonBuffer);
                 ErrorLabel.Content = response.message;
@@ -52,6 +52,7 @@ namespace Trivia_Client.Pages
                 {
                     case (byte)ResponseCodes.LOGIN.SUCCESS:
                         User.Instance(request.username);
+                        Application.Current.Properties["Name"] = username.Text;
                         NavigationService?.Navigate(new MainMenu());
                         break;
                     case (byte)ResponseCodes.LOGIN.NAME_NOT_EXISTS:
@@ -67,7 +68,7 @@ namespace Trivia_Client.Pages
             }
         }
 
-        private void Exit_Click(object sender, RoutedEventArgs e)
+        private void ExitButton_Click(object sender, RoutedEventArgs e)
         {
             //will trigger DataWindow_Closing
             Application.Current.Shutdown();
@@ -78,6 +79,6 @@ namespace Trivia_Client.Pages
             NavigationService?.Navigate(new Start());
 
         }
-        
+
     }
 }

@@ -28,14 +28,103 @@ namespace Trivia_Client.Pages
         }
         private void MyStats_Click(object sender, RoutedEventArgs e)
         {
+            //it doesnt matter what type it is as long as we send to seriailiz "RequestsCodes.GET_STATISTICS"
+            SignupRequest request = new SignupRequest();
+            byte[] requestBuffer = JsonSerialization.serializeRequest<SignupRequest>(request, RequestsCodes.GET_STATISTICS);
+            ClientCommuinactor comm = ClientCommuinactor.Instance;
+            comm.sendBytes(requestBuffer);
+            //getting getPersonalStatusResponse response
+            var readTuple = comm.readBytes();
+            byte[] jsonBuffer = readTuple.Item1;
+            byte code = readTuple.Item2;
+            //checking if response is successful
+            if (Helper.isInEnum<ResponseCodes.ERRORS>(code))
+            {
+                ErrorResponse response = JsonSerialization.deserializeResponse<ErrorResponse>(jsonBuffer);
+                ErrorLabel.Content = response.message;
+            }
+            else if (code == (byte)ResponseCodes.ROOM.GOT_PERSONAL_STATS)
+            {
+                GetPersonalStatusResponse response = JsonSerialization.deserializeResponse<GetPersonalStatusResponse>(jsonBuffer);
+                if (response.status == (byte)ResponseCodes.ROOM.GOT_PERSONAL_STATS)
+                {
 
-            NavigationService?.Navigate(new Pages.MyStats());
+                    int avg = Convert.ToInt32(response.statistics[4][0]);
+
+                    Application.Current.Properties["avgTimeForAnswer"] = response.statistics[4][0];
+                    Application.Current.Properties["numOfRightAnswers"] = response.statistics[1][0];
+                    int totalAnswers = Convert.ToInt32(response.statistics[2][0]);
+                    int rightAnswers = Convert.ToInt32(response.statistics[1][0]);
+                    int wrongAnswers = totalAnswers - rightAnswers;
+                    Application.Current.Properties["numOfWrongAnswers"] = wrongAnswers.ToString();
+                    Application.Current.Properties["numOfGamesPlayed"] = response.statistics[3][0];
+                    NavigationService?.Navigate(new MyStats());
+                }
+                else
+                {
+                    ErrorLabel.Content = "you dont have stats right now";
+                }
+            }
         }
         private void HighScores_Click(object sender, RoutedEventArgs e)
         {
-            NavigationService?.Navigate(new Pages.HighScores());
+            //it doesnt matter what type it is as long as we send to seriailiz "RequestsCodes.GET_STATISTICS"
+            SignupRequest request = new SignupRequest();
+            byte[] requestBuffer = JsonSerialization.serializeRequest<SignupRequest>(request, RequestsCodes.GET_HIGH_SCORE);
+            ClientCommuinactor comm = ClientCommuinactor.Instance;
+            comm.sendBytes(requestBuffer);
+            //getting GetHighScoreResponse response
+            var readTuple = comm.readBytes();
+            byte[] jsonBuffer = readTuple.Item1;
+            byte code = readTuple.Item2;
+            //checking if response is successful
+            if (Helper.isInEnum<ResponseCodes.ERRORS>(code))
+            {
+                ErrorResponse response = JsonSerialization.deserializeResponse<ErrorResponse>(jsonBuffer);
+                ErrorLabel.Content = response.message;
+            }
+            else if (code == (byte)ResponseCodes.ROOM.GOT_HIGH_SCORE)
+            {
+                GetHighScoreResponse response = JsonSerialization.deserializeResponse<GetHighScoreResponse>(jsonBuffer);
+                if (response.status == (byte)ResponseCodes.ROOM.GOT_HIGH_SCORE)
+                {
+                    if (response.statistics[0] != "{}")
+                    {
+                        string firstName = response.statistics[0];
+                        char[] MyChar = { '{', '}', '"','"','}'};
+                        firstName = firstName.Trim(MyChar);
+                        string firstPoints = response.statistics[1];
+                        firstPoints = firstPoints.Trim(MyChar);
+                        Application.Current.Properties["first"] = firstName;
+                        Application.Current.Properties["firstPoints"] = firstPoints;
+                        if (response.statistics.Count()>2)
+                        {
+                            Application.Current.Properties["second"] = response.statistics[2];
+                            Application.Current.Properties["secondPoints"] = response.statistics[3];
+                            if (response.statistics.Count()>4)
+                            {
+                                Application.Current.Properties["third"] = response.statistics[4];
+                                Application.Current.Properties["thirdPoints"] = response.statistics[5];
+                            }
+                            else
+                            {
+                                Application.Current.Properties["third"] = "";
+                                Application.Current.Properties["thirdPoints"] = "";
+                            }
+                        }
+                        else
+                        {
+                            Application.Current.Properties["second"] = "";
+                            Application.Current.Properties["secondPoints"] = "";
+                            Application.Current.Properties["third"] = "";
+                            Application.Current.Properties["thirdPoints"] = "";
+                        }
+                    }
+                    NavigationService?.Navigate(new HighScores());
+                }
+            }
         }
-        private void Exit_Click(object sender, RoutedEventArgs e)
+        private void ExitButton_Click(object sender, RoutedEventArgs e)
         {
             //will trigger DataWindow_Closing
             Application.Current.Shutdown();

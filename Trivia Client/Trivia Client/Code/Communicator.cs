@@ -12,7 +12,7 @@ using System.Windows.Interop;
 
 namespace Trivia_Client.Code
 {
-    public sealed class ClientCommuinactor 
+    public sealed class ClientCommuinactor
     {
         public static volatile ClientCommuinactor instance;
         private static object syncRoot = new Object();

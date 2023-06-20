@@ -3,11 +3,10 @@
 #include <vector>
 #include "LoggedUser.h"
 #include <memory>
-
 class LoginManager
 {
 public:
-	LoginManager() = delete;
+	LoginManager() = default;
 	LoginManager(std::shared_ptr<IDatabase>& db);
 	~LoginManager();
 

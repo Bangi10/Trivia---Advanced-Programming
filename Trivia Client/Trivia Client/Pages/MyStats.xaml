@@ -27,6 +27,11 @@
                 <ListBoxItem x:Name="wrongAnswers" IsHitTestVisible="False">Number of wrong answers -</ListBoxItem>
                 <ListBoxItem x:Name="avgTime" IsHitTestVisible="False">Average time for answer -</ListBoxItem>
             </ListBox>
+            <TextBlock x:Name ="numOfGamesPlayed" Foreground="LightGray" FontSize="20" Canvas.Left="500" TextWrapping="Wrap" Text="" Canvas.Top="224" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="-40,19,0,0"/>
+            <TextBlock x:Name ="numOfRightAnswers" Foreground="LightGray" FontSize="20" Canvas.Left="500" TextWrapping="Wrap" Text="" Canvas.Top="224" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="-40,59,0,0"/>
+            <TextBlock x:Name ="numOfWrongAnswers" Foreground="LightGray" FontSize="20" Canvas.Left="500" TextWrapping="Wrap" Text="" Canvas.Top="224" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="-40,96,0,0"/>
+            <TextBlock x:Name ="avgTimeForAnswer" Foreground="LightGray" FontSize="20" Canvas.Left="500" TextWrapping="Wrap" Text="" Canvas.Top="224" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="-40,136,0,0"/>
+
         </Grid>
 
 
@@ -41,7 +46,8 @@
                 </ControlTemplate>
             </Button.Template>
         </Button>
-        <Button Canvas.Left="925" Canvas.Top="100" Click="Exit_Click" Height="50" Width="55" BorderBrush="Transparent" Cursor="Hand">
+        <!-- Exit button -->
+        <Button Canvas.Left="918" Canvas.Top="105" Click="Exit_Click" Height="50" Width="55" BorderBrush="Transparent" Cursor="Hand">
             <Button.Template>
                 <ControlTemplate TargetType="Button">
                     <Grid>
@@ -52,6 +58,8 @@
             </Button.Template>
         </Button>
         <Label x:Name="usernameLabel" Foreground="LightGray" FontSize="20" Canvas.Left="209" Canvas.Top="102" HorizontalAlignment="Center" VerticalAlignment="Top">Welcome</Label>
+
+        <Label x:Name="ErrorLabel" Foreground="Red" FontFamily="Nunito" FontWeight="Bold" FontSize="13" Canvas.Left="456" Canvas.Top="486" HorizontalAlignment="Left" VerticalAlignment="Top"></Label>
 
     </Canvas>
 </Page>

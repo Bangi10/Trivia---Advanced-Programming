@@ -228,8 +228,7 @@ namespace Trivia_Client.Pages
         private void Exit_Click(object sender, RoutedEventArgs e)
         {
             //will trigger DataWindow_Closing
-            Application.Current.Shutdown();
-
+            Application.Current.Shutdown();            
         }
         private void RoomsList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {

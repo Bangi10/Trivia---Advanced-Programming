@@ -9,7 +9,7 @@ namespace Trivia_Client.Code
     public class ResponseCodes
     {
         public enum ERRORS : byte { _ERROR = 50 };
-        public enum LOGOUT : byte { SUCCESS = 90};
+        public enum LOGOUT : byte { SUCCESS = 90, USER_NOT_LOGINED = 91, NAME_NOT_EXISTS = 92 };
         public enum LOGIN : byte { SUCCESS = 100, NAME_NOT_EXISTS = 101, PASSWORD_MISMATCH = 102, USER_ALREADY_LOGINED = 103 };
         public enum SIGNUP : byte { SUCCESS = 110, NAME_ALREADY_EXISTS = 111 };
         public enum ROOM : byte
@@ -26,19 +26,14 @@ namespace Trivia_Client.Code
     public record struct GetRoomsResponse(byte status, List<RoomData> rooms);
     public record struct RoomData(uint id, string name, uint maxPlayers, uint numOfQuestionsInGame, uint timePerQuestion, uint roomStatus);
     public record struct GetPlayersInRoomResponse(byte status, List<string> players);
-    public record struct getHighScoreResponse(byte status, List<string> statistics);
-    public record struct getPersonalStatusResponse(byte status, List<string> statistics);
+    public record struct GetHighScoreResponse(byte status, List<string> statistics);
+    public record struct GetPersonalStatusResponse(byte status, List<string> statistics);
     public record struct JoinRoomResponse(byte status);
     public record struct CreateRoomResponse(byte status);
     public record struct CloseRoomResponse(byte status);
     public record struct StartGameResponse(byte status);
     public record struct GetRoomStateResponse(byte status, bool hasGameBegun, List<string> players, uint questionCount, uint answerTimeout);
     public record struct LeaveRoomResponse(byte status);
-
-
-
-
-
 
 }
 
