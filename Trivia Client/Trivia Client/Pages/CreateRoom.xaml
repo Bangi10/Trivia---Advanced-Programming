@@ -13,12 +13,17 @@
     </Page.Background>
 
     <Canvas Margin="-10,-26,0,0">
-        <Label Foreground="White" FontFamily="Nunito" FontWeight="Bold" FontSize="16" Canvas.Left="438" Canvas.Top="299" HorizontalAlignment="Left" VerticalAlignment="Top">Room Name:</Label>
-        <TextBox VerticalContentAlignment="Center" HorizontalAlignment="Left" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="157" FontStyle="Italic" Canvas.Left="553" Canvas.Top="299" Height="32"/>
-        <Label Foreground="White" FontFamily="Nunito" FontWeight="Bold" FontSize="16" Canvas.Left="393" Canvas.Top="344" HorizontalAlignment="Left" VerticalAlignment="Top">Time Per Question:</Label>
-        <TextBox VerticalContentAlignment="Center" HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top" Width="157" FontStyle="Italic" Canvas.Left="553" Canvas.Top="344" Height="32"/>
+        <Label Foreground="White" FontFamily="Nunito" FontWeight="Bold" FontSize="16" Canvas.Left="439" Canvas.Top="260" HorizontalAlignment="Left" VerticalAlignment="Top">Room Name:</Label>
+        <TextBox x:Name="roomName" VerticalContentAlignment="Center" HorizontalAlignment="Left" TextWrapping="Wrap" Text="" VerticalAlignment="Center" Width="157" FontStyle="Italic" Canvas.Left="553" Canvas.Top="260" Height="32"/>
+
+        <Label Foreground="White" FontFamily="Nunito" FontWeight="Bold" FontSize="16" Canvas.Left="372" Canvas.Top="303" HorizontalAlignment="Center" VerticalAlignment="Top">Number of Questions:</Label>
+        <TextBox x:Name="numberOfQuestions" VerticalContentAlignment="Center" HorizontalAlignment="Left" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="157" FontStyle="Italic" Canvas.Left="553" Canvas.Top="304" Height="32"/>
+
+        <Label Foreground="White" FontFamily="Nunito" FontWeight="Bold" FontSize="16" Canvas.Left="393" Canvas.Top="346" HorizontalAlignment="Center" VerticalAlignment="Top">Time Per Question:</Label>
+        <TextBox x:Name="timePerQuestion" VerticalContentAlignment="Center" HorizontalAlignment="Center" TextWrapping="Wrap" VerticalAlignment="Top" Width="157" FontStyle="Italic" Canvas.Left="553" Canvas.Top="346" Height="32"/>
+
         <Label Foreground="White" FontFamily="Nunito" FontWeight="Bold" FontSize="16" Canvas.Left="439" Canvas.Top="391" HorizontalAlignment="Left" VerticalAlignment="Top">Max Players:</Label>
-        <TextBox VerticalContentAlignment="Center" HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top" Width="157" FontStyle="Italic" Canvas.Left="553" Canvas.Top="344" Height="32"/>
+        <TextBox x:Name="maxPlayers" VerticalContentAlignment="Center" HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Center" Width="157" FontStyle="Italic" Canvas.Left="553" Canvas.Top="391" Height="32"/>
 
         <!-- Buttons must be in canvas -->
         <!-- Create Room button -->
@@ -57,16 +62,9 @@
                 </ControlTemplate>
             </Button.Template>
         </Button>
-        <TextBox VerticalContentAlignment="Center" TextWrapping="Wrap" Width="157" FontStyle="Italic" Canvas.Left="553" Canvas.Top="391" Height="32" HorizontalAlignment="Left" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5">
-            <TextBox.RenderTransform>
-                <TransformGroup>
-                    <ScaleTransform/>
-                    <SkewTransform AngleX="-3.553"/>
-                    <RotateTransform/>
-                    <TranslateTransform X="0.993"/>
-                </TransformGroup>
-            </TextBox.RenderTransform>
-        </TextBox>
+        <Label x:Name="ErrorLabel" Foreground="Red" FontFamily="Nunito" FontWeight="Bold" FontSize="13" Canvas.Left="539" Canvas.Top="431" HorizontalAlignment="Left" VerticalAlignment="Top"></Label>
+        <Label x:Name="usernameLabel" Foreground="LightGray" FontSize="20" Canvas.Left="209" Canvas.Top="102" HorizontalAlignment="Center" VerticalAlignment="Top">Welcome</Label>
+
 
         <Label x:Name="ErrorLabel" Foreground="Red" FontFamily="Nunito" FontWeight="Bold" FontSize="13" Canvas.Left="456" Canvas.Top="486" HorizontalAlignment="Left" VerticalAlignment="Top"></Label>
 

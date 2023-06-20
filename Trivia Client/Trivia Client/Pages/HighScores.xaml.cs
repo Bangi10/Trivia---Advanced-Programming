@@ -42,38 +42,12 @@ namespace Trivia_Client.Pages
                     congratsTextBox.Text = "WOW you are at the top 3 best players\n you must be really smart or just lucky\neither way great job!!!";
                 }
             }
+            usernameLabel.Content = User.Instance().GetUsername();
         }
         private void ExitButton_Click(object sender, RoutedEventArgs e)
         {
-            //it doesnt matter what type it is as long as we send to seriailiz "RequestsCodes.LOGOUT"
-            SignupRequest request = new SignupRequest();
-            byte[] requestBuffer = JsonSerialization.serializeRequest<SignupRequest>(request, RequestsCodes.LOGOUT);
-            ClientCommuinactor comm = ClientCommuinactor.Instance;
-            comm.sendBytes(requestBuffer);
-            var readTuple = comm.readBytes();
-            byte[] jsonBuffer = readTuple.Item1;
-            byte code = readTuple.Item2;
-
-            if (Helper.isInEnum<ResponseCodes.ERRORS>(code))
-            {
-                ErrorResponse response = JsonSerialization.deserializeResponse<ErrorResponse>(jsonBuffer);
-                ErrorLabel.Content = response.message;
-            }
-            else
-            {
-                switch (code)
-                {
-                    case (byte)ResponseCodes.LOGOUT.SUCCESS:
-                        NavigationService?.Navigate(new Start());
-                        break;
-                    case (byte)ResponseCodes.LOGOUT.NAME_NOT_EXISTS:
-                        ErrorLabel.Content = "username doesn't exist";
-                        break;
-                    case (byte)ResponseCodes.LOGOUT.USER_NOT_LOGINED:
-                        ErrorLabel.Content = "usern isnt logined";
-                        break;
-                }
-            }
+            //will trigger DataWindow_Closing
+            Application.Current.Shutdown();
         }
         private void Back_Click(object sender, RoutedEventArgs e)
         {

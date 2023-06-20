@@ -33,4 +33,3 @@ namespace Trivia_Client.Code
         }
     }
 }
-

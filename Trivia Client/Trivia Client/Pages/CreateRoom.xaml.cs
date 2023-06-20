@@ -24,18 +24,18 @@ namespace Trivia_Client.Pages
         public CreateRoom()
         {
             InitializeComponent();
+            usernameLabel.Content = User.Instance().GetUsername();
         }
         private void CreateRoom_Click(object sender, RoutedEventArgs e)
         {
-            NavigationService?.Navigate(new Room());
-        }
-        private void Exit_Click(object sender, RoutedEventArgs e)
-        {
-            //it doesnt matter what type it is as long as we send to seriailiz "RequestsCodes.LOGOUT"
-            SignupRequest request = new SignupRequest();
-            byte[] requestBuffer = JsonSerialization.serializeRequest<SignupRequest>(request, RequestsCodes.LOGOUT);
+            //needs to add playerm if he doesnt exists
+            CreateRoomRequest request = new CreateRoomRequest(roomName.Text, Convert.ToUInt32(maxPlayers.Text),
+                                                              Convert.ToUInt32(numberOfQuestions.Text), Convert.ToUInt32(timePerQuestion.Text));
+            byte[] requestBuffer = JsonSerialization.serializeRequest<CreateRoomRequest>(request, RequestsCodes.CREATE_ROOM);
             ClientCommuinactor comm = ClientCommuinactor.Instance;
+
             comm.sendBytes(requestBuffer);
+
             var readTuple = comm.readBytes();
             byte[] jsonBuffer = readTuple.Item1;
             byte code = readTuple.Item2;
@@ -45,25 +45,49 @@ namespace Trivia_Client.Pages
                 ErrorResponse response = JsonSerialization.deserializeResponse<ErrorResponse>(jsonBuffer);
                 ErrorLabel.Content = response.message;
             }
-            else
+            else if (code == (byte)ResponseCodes.ROOM.CREATED_ROOM)
             {
-                switch (code)
-                {
-                    case (byte)ResponseCodes.LOGOUT.SUCCESS:
-                        NavigationService?.Navigate(new Start());
-                        break;
-                    case (byte)ResponseCodes.LOGOUT.NAME_NOT_EXISTS:
-                        ErrorLabel.Content = "username doesn't exist";
-                        break;
-                    case (byte)ResponseCodes.LOGOUT.USER_NOT_LOGINED:
-                        ErrorLabel.Content = "usern isnt logined";
-                        break;
-                }
+                User.Instance().SetIsRoomAdmin(true);
+                User.Instance().SetRoom(new RoomData(0, roomName.Text, Convert.ToUInt32(maxPlayers.Text), Convert.ToUInt32(numberOfQuestions.Text), Convert.ToUInt32(timePerQuestion.Text), 0));
+                NavigationService?.Navigate(new Room());
             }
+        }
+        //private RoomData GetRoomFromServer(string _roomName)
+        //{
+        //    var rooms = GetRooms();
+        //    RoomData requestedRoom = new RoomData();
+        //    foreach (var room in rooms)
+        //    {
+        //        if (room.name == _roomName)
+        //        {
+        //            requestedRoom = room;
+        //        }
+        //    }
+        //    return requestedRoom;
+        //}
+        private List<RoomData> GetRooms()
+        {
+            byte[] requestBuffer = JsonSerialization.serializeRequestCode(RequestsCodes.GET_ROOMS);
+            ClientCommuinactor comm = ClientCommuinactor.Instance;
+            Tuple<byte[], byte> readTuple;
+
+            comm.sendBytes(requestBuffer);
+            readTuple = comm.readBytes();
+
+            byte[] jsonBuffer = readTuple.Item1;
+            byte code = readTuple.Item2;
+
+            GetRoomsResponse response = JsonSerialization.deserializeResponse<GetRoomsResponse>(jsonBuffer);
+            return response.rooms;
+        }
+        private void Exit_Click(object sender, RoutedEventArgs e)
+        {
+            //will trigger DataWindow_Closing
+            Application.Current.Shutdown();
+
         }
         private void Back_Click(object sender, RoutedEventArgs e)
         {
-
             NavigationService?.Navigate(new Pages.MainMenu());
         }
         

@@ -15,11 +15,11 @@ namespace Trivia_Client.Code
         public enum ROOM : byte
         {
             CREATED_ROOM = 120, GOT_ROOMS = 121, GOT_PLAYERS_IN_ROOM = 122,
-            JOINED_ROOM = 123, GOT_HIGH_SCORE = 124, GOT_PERSONAL_STATS = 125, CLOSED_ROOM = 126,
+            JOINED_ROOM = 123, JOIN_ROOM_FULL = 130, GOT_HIGH_SCORE = 124, GOT_PERSONAL_STATS = 125, CLOSED_ROOM = 126,
             STARTED_GAME = 127, GOT_ROOM_STATE = 128, LEFT_ROOM = 129
         };
     }
-    public record struct ErrorResponse(byte status, string message);
+    public record struct ErrorResponse(byte status, string message );
     public record struct LoginResponse(byte status);
     public record struct SignupResponse(byte status);
     public record struct LogoutResponse(byte status);
@@ -30,7 +30,10 @@ namespace Trivia_Client.Code
     public record struct GetPersonalStatusResponse(byte status, List<string> statistics);
     public record struct JoinRoomResponse(byte status);
     public record struct CreateRoomResponse(byte status);
-
+    public record struct CloseRoomResponse(byte status);
+    public record struct StartGameResponse(byte status);
+    public record struct GetRoomStateResponse(byte status, bool hasGameBegun, List<string> players, uint questionCount, uint answerTimeout);
+    public record struct LeaveRoomResponse(byte status);
 
 }
 

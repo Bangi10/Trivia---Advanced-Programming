@@ -72,7 +72,7 @@ namespace Trivia_Client.Pages
 
         private void ExitButton_Click(object sender, RoutedEventArgs e)
         {
-            //logout
+            //will trigger DataWindow_Closing
             Application.Current.Shutdown();
         }
         private void Back_Click(object sender, RoutedEventArgs e)
