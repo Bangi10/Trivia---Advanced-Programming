@@ -80,6 +80,34 @@ struct GetRoomStateResponse {
 struct LeaveRoomResponse {
 	unsigned char status;
 };
+
+struct LeaveGameRoomResponse {
+	unsigned char status;
+};
+
+struct GetQuestionResponse {
+	unsigned char status;
+	std::string question;
+	std::map<unsigned int, std::string> answers;
+};
+
+struct SubmitAnswerResponse {
+	unsigned char status;
+	unsigned int correctAnswerID;
+};
+
+struct PlayerResults {
+	std::string username;
+	unsigned int correctAnswerCount;
+	unsigned int wrongAnswerCount;
+	unsigned int averageAnswerTime;
+};
+
+struct GetGameResultsResponse {
+	unsigned char status;
+	std::vector<PlayerResults> results;
+};
+
 using Buffer = std::vector<unsigned char>;
 
 class JsonResponsePacketSerializer
