@@ -228,28 +228,7 @@ namespace Trivia_Client.Pages
         private void Exit_Click(object sender, RoutedEventArgs e)
         {
             //will trigger DataWindow_Closing
-            Application.Current.Shutdown();
-
-            if (Helper.isInEnum<ResponseCodes.ERRORS>(code))
-            {
-                ErrorResponse response = JsonSerialization.deserializeResponse<ErrorResponse>(jsonBuffer);
-                ErrorLabel.Content = response.message;
-            }
-            else
-            {
-                switch (code)
-                {
-                    case (byte)ResponseCodes.LOGOUT.SUCCESS:
-                        NavigationService?.Navigate(new Start());
-                        break;
-                    case (byte)ResponseCodes.LOGOUT.NAME_NOT_EXISTS:
-                        ErrorLabel.Content = "username doesn't exist";
-                        break;
-                    case (byte)ResponseCodes.LOGOUT.USER_NOT_LOGINED:
-                        ErrorLabel.Content = "usern isnt logined";
-                        break;
-                }
-            }
+            Application.Current.Shutdown();            
         }
         private void RoomsList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {

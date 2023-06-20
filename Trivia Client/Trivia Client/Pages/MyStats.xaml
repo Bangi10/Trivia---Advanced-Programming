@@ -47,7 +47,7 @@
             </Button.Template>
         </Button>
         <!-- Exit button -->
-        <Button Canvas.Left="918" Canvas.Top="105" Click="ExitButton_Click" Height="50" Width="55" BorderBrush="Transparent" Cursor="Hand">
+        <Button Canvas.Left="918" Canvas.Top="105" Click="Exit_Click" Height="50" Width="55" BorderBrush="Transparent" Cursor="Hand">
             <Button.Template>
                 <ControlTemplate TargetType="Button">
                     <Grid>
