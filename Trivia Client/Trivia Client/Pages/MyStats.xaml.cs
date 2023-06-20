@@ -24,11 +24,12 @@ namespace Trivia_Client.Pages
         public MyStats()
         {
             InitializeComponent();
-            numOfGamesPlayed.Text = $"{Application.Current.Properties["numOfGamesPlayed"].ToString()}";
-            numOfRightAnswers.Text = $"{Application.Current.Properties["numOfRightAnswers"].ToString()}";
-            numOfWrongAnswers.Text = $"{Application.Current.Properties["numOfWrongAnswers"].ToString()}";
-            avgTimeForAnswer.Text = $"{Application.Current.Properties["avgTimeForAnswer"].ToString()}";
-            usernameLabel.Content = User.Instance().GetUsername();
+            User user = User.instance;
+            numOfGamesPlayed.Text = user.GetGamesPlayed().ToString();
+            numOfRightAnswers.Text = user.GetRightAnswers().ToString();
+            numOfWrongAnswers.Text = (user.GetTotalAnswers()-user.GetRightAnswers()).ToString();
+            avgTimeForAnswer.Text = user.GetAvgTimeForAnswer().ToString();
+            usernameLabel.Content = user.GetUsername();
         }
         private void Back_Click(object sender, RoutedEventArgs e)
         {

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -25,6 +26,13 @@ namespace Trivia_Client.Pages
         {
             InitializeComponent();
         }
+        public class userStatistics
+        {
+            public int NumOfCorrectAnswers { get; set; }
+            public int NumOfPlayerGames { get; set; }
+            public int NumOfTotalAnswers { get; set; }
+            public float PlayerAverageAnswerTime { get; set; }
+        }
         private void MyStats_Click(object sender, RoutedEventArgs e)
         {
             //it doesnt matter what type it is as long as we send to seriailiz "RequestsCodes.GET_STATISTICS"
@@ -47,13 +55,13 @@ namespace Trivia_Client.Pages
                 GetPersonalStatusResponse response = JsonSerialization.deserializeResponse<GetPersonalStatusResponse>(jsonBuffer);
                 if (response.status == (byte)ResponseCodes.ROOM.GOT_PERSONAL_STATS)
                 {
-                    Application.Current.Properties["avgTimeForAnswer"] = response.statistics[4][0];
-                    Application.Current.Properties["numOfRightAnswers"] = response.statistics[1][0];
-                    int totalAnswers = Convert.ToInt32(response.statistics[2][0]);
-                    int rightAnswers = Convert.ToInt32(response.statistics[1][0]);
-                    int wrongAnswers = totalAnswers - rightAnswers;
-                    Application.Current.Properties["numOfWrongAnswers"] = wrongAnswers.ToString();
-                    Application.Current.Properties["numOfGamesPlayed"] = response.statistics[3][0];
+                    User user = User.Instance();
+                    string statistics = response.statistics;
+                    userStatistics j = JsonSerializer.Deserialize<userStatistics>(statistics);
+                    user.setAvgTimeForAnswer(j.PlayerAverageAnswerTime);
+                    user.setRightAnswers(j.NumOfCorrectAnswers);
+                    user.setTotalAnswers(j.NumOfTotalAnswers);
+                    user.setGamesPlayed(j.NumOfPlayerGames);
                     NavigationService?.Navigate(new MyStats());
                 }
                 else
@@ -87,20 +95,31 @@ namespace Trivia_Client.Pages
                     if (response.statistics[0] != "{}")
                     {
                         string firstName = response.statistics[0];
-                        char[] MyChar = { '{', '}', '"','"','}'};
-                        firstName = firstName.Trim(MyChar);
-                        string firstPoints = response.statistics[1];
-                        firstPoints = firstPoints.Trim(MyChar);
+                        char[] trimChars = { '{', '}', '"','"','}'};
+                        firstName = firstName.Trim(trimChars);
+                        string firstPointsAndSecondName = response.statistics[1];
+                        string separatingString = ",";
+                        string[] firstPointsAndSecondNameSplited = firstPointsAndSecondName.Split(separatingString, System.StringSplitOptions.RemoveEmptyEntries);
+                        string firstPoints = firstPointsAndSecondNameSplited[0];
                         Application.Current.Properties["first"] = firstName;
                         Application.Current.Properties["firstPoints"] = firstPoints;
                         if (response.statistics.Count()>2)
                         {
-                            Application.Current.Properties["second"] = response.statistics[2];
-                            Application.Current.Properties["secondPoints"] = response.statistics[3];
-                            if (response.statistics.Count()>4)
+                            string secondName = firstPointsAndSecondNameSplited[1].Trim(trimChars);
+                            Application.Current.Properties["second"] = secondName;
+                            string secondPointsAndThirdName = response.statistics[2];
+                            string[] secondPointsAndThirdNameSplited = secondPointsAndThirdName.Split(separatingString, System.StringSplitOptions.RemoveEmptyEntries);
+                            string secondPoints = secondPointsAndThirdNameSplited[0];
+                            Application.Current.Properties["secondPoints"] = secondPoints;
+                            if (response.statistics.Count()>=4)
                             {
-                                Application.Current.Properties["third"] = response.statistics[4];
-                                Application.Current.Properties["thirdPoints"] = response.statistics[5];
+                                string thirdName = secondPointsAndThirdNameSplited[1].Trim(trimChars);
+                                Application.Current.Properties["third"] = thirdName;
+                                string[] separatingStrings = { ",", "}" };
+                                string thirdPointsAndfourthName = response.statistics[3];
+                                string[] thirdPointsAndfourthNameSplited = secondPointsAndThirdName.Split(separatingString, System.StringSplitOptions.RemoveEmptyEntries);
+                                string thirdPoints = secondPointsAndThirdNameSplited[0];
+                                Application.Current.Properties["thirdPoints"] = thirdPoints;
                             }
                             else
                             {

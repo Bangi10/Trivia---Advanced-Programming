@@ -27,7 +27,7 @@ namespace Trivia_Client.Code
     public record struct RoomData(uint id, string name, uint maxPlayers, uint numOfQuestionsInGame, uint timePerQuestion, uint roomStatus);
     public record struct GetPlayersInRoomResponse(byte status, List<string> players);
     public record struct GetHighScoreResponse(byte status, List<string> statistics);
-    public record struct GetPersonalStatusResponse(byte status, List<string> statistics);
+    public record struct GetPersonalStatusResponse(byte status, string statistics);
     public record struct JoinRoomResponse(byte status);
     public record struct CreateRoomResponse(byte status);
     public record struct CloseRoomResponse(byte status);

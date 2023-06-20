@@ -4,12 +4,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.NetworkInformation;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 using Json = System.Text.Json;
 
 namespace Trivia_Client.Code
 {
-
     public class JsonSerialization
     {
         public static byte[] serializeRequest<T>(T request, RequestsCodes status) //even though status is in response, isn't accessible
@@ -41,6 +41,7 @@ namespace Trivia_Client.Code
         /// </summary>
         public static T? deserializeResponse<T>(byte[] jsonBuffer)
         {
+
             string responseStr = Encoding.ASCII.GetString(jsonBuffer);
             try
             {

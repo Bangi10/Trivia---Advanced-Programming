@@ -15,12 +15,22 @@ namespace Trivia_Client.Code
 
         //fields
         private string username;
+        private float avgTimeForAnswer;
+        private int rightAnswers;
+        private int totalAnswers;
+        private int gamesPlayed;
+        private int points;
         private bool isRoomAdmin;
         private RoomData room;
 
         private User(string username)
         {
             this.username = username;
+            this.avgTimeForAnswer = 0;
+            this.rightAnswers = 0;
+            this.totalAnswers = 0;
+            this.gamesPlayed = 0;
+            this.points = 0;
             this.isRoomAdmin = false;
             this.room = new RoomData();
         }
@@ -41,6 +51,16 @@ namespace Trivia_Client.Code
         { 
             return username; 
         }
+        public float GetAvgTimeForAnswer()
+            { return avgTimeForAnswer; }
+        public int GetRightAnswers()
+            { return rightAnswers; }
+        public int GetTotalAnswers()
+        { return totalAnswers; }
+        public int GetGamesPlayed()
+            { return gamesPlayed; }
+        public int GetPoints()
+            { return points; }
         public bool GetIsRoomAdmin()
         {
             return isRoomAdmin;
@@ -49,6 +69,16 @@ namespace Trivia_Client.Code
         {
             return room;
         }
+        public void setAvgTimeForAnswer(float avgTime)
+            { this.avgTimeForAnswer = avgTime; }
+        public void setRightAnswers(int rightAnswers)
+            { this.rightAnswers = rightAnswers; }
+        public void setTotalAnswers(int totalAnswers)
+            { this.totalAnswers = totalAnswers; }
+        public void setGamesPlayed(int gamesPlayed)
+            { this.gamesPlayed = gamesPlayed; }
+        public void setPoints(int points)
+            { this.points = points; }
         public void SetIsRoomAdmin(bool isRoomAdmin)
         {
             this.isRoomAdmin = isRoomAdmin;
