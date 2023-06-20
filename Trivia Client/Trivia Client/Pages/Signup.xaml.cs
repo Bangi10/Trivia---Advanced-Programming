@@ -59,7 +59,7 @@ namespace Trivia_Client.Pages
                     {
                         case (byte)ResponseCodes.SIGNUP.SUCCESS:
                             //User.Instance(request.username);
-                            NavigationService?.Navigate(new Start());
+                            NavigationService?.Navigate(new MainMenu());
                             break;
                         case (byte)ResponseCodes.SIGNUP.NAME_ALREADY_EXISTS:
                             ErrorLabel.Content = "username with this name already exists";
