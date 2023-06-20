@@ -2,6 +2,8 @@
 #include "JsonRequestPacketDeserializer.h"
 #include "JsonResponsePacketSerializer.h"
 #include "RoomManager.h"
+#include "json.hpp"
+using json = nlohmann::json;
 
 //getting string that is separated by ":" and converting it to vector<string>
 std::vector<std::string> stringToVectorSplit(std::string str, std::string delimiter)
@@ -119,7 +121,8 @@ RequestResult MenuRequestHandler::getPersonalStats(const RequestInfo& requestInf
 	RequestResult result;
 	auto& statisticsManager = this->m_handlerFactory.getStatisticsManager();
 	std::string userStatisticsString = statisticsManager.getUserStatistics(m_user.getUsername());
-	std::vector<std::string> userStatistics = stringToVectorSplit(userStatisticsString, ":");
+	
+	std::vector<std::string> userStatistics = stringToVectorSplit(userStatisticsString, ".");
 	getPersonalStatusResponse response = { unsigned char(RESPONSES::ROOM::GOT_PERSONAL_STATS), userStatistics };
 	result.response = JsonResponsePacketSerializer::serializeResponse(response);
 	result.newHandler = this->m_handlerFactory.createMenuRequestHandler(m_user);

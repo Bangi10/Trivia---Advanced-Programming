@@ -138,6 +138,9 @@ void SqliteDatabase::addNewUser(const std::string& username, const std::string& 
 		std::string msg = "INSERT INTO USERS VALUES('" + username + "', '" + password + "', '" + email + "'); ";
 		const char* sqlStatement = msg.c_str();
 		sqlite3_exec(this->_db, sqlStatement, nullptr, nullptr, nullptr);
+		msg = "insert into STATISTICS values('" + username + "', '0', '0.0', '0', '0', '0');";
+		sqlStatement = msg.c_str();
+		sqlite3_exec(this->_db, sqlStatement, nullptr, nullptr, nullptr);
 	}
 
 }
@@ -155,6 +158,8 @@ float SqliteDatabase::getPlayerAverageAnswerTime(const std::string& username) co
 	std::string sqlStatement = "SELECT " + AVG_ANSWER_TIME + " FROM STATISTICS WHERE USERNAME = " + username;
 	float avgTime;
 	sqlite3_exec(this->_db, sqlStatement.c_str(), getFloatCallback, &avgTime, nullptr);
+	if (avgTime < 0)
+		avgTime = 0;
 	return avgTime;
 }
 
@@ -163,6 +168,8 @@ int SqliteDatabase::getNumOfCorrectAnswers(const std::string& username) const
 	std::string sqlStatement = "SELECT " + NUM_OF_CORRECT_ANSWERS + " FROM STATISTICS WHERE USERNAME = " + username;
 	int numOfCorrectAnswers;
 	sqlite3_exec(this->_db, sqlStatement.c_str(), getIntCallback, &numOfCorrectAnswers, nullptr);
+	if (numOfCorrectAnswers < 0)
+		numOfCorrectAnswers = 0;
 	return numOfCorrectAnswers;
 }
 
@@ -171,15 +178,19 @@ int SqliteDatabase::getNumOfTotalAnswers(const std::string& username) const
 	std::string sqlStatement = "SELECT " + NUM_OF_TOTAL_ANSWERS + " FROM STATISTICS WHERE USERNAME = " + username;
 	int numOfTotalAnswers;
 	sqlite3_exec(this->_db, sqlStatement.c_str(), getIntCallback, &numOfTotalAnswers, nullptr);
+	if (numOfTotalAnswers < 0)
+		numOfTotalAnswers = 0;
 	return numOfTotalAnswers;
 }
 
 int SqliteDatabase::getNumOfPlayerGames(const std::string& username) const
 {
 	std::string sqlStatement = "SELECT " + NUM_OF_PLAYER_GAMES + " FROM STATISTICS WHERE USERNAME = " + username;
-	int numOfPlayerGames;
-	sqlite3_exec(this->_db, sqlStatement.c_str(), getIntCallback, &numOfPlayerGames, nullptr);
-	return numOfPlayerGames;
+	int numOfPlayedGames;
+	sqlite3_exec(this->_db, sqlStatement.c_str(), getIntCallback, &numOfPlayedGames, nullptr);
+	if (numOfPlayedGames < 0)
+		numOfPlayedGames = 0;
+	return numOfPlayedGames;
 }
 
 int SqliteDatabase::getPlayerScore(const std::string& username) const
@@ -187,13 +198,15 @@ int SqliteDatabase::getPlayerScore(const std::string& username) const
 	std::string sqlStatement = "SELECT " + SCORE + " FROM STATISTICS WHERE USERNAME = " + username;
 	int score;
 	sqlite3_exec(this->_db, sqlStatement.c_str(), getIntCallback, &score, nullptr);
+	if (score < 0)
+		score = 0;
 	return score;
 }
 
 std::string SqliteDatabase::getHighScores() const
 {
 	std::map<std::string, int> highScoresMap;
-	std::string sqlStatement = "SELECT USERNAME, SCORE FROM STATISTICS ORDER BY SCORE DESC LIMIT 5";
+	std::string sqlStatement = "SELECT USERNAME, SCORE FROM STATISTICS ORDER BY SCORE DESC LIMIT 3";
 	sqlite3_exec(this->_db, sqlStatement.c_str(), addHighScoreToMapCallBack, &highScoresMap, nullptr);
 	json highScoresJson = highScoresMap;
 	return highScoresJson.dump();
