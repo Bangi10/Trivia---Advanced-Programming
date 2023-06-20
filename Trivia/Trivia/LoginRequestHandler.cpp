@@ -45,7 +45,7 @@ RequestResult LoginRequestHandler::login(const RequestInfo& info)
     if (!request)
         return createErrorResponse();
 
-    auto loginManager = this->m_handlerFactory.getLoginManager();
+    auto& loginManager = this->m_handlerFactory.getLoginManager();
     int loginStatus = loginManager.login(request.value().username, request.value().password);
 
     LoginResponse loginRes;
@@ -71,7 +71,7 @@ RequestResult LoginRequestHandler::signup(const RequestInfo& info)
     auto request = JsonRequestPacketDeserializer::deserializeSignupRequest(info.buffer);
     if (!request)
         return createErrorResponse();
-    auto loginManager = this->m_handlerFactory.getLoginManager();
+    auto& loginManager = this->m_handlerFactory.getLoginManager();
     int signupStatus = loginManager.signup(request.value().username, request.value().password, request.value().email);
 
     SignupResponse signupRes;
