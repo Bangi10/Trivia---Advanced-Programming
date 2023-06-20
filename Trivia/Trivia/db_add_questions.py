@@ -3,14 +3,6 @@ import json
 import sqlite3
 import time
 
-def create_questions_table(db_handler):
-    db_handler.execute("""CREATE TABLE IF NOT EXISTS QUESTIONS
-                    (QUESTION varchar NOT NULL PRIMARY KEY,
-                    ANSWER_INCORRECT1 varchar NOT NULL,
-                    ANSWER_INCORRECT2 varchar NOT NULL,
-                    ANSWER_INCORRECT3 varchar NOT NULL,
-                    ANSWER_CORRECT varchar NOT NULL);""")
-
 def insert_to_questions_table(db_handler, question, incorrect_answers: list, correct_answer):
     if (len(incorrect_answers) == 3):
         db_handler.execute(f"INSERT INTO QUESTIONS VALUES('{question}','{incorrect_answers[0]}','{incorrect_answers[1]}','{incorrect_answers[2]}','{correct_answer}');")
@@ -22,7 +14,6 @@ def main():
     json_results_list = json.loads(json_api.text)["results"]
     db = sqlite3.connect("DB.sqlite")
     db_handler = db.cursor()
-    create_questions_table(db_handler)
 
     for json_result in json_results_list:
         time.sleep(0.5)

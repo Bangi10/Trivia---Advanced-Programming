@@ -22,6 +22,7 @@ public:
 	int getNumOfPlayerGames(const std::string& username) const override;
 	int getPlayerScore(const std::string& username) const override;
 	std::string getHighScores() const override;
+	bool checkIfQuestionsTableExists();
 private:
 	sqlite3* _db;
 };

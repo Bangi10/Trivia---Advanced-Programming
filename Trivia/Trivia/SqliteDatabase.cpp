@@ -240,14 +240,28 @@ bool SqliteDatabase::open()
 	}
 	//creating new table USERS
 	char** errMessage = nullptr;
-	std::string sqlStatement = "CREATE TABLE USERS(USERNAME  TEXT NOT NULL, PASSWORD	TEXT NOT NULL, EMAIL  TEXT NOT NULL, PRIMARY KEY(USERNAME)); ";
+	std::string sqlStatement = "CREATE TABLE IF NOT EXISTS USERS(USERNAME  TEXT NOT NULL, PASSWORD	TEXT NOT NULL, EMAIL  TEXT NOT NULL, PRIMARY KEY(USERNAME)); ";
 	sqlite3_exec(_db, sqlStatement.c_str(), nullptr, nullptr, errMessage);
-	sqlStatement = "CREATE TABLE STATISTICS (USERNAME text NOT NULL , SCORE  int NOT NULL, AVG_ANSWER_TIME  float NOT NULL , NUM_OF_CORRECT_ANSWERS int NOT NULL , NUM_OF_TOTAL_ANSWERS   int NOT NULL , NUM_OF_PLAYER_GAMES    int NOT NULL ,PRIMARY KEY (USERNAME),FOREIGN KEY (USERNAME) REFERENCES USERS (USERNAME));";
+	sqlStatement = "CREATE TABLE IF NOT EXISTS STATISTICS (USERNAME text NOT NULL , SCORE  int NOT NULL, AVG_ANSWER_TIME  float NOT NULL , NUM_OF_CORRECT_ANSWERS int NOT NULL , NUM_OF_TOTAL_ANSWERS   int NOT NULL , NUM_OF_PLAYER_GAMES    int NOT NULL ,PRIMARY KEY (USERNAME),FOREIGN KEY (USERNAME) REFERENCES USERS (USERNAME));";
 	sqlite3_exec(_db, sqlStatement.c_str(), nullptr, nullptr, errMessage);
+	if (!checkIfQuestionsTableExists())
+	{
+		sqlStatement = "CREATE TABLE QUESTIONS (QUESTION varchar NOT NULL PRIMARY KEY, ANSWER_INCORRECT1 varchar NOT NULL, ANSWER_INCORRECT2 varchar NOT NULL, ANSWER_INCORRECT3 varchar NOT NULL, ANSWER_CORRECT varchar NOT NULL); ";
+		sqlite3_exec(_db, sqlStatement.c_str(), nullptr, nullptr, errMessage);
+		system("python db_add_questions.py");
+	}
 	return true;
 }
 
+bool SqliteDatabase::checkIfQuestionsTableExists()
+{
+	char** errMessage = nullptr;
+	std::string sqlStatement = "SELECT COUNT(name) FROM sqlite_master WHERE type='table' AND name='QUESTIONS';";
+	int countQuestionsTables = 0;
+	sqlite3_exec(this->_db, sqlStatement.c_str(), getIntCallback, &countQuestionsTables, nullptr);
+	return countQuestionsTables == 1;
 
+}
 void SqliteDatabase::close()
 {
 	sqlite3_close(_db);
