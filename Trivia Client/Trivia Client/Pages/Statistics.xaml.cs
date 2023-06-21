@@ -25,6 +25,7 @@ namespace Trivia_Client.Pages
         public Statistics()
         {
             InitializeComponent();
+            usernameLabel.Content = User.Instance().GetUsername();
         }
         public class userStatistics
         {
@@ -100,7 +101,7 @@ namespace Trivia_Client.Pages
                         string firstPointsAndSecondName = response.statistics[1];
                         string separatingString = ",";
                         string[] firstPointsAndSecondNameSplited = firstPointsAndSecondName.Split(separatingString, System.StringSplitOptions.RemoveEmptyEntries);
-                        string firstPoints = firstPointsAndSecondNameSplited[0];
+                        string firstPoints = firstPointsAndSecondNameSplited[0].Trim(trimChars);
                         Application.Current.Properties["first"] = firstName;
                         Application.Current.Properties["firstPoints"] = firstPoints;
                         if (response.statistics.Count()>2)
@@ -109,7 +110,7 @@ namespace Trivia_Client.Pages
                             Application.Current.Properties["second"] = secondName;
                             string secondPointsAndThirdName = response.statistics[2];
                             string[] secondPointsAndThirdNameSplited = secondPointsAndThirdName.Split(separatingString, System.StringSplitOptions.RemoveEmptyEntries);
-                            string secondPoints = secondPointsAndThirdNameSplited[0];
+                            string secondPoints = secondPointsAndThirdNameSplited[0].Trim(trimChars);
                             Application.Current.Properties["secondPoints"] = secondPoints;
                             if (response.statistics.Count()>=4)
                             {
@@ -118,7 +119,7 @@ namespace Trivia_Client.Pages
                                 string[] separatingStrings = { ",", "}" };
                                 string thirdPointsAndfourthName = response.statistics[3];
                                 string[] thirdPointsAndfourthNameSplited = secondPointsAndThirdName.Split(separatingString, System.StringSplitOptions.RemoveEmptyEntries);
-                                string thirdPoints = secondPointsAndThirdNameSplited[0];
+                                string thirdPoints = secondPointsAndThirdNameSplited[0].Trim(trimChars);
                                 Application.Current.Properties["thirdPoints"] = thirdPoints;
                             }
                             else

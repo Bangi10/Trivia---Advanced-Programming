@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Media;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -25,6 +26,9 @@ namespace Trivia_Client.Pages
         {
             InitializeComponent();
             usernameLabel.Content = User.Instance().GetUsername();
+            SoundPlayer player = new SoundPlayer(@"C:\music\game.wav");
+            player.Load();
+            player.PlayLooping();
         }
     }
 }

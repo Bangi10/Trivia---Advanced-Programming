@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Media;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -34,12 +35,21 @@ namespace Trivia_Client.Pages
                 secondPoints.Text = Application.Current.Properties["secondPoints"].ToString();
                 third.Text = Application.Current.Properties["third"].ToString();
                 thirdPoints.Text = Application.Current.Properties["thirdPoints"].ToString();
-                congratsTextBox.Text = Application.Current.Properties["Name"].ToString();
+                //congratsTextBox.Text = Application.Current.Properties["Name"].ToString();
                 if (first.Text.Equals(Application.Current.Properties["Name"].ToString()) || 
                     second.Text.Equals(Application.Current.Properties["Name"].ToString()) ||
                     third.Text.Equals(Application.Current.Properties["Name"].ToString()))
                 {
+                    SoundPlayer player = new SoundPlayer(@"C:\music\top_3.wav");
+                    player.Load();
+                    player.Play();
                     congratsTextBox.Text = "WOW you are at the top 3 best players\n you must be really smart or just lucky\neither way great job!!!";
+                }
+                else
+                {
+                    SoundPlayer player = new SoundPlayer(@"C:\music\not_top_3.wav");
+                    player.Load();
+                    player.Play();
                 }
             }
             usernameLabel.Content = User.Instance().GetUsername();

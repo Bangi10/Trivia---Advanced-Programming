@@ -121,9 +121,7 @@ RequestResult MenuRequestHandler::getPersonalStats(const RequestInfo& requestInf
 	RequestResult result;
 	auto& statisticsManager = this->m_handlerFactory.getStatisticsManager();
 	std::string userStatisticsString = statisticsManager.getUserStatistics(m_user.getUsername());
-	
-	std::vector<std::string> userStatistics = stringToVectorSplit(userStatisticsString, ".");
-	getPersonalStatusResponse response = { unsigned char(RESPONSES::ROOM::GOT_PERSONAL_STATS), userStatistics };
+	getPersonalStatusResponse response = { unsigned char(RESPONSES::ROOM::GOT_PERSONAL_STATS), userStatisticsString };
 	result.response = JsonResponsePacketSerializer::serializeResponse(response);
 	result.newHandler = this->m_handlerFactory.createMenuRequestHandler(m_user);
 	return result;

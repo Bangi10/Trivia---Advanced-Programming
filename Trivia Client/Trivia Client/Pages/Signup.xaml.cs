@@ -58,7 +58,7 @@ namespace Trivia_Client.Pages
                     switch (code)
                     {
                         case (byte)ResponseCodes.SIGNUP.SUCCESS:
-                            //User.Instance(request.username);
+                            //user didn't login! no need to modify user singleton!
                             NavigationService?.Navigate(new Start());
                             break;
                         case (byte)ResponseCodes.SIGNUP.NAME_ALREADY_EXISTS:

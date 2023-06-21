@@ -62,7 +62,7 @@ struct CreateRoomResponse {
 
 struct getPersonalStatusResponse {
 	unsigned char status;
-	std::vector<std::string> statistics;
+	std::string statistics;
 };
 
 struct CloseRoomResponse {
