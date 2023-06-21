@@ -34,7 +34,7 @@ namespace Trivia_Client.Pages
                 secondPoints.Text = Application.Current.Properties["secondPoints"].ToString();
                 third.Text = Application.Current.Properties["third"].ToString();
                 thirdPoints.Text = Application.Current.Properties["thirdPoints"].ToString();
-                congratsTextBox.Text = Application.Current.Properties["Name"].ToString();
+                //congratsTextBox.Text = Application.Current.Properties["Name"].ToString();
                 if (first.Text.Equals(Application.Current.Properties["Name"].ToString()) || 
                     second.Text.Equals(Application.Current.Properties["Name"].ToString()) ||
                     third.Text.Equals(Application.Current.Properties["Name"].ToString()))

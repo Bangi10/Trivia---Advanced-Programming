@@ -24,7 +24,7 @@ namespace Trivia_Client.Pages
         public MyStats()
         {
             InitializeComponent();
-            User user = User.instance;
+            User user = User.Instance();
             numOfGamesPlayed.Text = user.GetGamesPlayed().ToString();
             numOfRightAnswers.Text = user.GetRightAnswers().ToString();
             numOfWrongAnswers.Text = (user.GetTotalAnswers()-user.GetRightAnswers()).ToString();

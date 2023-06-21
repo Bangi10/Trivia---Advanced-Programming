@@ -25,6 +25,7 @@ namespace Trivia_Client.Pages
         public Statistics()
         {
             InitializeComponent();
+            usernameLabel.Content = User.Instance().GetUsername();
         }
         public class userStatistics
         {

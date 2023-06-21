@@ -36,11 +36,11 @@ namespace Trivia_Client.Code
         }
         public static User Instance(string username = "")
         {
-            if (instance == null)
+            if (instance == null || username != "")
             {
                 lock (syncRoot)
                 {
-                    if (instance == null)
+                    if (instance == null || username != "")
                         instance = new User(username);
                 }
             }
