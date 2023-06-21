@@ -1,0 +1,65 @@
+﻿<Page x:Class="Trivia_Client.Pages.MyStats"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:Trivia_Client.Pages"
+      mc:Ignorable="d" 
+      d:DesignHeight="615" d:DesignWidth="1090"
+      Title="MyStats">
+
+    <Page.Background>
+        <ImageBrush ImageSource="pack://application:,,,/Trivia Client;component/images/background.png" Stretch="UniformToFill"></ImageBrush>
+    </Page.Background>
+
+    <Canvas Margin="-10,-26,0,0">
+
+
+        <Label Foreground="White" FontFamily="Nunito" FontWeight="Bold" FontSize="25" Canvas.Left="480" Canvas.Top="245" Content="My statistics: " Height="50" Width="172" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+        <Grid Canvas.Left="714" Canvas.Top="293" Height="162" >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="5*"/>
+                <ColumnDefinition Width="9*"/>
+            </Grid.ColumnDefinitions>
+            <ListBox Margin="-370,10,0,-20" HorizontalAlignment="Left" Width="458" FontSize="25" Foreground="White" FontWeight="Medium" Background="DimGray" Grid.ColumnSpan="2">
+                <ListBoxItem x:Name="gamesPlayed" IsHitTestVisible="False">Number of games played -</ListBoxItem>
+                <ListBoxItem x:Name="rightAnswers" IsHitTestVisible="False">Number of right answers -</ListBoxItem>
+                <ListBoxItem x:Name="wrongAnswers" IsHitTestVisible="False">Number of wrong answers -</ListBoxItem>
+                <ListBoxItem x:Name="avgTime" IsHitTestVisible="False">Average time for answer -</ListBoxItem>
+            </ListBox>
+            <TextBlock x:Name ="numOfGamesPlayed" Foreground="LightGray" FontSize="20" Canvas.Left="500" TextWrapping="Wrap" Text="" Canvas.Top="224" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="-40,19,0,0"/>
+            <TextBlock x:Name ="numOfRightAnswers" Foreground="LightGray" FontSize="20" Canvas.Left="500" TextWrapping="Wrap" Text="" Canvas.Top="224" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="-40,59,0,0"/>
+            <TextBlock x:Name ="numOfWrongAnswers" Foreground="LightGray" FontSize="20" Canvas.Left="500" TextWrapping="Wrap" Text="" Canvas.Top="224" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="-40,96,0,0"/>
+            <TextBlock x:Name ="avgTimeForAnswer" Foreground="LightGray" FontSize="20" Canvas.Left="500" TextWrapping="Wrap" Text="" Canvas.Top="224" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="-40,136,0,0"/>
+
+        </Grid>
+
+
+        <!-- Buttons must be in canvas -->
+        <Button Canvas.Left="134" Canvas.Top="82" Click="Back_Click" Height="50" Width="55" BorderBrush="Transparent" Cursor="Hand">
+            <Button.Template>
+                <ControlTemplate TargetType="Button">
+                    <Grid>
+                        <Image Source="pack://application:,,,/Trivia Client;component/images/back.png" Stretch="Fill"/>
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Grid>
+                </ControlTemplate>
+            </Button.Template>
+        </Button>
+        <!-- Exit button -->
+        <Button Canvas.Left="918" Canvas.Top="105" Click="Exit_Click" Height="50" Width="55" BorderBrush="Transparent" Cursor="Hand">
+            <Button.Template>
+                <ControlTemplate TargetType="Button">
+                    <Grid>
+                        <Image Source="pack://application:,,,/Trivia Client;component/images/exit.png" Stretch="Fill"/>
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Grid>
+                </ControlTemplate>
+            </Button.Template>
+        </Button>
+        <Label x:Name="usernameLabel" Foreground="LightGray" FontSize="20" Canvas.Left="209" Canvas.Top="102" HorizontalAlignment="Center" VerticalAlignment="Top">Welcome</Label>
+
+        <Label x:Name="ErrorLabel" Foreground="Red" FontFamily="Nunito" FontWeight="Bold" FontSize="13" Canvas.Left="456" Canvas.Top="486" HorizontalAlignment="Left" VerticalAlignment="Top"></Label>
+
+    </Canvas>
+</Page>
