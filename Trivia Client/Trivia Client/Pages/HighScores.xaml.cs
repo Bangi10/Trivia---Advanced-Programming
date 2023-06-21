@@ -22,6 +22,8 @@ namespace Trivia_Client.Pages
     /// </summary>
     public partial class HighScores : Page
     {
+        SoundPlayer player1 = new SoundPlayer(@"sounds\top_3.wav");
+        SoundPlayer player2 = new SoundPlayer(@"sounds\not_top_3.wav");
         public HighScores()
         {
             InitializeComponent();
@@ -49,16 +51,14 @@ namespace Trivia_Client.Pages
                     second.Text.Equals(Application.Current.Properties["Name"].ToString()) ||
                     third.Text.Equals(Application.Current.Properties["Name"].ToString()))
                 {
-                    SoundPlayer player = new SoundPlayer(@"C:\music\top_3.wav");
-                    player.Load();
-                    player.Play();
+                    player1.Load();
+                    player1.Play();
                     message.Text = "WOW you are at the top 3 best players\n you must be really smart or just lucky\neither way great job!!!";
                 }
                 else
                 {
-                    SoundPlayer player = new SoundPlayer(@"C:\music\not_top_3.wav");
-                    player.Load();
-                    player.Play();
+                    player2.Load();
+                    player2.Play();
                     message.Text = "i know you can be in the top 3 best players\njust do it!!!";
                 }
             }
@@ -71,6 +71,8 @@ namespace Trivia_Client.Pages
         }
         private void Back_Click(object sender, RoutedEventArgs e)
         {
+            player1.Stop();
+            player2.Stop();
             NavigationService?.Navigate(new Pages.Statistics());
 
         }

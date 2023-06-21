@@ -22,10 +22,10 @@ namespace Trivia_Client.Pages
     /// </summary>
     public partial class MyStats : Page
     {
+        SoundPlayer player = new SoundPlayer(@"sounds\stats.wav");
         public MyStats()
         {
             InitializeComponent();
-            SoundPlayer player = new SoundPlayer(@"C:\music\stats.wav");
             player.Load();
             player.Play();
             User user = User.Instance();
@@ -37,6 +37,7 @@ namespace Trivia_Client.Pages
         }
         private void Back_Click(object sender, RoutedEventArgs e)
         {
+            player.Stop();
             NavigationService?.Navigate(new Pages.Statistics());
         }
         private void Exit_Click(object sender, RoutedEventArgs e)

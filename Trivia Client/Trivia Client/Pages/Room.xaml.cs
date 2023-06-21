@@ -26,6 +26,7 @@ namespace Trivia_Client.Pages
     {
         private static object socketMutex = new Object();
         private bool isInThisPage;
+        SoundPlayer player = new SoundPlayer(@"sounds\room.wav");
 
         public Room()
         {
@@ -45,7 +46,6 @@ namespace Trivia_Client.Pages
             maxPlayersLabel.Content = "Max Players: " + User.Instance().GetRoom().maxPlayers;
             numberOfQuestionsLabel.Content = "Number of Questions: " + User.Instance().GetRoom().numOfQuestionsInGame;
             timePerQuestionLabel.Content = "Time Per Question: " + User.Instance().GetRoom().timePerQuestion;
-            SoundPlayer player = new SoundPlayer(@"C:\music\room.wav");
             player.Load();
             player.Play();
             Thread thread = new Thread(new ThreadStart(ThreadGetRoomState));
@@ -135,6 +135,7 @@ namespace Trivia_Client.Pages
         }
         private void CloseRoom_Click(object sender, RoutedEventArgs e)
         {
+            player.Stop();
             byte[] requestBuffer = JsonSerialization.serializeRequestCode(RequestsCodes.CLOSE_ROOM);
             ClientCommuinactor comm = ClientCommuinactor.Instance;
             Tuple<byte[], byte> readTuple;
@@ -163,6 +164,7 @@ namespace Trivia_Client.Pages
         }
         private void StartGame_Click(object sender, RoutedEventArgs e)
         {
+            player.Stop();
             byte[] requestBuffer = JsonSerialization.serializeRequestCode(RequestsCodes.START_GAME);
             ClientCommuinactor comm = ClientCommuinactor.Instance;
             Tuple<byte[], byte> readTuple;
@@ -189,6 +191,7 @@ namespace Trivia_Client.Pages
         }
         private void LeaveRoom_Click(object sender, RoutedEventArgs e)
         {
+            player.Stop();
             LeaveRoom();
         }
         private void LeaveRoom()
