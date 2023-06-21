@@ -34,9 +34,10 @@ Game GameManager::createGame(const Room& room)
 	std::map<LoggedUser, GameData> players;
 	for (auto& it : room.getAllUsers())
 	{
-		LoggedUser user(it);
+		LoggedUser user = it;
 		GameData gameData = { questions.front(),0,0,0 };
-		players.insert({ user,gameData });
+		//for some reason it doesnt compile this line
+		//players.try_emplace(user, gameData);
 	} 
 	unsigned int gameID = room.getRoomID();
 	Game game(questions, players, gameID);
@@ -48,5 +49,6 @@ Game GameManager::createGame(const Room& room)
 void GameManager::deletGame(const unsigned int gameID)
 {
 	Game game = getGame(gameID);
-	remove(m_games.begin(), m_games.end(), game);
+	//for some reason it doesnt compile this line
+	//remove(m_games.begin(), m_games.end(), game);
 }

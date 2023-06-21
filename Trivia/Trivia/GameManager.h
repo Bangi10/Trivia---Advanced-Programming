@@ -9,7 +9,7 @@
 class GameManager
 {
 public:
-	GameManager(std::shared_ptr<IDatabase>& db);
+	explicit GameManager(std::shared_ptr<IDatabase>& db);
 	~GameManager();
 	std::vector<Game> getGames()const;
 	Game getGame(const unsigned int gameID)const;

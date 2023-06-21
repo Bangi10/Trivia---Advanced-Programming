@@ -7,13 +7,11 @@
 #include <map>
 #include "RoomData.h"
 
-enum class ROOM_STATUS { CLOSED = 0, WAITING = 1, IN_GAME = 2 };
-
 class Game
 {
 public:
 	Game() = default;
-	Game(std::vector<Question>& questions, std::map<LoggedUser, GameData>& players, unsigned int gameID);
+	Game(const std::vector<Question>& questions, const std::map<LoggedUser, GameData>& players, const unsigned int gameID);
 	~Game();
 	//getters
 	unsigned int getGameID()const;

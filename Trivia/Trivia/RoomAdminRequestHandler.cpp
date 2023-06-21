@@ -57,9 +57,9 @@ RequestResult RoomAdminRequestHandler::startGame(RequestInfo rInfo)
 	roomManager.getRoom(m_room.getRoomID()).setRoomStatus((unsigned int)ROOM_STATUS::IN_GAME);
 	StartGameResponse response = { unsigned char(RESPONSES::ROOM::STARTED_GAME) };
 	result.response = JsonResponsePacketSerializer::serializeResponse(response);
-	auto& gameManager = this->m_handlerFactory.getGameManager();
+	/*auto& gameManager = this->m_handlerFactory.getGameManager();
 	Game game = gameManager.createGame(m_room);
-	result.newHandler = this->m_handlerFactory.createGameRequestHandler(m_user,game);
+	result.newHandler = this->m_handlerFactory.createGameRequestHandler(m_user,game);*/
 	return result;
 }
 
