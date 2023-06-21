@@ -28,7 +28,7 @@ namespace Trivia_Client.Pages
             usernameLabel.Content = User.Instance().GetUsername();
             SoundPlayer player = new SoundPlayer(@"C:\music\game.wav");
             player.Load();
-            player.PlayLooping();
+            player.Play();
         }
     }
 }

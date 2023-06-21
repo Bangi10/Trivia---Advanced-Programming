@@ -47,7 +47,7 @@ namespace Trivia_Client.Pages
             timePerQuestionLabel.Content = "Time Per Question: " + User.Instance().GetRoom().timePerQuestion;
             SoundPlayer player = new SoundPlayer(@"C:\music\room.wav");
             player.Load();
-            player.PlayLooping();
+            player.Play();
             Thread thread = new Thread(new ThreadStart(ThreadGetRoomState));
             thread.SetApartmentState(ApartmentState.STA);
             thread.Start();
