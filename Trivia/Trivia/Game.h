@@ -12,9 +12,9 @@ public:
 	Game(Room& room);
 	~Game() = default;
 
-	bool getCurrentQuestionIfGameActive(Question& question, const std::string& username);
-	bool submitAnswer(const std::string& answer, const std::string& username, const float userAnswerTime) const;
-	bool removePlayer(const std::string& username);
+	bool getCurrentQuestionIfGameActive(Question& question, const LoggedUser& user);
+	bool submitAnswer(const std::string& answer, const LoggedUser& user, const float userAnswerTime);
+	bool removePlayer(const LoggedUser& user);
 	
 	void setQuestions(std::vector<Question> questions);
 	unsigned int getGameId() const;

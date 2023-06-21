@@ -4,44 +4,47 @@ Game::Game(Room& room) : m_room(room)
 {
 	this->m_gameId = room.getRoomID();
 	initializePlayers(room);
-	//questions will be initialized in game manager, no access here to db
 	questionIndex = 0;
+	//questions will be initialized in game manager, no access here to db
 }
 
-bool Game::getCurrentQuestionIfGameActive(Question& question, const std::string& username)
+bool Game::getCurrentQuestionIfGameActive(Question& question, const LoggedUser& user)
 {
 	if (questionIndex == m_questions.size())
 		return false;
 	question = m_questions.at(questionIndex);
-	//if (username == this->m_players.)
-	setCurrentQuestionForAll(m_questions.at(questionIndex));
+	if (user == this->m_players.begin()->first)
+	{
+		//do this only once each round
+		setCurrentQuestionForAll(m_questions.at(questionIndex));
+	}
 	return true;
 
 }
 
-bool Game::submitAnswer(const std::string& answer, const std::string& username, const float userAnswerTime) const
+bool Game::submitAnswer(const std::string& answer, const LoggedUser& user, const float userAnswerTime)
 {
-	for (auto& player : this->m_players)
+	auto it = m_players.find(user);
+	if (it == m_players.end())
+		return false;
+	float oldAvgTime = it->second.averageAnswerTime;
+	it->second.averageAnswerTime = (oldAvgTime * (questionIndex) + userAnswerTime) / (questionIndex + 1);
+	if (answer == it->second.currentQuestion.getCorrectAnswer())
 	{
-		if (player.first.getUsername() == username)
-		{
-			return (player.second.currentQuestion.getCorrectAnswer() == answer);
-		}
+		it->second.correctAnswerCount++;
+		return true;
 	}
+	it->second.wrongAnswerCount++;
 	return false;
-}
+}	
 
-bool Game::removePlayer(const std::string& username)
+bool Game::removePlayer(const LoggedUser& user)
 {
-	for (auto& player : this->m_players)
-	{
-		if (player.first.getUsername() == username)
-		{
-			//this->m_players.erase(player.first);
-			return true;
-		}
-	}
-	return false;
+	auto it = m_players.find(user);
+	if (it == m_players.end())
+		return false;
+	m_players.erase(it);
+	return true;
 }
 
 void Game::setQuestions(std::vector<Question> questions)
@@ -54,22 +57,7 @@ unsigned int Game::getGameId() const
 	return this->m_gameId;
 }
 
-bool Game::operator==(const Game& other) const
-{
-	return this->m_gameId == other.m_gameId;
-}
 
-Game& Game::operator=(const Game& other)
-{
-	if (this != &other) {
-		this->m_room = other.m_room;
-		this->m_questions = other.m_questions;
-		this->m_players = other.m_players;
-		this->m_gameId = other.m_gameId;
-		this->questionIndex = other.questionIndex;
-	}
-	return *this;
-}
 
 void Game::setCurrentQuestionForAll(Question question)
 {
@@ -87,5 +75,21 @@ void Game::initializePlayers(Room& room)
 	{
 		m_players[LoggedUser(player)] = GameData{ Question(), 0, 0, 0 };
 	}
+}
+bool Game::operator==(const Game& other) const
+{
+	return this->m_gameId == other.m_gameId;
+}
+
+Game& Game::operator=(const Game& other)
+{
+	if (this != &other) {
+		this->m_room = other.m_room;
+		this->m_questions = other.m_questions;
+		this->m_players = other.m_players;
+		this->m_gameId = other.m_gameId;
+		this->questionIndex = other.questionIndex;
+	}
+	return *this;
 }
 
