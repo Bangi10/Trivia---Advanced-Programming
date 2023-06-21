@@ -158,7 +158,7 @@ RequestResult MenuRequestHandler::joinRoom(const RequestInfo& requestInfo)
 	room.addUser(m_user);
 	JoinRoomResponse response = { unsigned char(RESPONSES::ROOM::JOINED_ROOM)};
 	result.response = JsonResponsePacketSerializer::serializeResponse(response);
-	result.newHandler = this->m_handlerFactory.createRoomMemberRequestHandler(m_user, room);//needs to be new handler "RoomManagerRequestHandler" look in the state nachine uml
+	result.newHandler = this->m_handlerFactory.createRoomMemberRequestHandler(m_user, room);
 	return result;
 }
 
