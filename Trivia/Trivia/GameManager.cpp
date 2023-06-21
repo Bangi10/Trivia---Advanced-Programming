@@ -1,8 +1,6 @@
 #include "GameManager.h"
-#include <utility>
 
-GameManager::GameManager(std::vector<Game>& games, std::shared_ptr<IDatabase>& db)
-	:m_database(db),m_games(games)
+GameManager::GameManager(std::shared_ptr<IDatabase>& db):m_database(db)
 {
 }
 
@@ -16,29 +14,39 @@ std::vector<Game> GameManager::getGames() const
 	return m_games;
 }
 
+Game GameManager::getGame(const unsigned int gameID) const
+{
+	for (auto& game : m_games)
+	{
+		if (game.getGameID() == gameID)
+			return game;
+	}
+	return Game();
+}
+
 Game GameManager::createGame(const Room& room)
 {
-	std::list<Question> questionsList = m_database.lock()->getQuestions(5);
+	std::list<Question> questionsList = m_database.lock()->getQuestions(room.getRoomNumOfQuestions());
 	std::vector<Question> questions;
 	for (Question const& q : questionsList) {
 		questions.push_back(q);
 	}
-	GameData gameData = {questions.front(),0,0,0};
-	std::vector<std::string> users = room.getAllUsers();
 	std::map<LoggedUser, GameData> players;
-	for (std::string it : users)
+	for (auto& it : room.getAllUsers())
 	{
 		LoggedUser user(it);
-		std::pair<LoggedUser, GameData> pair(user,gameData);
-		players.insert(pair);
-	}
-	m_games.emplace_back(questions, players, room.getRoomID());
-	return Game(questions, players, room.getRoomID());
+		GameData gameData = { questions.front(),0,0,0 };
+		players.insert({ user,gameData });
+	} 
+	unsigned int gameID = room.getRoomID();
+	Game game(questions, players, gameID);
+	m_games.push_back(game);
+
+	return game;
 }
 
-void GameManager::deleteGame(const unsigned int gameID)
+void GameManager::deletGame(const unsigned int gameID)
 {
-	auto it = std::find(m_games.begin(),
-		m_games.end(), gameID);
-	m_games.erase(it);
+	Game game = getGame(gameID);
+	remove(m_games.begin(), m_games.end(), game);
 }

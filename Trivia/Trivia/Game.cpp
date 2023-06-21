@@ -1,7 +1,7 @@
 #include "Game.h"
 
-Game::Game(std::vector<Question>& questions, std::map<LoggedUser, GameData>& players, unsigned int gameID) :
-	m_questions(questions), m_players(players), m_gameID(gameID)
+Game::Game(std::vector<Question>& questions, std::map<LoggedUser, GameData>& players, unsigned int gameID)
+	:m_questions(questions),m_players(players),m_gameID(gameID)
 {
 }
 
@@ -26,7 +26,7 @@ std::map<LoggedUser, GameData> Game::getPlayers() const
 	return m_players;
 }
 
-GameData Game::getQuestionForUser(const LoggedUser& user) const
+Question Game::getQuestionForUser(const LoggedUser& user) const
 {
-	return m_players.find(user.getUsername())->second;
+	return m_players.find(user)->second.currentQuestion;
 }
