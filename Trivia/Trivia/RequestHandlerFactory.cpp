@@ -7,7 +7,7 @@
 
 
 RequestHandlerFactory::RequestHandlerFactory(std::shared_ptr<IDatabase>& db)
-	:m_database(db), m_loginManager(db),m_statisticsManager(db)//,m_gameManager(db)
+	:m_database(db), m_loginManager(db),m_statisticsManager(db),m_gameManager(db)
 {
 
 }
@@ -37,10 +37,10 @@ StatisticsManager& RequestHandlerFactory::getStatisticsManager()
 	return this->m_statisticsManager;
 }
 
-//GameManager& RequestHandlerFactory::getGameManager()
-//{
-//	return m_gameManager;
-//}
+GameManager& RequestHandlerFactory::getGameManager()
+{
+	return m_gameManager;
+}
 
 std::unique_ptr<IRequestHandler> RequestHandlerFactory::createRoomAdminRequestHandler(LoggedUser& user, Room& room)
 {
@@ -52,7 +52,7 @@ std::unique_ptr<IRequestHandler> RequestHandlerFactory::createRoomMemberRequestH
 	return std::make_unique<RoomMemberRequestHandler>(room, user, this->m_roomManager, *this);
 }
 
-//std::unique_ptr<IRequestHandler> RequestHandlerFactory::createGameRequestHandler(LoggedUser& user, Game& game)
-//{
-//	return std::make_unique<GameRequestHandler>(game, user, this->m_gameManager, *this);
-//}
+std::unique_ptr<IRequestHandler> RequestHandlerFactory::createGameRequestHandler(LoggedUser& user, Game& game)
+{
+	return std::make_unique<GameRequestHandler>(game, user, this->m_gameManager, *this);
+}

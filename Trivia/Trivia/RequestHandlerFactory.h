@@ -17,10 +17,10 @@ public:
 	LoginManager& getLoginManager();
 	RoomManager& getRoomManager();
 	StatisticsManager& getStatisticsManager();
-	/*GameManager& getGameManager();*/
+	GameManager& getGameManager();
 	std::unique_ptr<IRequestHandler> createRoomAdminRequestHandler(LoggedUser& user, Room& room);
 	std::unique_ptr<IRequestHandler> createRoomMemberRequestHandler(LoggedUser& user, Room& room);
-	/*std::unique_ptr<IRequestHandler> createGameRequestHandler(LoggedUser& user,Game& game);*/
+	std::unique_ptr<IRequestHandler> createGameRequestHandler(LoggedUser& user,Game& game);
 
 
 private:
@@ -28,5 +28,5 @@ private:
 	LoginManager m_loginManager;
 	RoomManager m_roomManager;
 	StatisticsManager m_statisticsManager;
-	/*GameManager m_gameManager;*/
+	GameManager m_gameManager;
 };
