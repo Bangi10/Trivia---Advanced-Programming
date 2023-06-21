@@ -24,8 +24,8 @@ RequestResult GameRequestHandler::handleRequest(const RequestInfo& requestInfo)
 		return this->leaveGame(requestInfo);
 	case REQUESTS::GET_QUESTION:
 		return this->getQuestion(requestInfo);
-		/*case REQUESTS::SUBMIT_ANSWER:
-			return this->submitAnswer(requestInfo);*/
+		case REQUESTS::SUBMIT_ANSWER:
+			return this->submitAnswer(requestInfo);
 	case REQUESTS::GET_GAME_RESULTS:
 		return this->getGameResults(requestInfo);
 	}
