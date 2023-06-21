@@ -16,7 +16,7 @@ public:
 
 private:
     RequestResult getQuestion(const RequestInfo& requestInfo);
-    //RequestResult submitAnswer(const RequestInfo& requestInfo);
+    RequestResult submitAnswer(const RequestInfo& requestInfo);
     RequestResult getGameResults(const RequestInfo& requestInfo);
     RequestResult leaveGame(const RequestInfo& requestInfo);
 

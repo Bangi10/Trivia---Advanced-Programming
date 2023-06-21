@@ -76,3 +76,19 @@ std::optional<CreateRoomRequest> JsonRequestPacketDeserializer::deserializeCreat
 		return std::nullopt;
 	}
 }
+
+std::optional<SubmitAnswerRequest> JsonRequestPacketDeserializer::deserializerSubmitAnswerRequest(const std::vector<unsigned char>& buffer)
+{
+	std::string data(buffer.begin(), buffer.end());
+
+	try
+	{
+		json jData = json::parse(data);
+		return SubmitAnswerRequest({ jData["answer"], jData["correctAnswer"]});
+	}
+	catch (...)
+	{
+		return std::nullopt;
+	}
+}
+

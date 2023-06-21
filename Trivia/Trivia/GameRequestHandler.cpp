@@ -1,6 +1,7 @@
 #include "GameRequestHandler.h"
 #include "JsonRequestPacketDeserializer.h"
 #include "JsonResponsePacketSerializer.h"
+#include "PlayerResults.h"
 
 GameRequestHandler::GameRequestHandler(Game& game, LoggedUser& user, GameManager& gameManager, RequestHandlerFactory& handlerFactory)
 	: m_game(game), m_user(user), m_gameManager(gameManager), m_handlerFactory(handlerFactory)
@@ -34,9 +35,21 @@ RequestResult GameRequestHandler::handleRequest(const RequestInfo& requestInfo)
 RequestResult GameRequestHandler::getQuestion(const RequestInfo& requestInfo)
 {
 	RequestResult result;
-	std::string questionString = m_game.getQuestionForUser(m_user).getQuestion();
-	std::vector<std::string> possibleAnswers = m_game.getQuestionForUser(m_user).getPossibleAnswers();
-	GetQuestionResponse response = { unsigned char(RESPONSES::GAME::GET_QUESTION), questionString, possibleAnswers };
+	Question question;
+	bool checkQuestion = m_game.getCurrentQuestionIfGameActive(question,m_user);
+	GetQuestionResponse response = { unsigned char(RESPONSES::GAME::GET_QUESTION), question.getQuestion(),
+		question.getPossibleAnswers()};
+	result.response = JsonResponsePacketSerializer::serializeResponse(response);
+	result.newHandler = this->m_handlerFactory.createGameRequestHandler(m_user, m_game);
+	return result;
+}
+
+RequestResult GameRequestHandler::submitAnswer(const RequestInfo& requestInfo)
+{
+	RequestResult result;
+	auto request = JsonRequestPacketDeserializer::deserializerSubmitAnswerRequest(requestInfo.buffer);
+	bool isCorrect = m_game.submitAnswer(request->answer, m_user, request->answerTime);
+	SubmitAnswerResponse response = { unsigned char(RESPONSES::GAME::SUBMIT_ANSWER), isCorrect };
 	result.response = JsonResponsePacketSerializer::serializeResponse(response);
 	result.newHandler = this->m_handlerFactory.createGameRequestHandler(m_user, m_game);
 	return result;
@@ -50,7 +63,7 @@ RequestResult GameRequestHandler::getGameResults(const RequestInfo& requestInfo)
 	for (auto& player : players)
 	{
 		PlayerResults playerResults = { player.first.getUsername(),player.second.correctAnswerCount,
-										player.second.wrongAnswerCount,player.second.averangeAnswerTime };
+										player.second.wrongAnswerCount,player.second.averageAnswerTime };
 		results.push_back(playerResults);
 	}
 	GetGameResultsResponse response = { unsigned char(RESPONSES::GAME::GET_GAME_RESULTS), results };
@@ -63,7 +76,7 @@ RequestResult GameRequestHandler::leaveGame(const RequestInfo& requestInfo)
 {
 	RequestResult result;
 	auto& roomManager = this->m_handlerFactory.getRoomManager();
-	roomManager.getRoom(m_game.getGameID()).removeUser(m_user);
+	roomManager.getRoom(m_game.getGameId()).removeUser(m_user);
 	LeaveGameRoomResponse response = { unsigned char(RESPONSES::GAME::LEFT_GAME) };
 	result.response = JsonResponsePacketSerializer::serializeResponse(response);
 	result.newHandler = this->m_handlerFactory.createMenuRequestHandler(m_user);

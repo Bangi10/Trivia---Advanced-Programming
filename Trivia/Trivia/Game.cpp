@@ -70,8 +70,6 @@ float Game::calculateScore(const LoggedUser& user)
 	return (it->second.correctAnswerCount * 10) / it->second.averageAnswerTime;
 }
 
-
-
 void Game::setCurrentQuestionForAll(Question question)
 {
 	for (auto& player : this->m_players)
