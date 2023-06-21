@@ -25,16 +25,25 @@ namespace Trivia_Client.Pages
         public HighScores()
         {
             InitializeComponent();
-            if (Application.Current.Properties["first"].ToString() == "{}")
+            if (Application.Current.Properties["first"].ToString() == "")
                 ErrorLabel.Content = "nobody have score right now";
             else
             {
-                first.Text = Application.Current.Properties["first"].ToString();
-                firstPoints.Text = Application.Current.Properties["firstPoints"].ToString();
-                second.Text = Application.Current.Properties["second"].ToString();
-                secondPoints.Text = Application.Current.Properties["secondPoints"].ToString();
-                third.Text = Application.Current.Properties["third"].ToString();
-                thirdPoints.Text = Application.Current.Properties["thirdPoints"].ToString();
+                if (Application.Current.Properties["first"].ToString() != "")
+                {
+                    first.Text = Application.Current.Properties["first"].ToString();
+                    firstPoints.Text = Application.Current.Properties["firstPoints"].ToString() + " points";
+                }
+                if (Application.Current.Properties["second"].ToString() != "")
+                {
+                    second.Text = Application.Current.Properties["second"].ToString();
+                    secondPoints.Text = Application.Current.Properties["secondPoints"].ToString() + " points";
+                }
+                if (Application.Current.Properties["third"].ToString() != "")
+                {
+                    third.Text = Application.Current.Properties["third"].ToString();
+                    thirdPoints.Text = Application.Current.Properties["thirdPoints"].ToString() + " points";
+                }
                 //congratsTextBox.Text = Application.Current.Properties["Name"].ToString();
                 if (first.Text.Equals(Application.Current.Properties["Name"].ToString()) || 
                     second.Text.Equals(Application.Current.Properties["Name"].ToString()) ||
@@ -43,13 +52,14 @@ namespace Trivia_Client.Pages
                     SoundPlayer player = new SoundPlayer(@"C:\music\top_3.wav");
                     player.Load();
                     player.Play();
-                    congratsTextBox.Text = "WOW you are at the top 3 best players\n you must be really smart or just lucky\neither way great job!!!";
+                    message.Text = "WOW you are at the top 3 best players\n you must be really smart or just lucky\neither way great job!!!";
                 }
                 else
                 {
                     SoundPlayer player = new SoundPlayer(@"C:\music\not_top_3.wav");
                     player.Load();
                     player.Play();
+                    message.Text = "i know you can be in the top 3 best players\njust do it!!!";
                 }
             }
             usernameLabel.Content = User.Instance().GetUsername();

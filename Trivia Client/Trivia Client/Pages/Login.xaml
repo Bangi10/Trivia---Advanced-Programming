@@ -15,14 +15,14 @@
 
 
     <Canvas Margin="-10,-26,0,0">
-        <Label Foreground="White" FontFamily="Nunito" FontWeight="Bold" FontSize="16" Canvas.Left="416" Canvas.Top="235" HorizontalAlignment="Left" VerticalAlignment="Center">Username:</Label>
-        <TextBox x:Name="username" VerticalContentAlignment="Center" HorizontalAlignment="Left" TextWrapping="Wrap" Text="" VerticalAlignment="Center" Width="157" FontStyle="Italic" Canvas.Left="511" Canvas.Top="235" Height="32"/>
-        <Label Foreground="White" FontFamily="Nunito" FontWeight="Bold" FontSize="16" Canvas.Left="419" Canvas.Top="283" HorizontalAlignment="Left" VerticalAlignment="Top">Password:</Label>
-        <TextBox x:Name="password" VerticalContentAlignment="Center" HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top" Width="157" FontStyle="Italic" Canvas.Left="511" Canvas.Top="283" Height="32"/>
+        <Label Foreground="White" FontFamily="Nunito" FontWeight="Bold" FontSize="16" Canvas.Left="422" Canvas.Top="279" HorizontalAlignment="Left" VerticalAlignment="Top">Username:</Label>
+        <TextBox x:Name="username" VerticalContentAlignment="Center" HorizontalAlignment="Left" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="157" FontStyle="Italic" Canvas.Left="517" Canvas.Top="279" Height="32"/>
+        <Label Foreground="White" FontFamily="Nunito" FontWeight="Bold" FontSize="16" Canvas.Left="425" Canvas.Top="327" HorizontalAlignment="Left" VerticalAlignment="Top">Password:</Label>
+        <TextBox x:Name="password" VerticalContentAlignment="Center" HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top" Width="157" FontStyle="Italic" Canvas.Left="517" Canvas.Top="327" Height="32"/>
 
         <!-- Buttons must be in canvas -->
         <!-- Login button -->
-        <Button Canvas.Left="500" Canvas.Top="337" Click="Login_Click" Height="50" Width="100" BorderBrush="Transparent" Cursor="Hand">
+        <Button Canvas.Left="506" Canvas.Top="381" Click="Login_Click" Height="50" Width="100" BorderBrush="Transparent" Cursor="Hand">
             <Button.Template>
                 <ControlTemplate TargetType="Button">
                     <Grid>
@@ -58,7 +58,7 @@
             </Button.Template>
         </Button>
 
-        <Label x:Name="ErrorLabel" Foreground="Red" FontFamily="Nunito" FontWeight="Bold" FontSize="13" Canvas.Left="534" Canvas.Top="392" HorizontalAlignment="Left" VerticalAlignment="Top"></Label>
+        <Label x:Name="ErrorLabel" Foreground="Red" FontFamily="Nunito" FontWeight="Bold" FontSize="13" Canvas.Left="540" Canvas.Top="436" HorizontalAlignment="Left" VerticalAlignment="Top"></Label>
 
     </Canvas>
 </Page>

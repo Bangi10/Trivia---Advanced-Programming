@@ -81,7 +81,7 @@
             </Button.Template>
             <Label FontFamily="Nunito" FontWeight="Bold" FontSize="16">Leave Room</Label>
         </Button>
-        <Label x:Name="usernameLabel" Foreground="LightGray" FontSize="20" Canvas.Left="209" Canvas.Top="102" HorizontalAlignment="Center" VerticalAlignment="Top">Welcome</Label>
+        <Label x:Name="usernameLabel" Foreground="LightGray" FontSize="20" Canvas.Left="209" Canvas.Top="102" HorizontalAlignment="Center" VerticalAlignment="Top"></Label>
 
         <Label x:Name="ErrorLabel" Foreground="Red" FontFamily="Nunito" FontWeight="Bold" FontSize="13" Canvas.Left="456" Canvas.Top="486" HorizontalAlignment="Left" VerticalAlignment="Top"></Label>
 

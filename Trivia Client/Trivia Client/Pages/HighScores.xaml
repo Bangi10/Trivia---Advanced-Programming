@@ -15,18 +15,18 @@
 
 
     <Canvas Margin="-10,-26,0,0">
-        <Label Foreground="White" FontFamily="Nunito" FontWeight="Bold" FontSize="16" Canvas.Left="519" Canvas.Top="315" HorizontalAlignment="Left" VerticalAlignment="Center" Content="top 3 best players" RenderTransformOrigin="0.5,0.5" Width="148">
+        <Label Foreground="White" FontFamily="Nunito" FontWeight="Bold" FontSize="16" Canvas.Left="482" Canvas.Top="271" HorizontalAlignment="Left" VerticalAlignment="Top" Content="top 3 best players" RenderTransformOrigin="0.5,0.5" Width="148" Height="64">
             <Label.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform/>
-                    <SkewTransform AngleY="0.249"/>
+                    <SkewTransform AngleY="0.541"/>
                     <RotateTransform/>
                     <TranslateTransform Y="0.218"/>
                 </TransformGroup>
             </Label.RenderTransform>
         </Label>
-        <TextBox VerticalContentAlignment="Center" HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Center" Width="145" FontStyle="Italic" Canvas.Left="515" Canvas.Top="338" Height="5"/>
-        <TextBlock x:Name ="congratsTextBox" Foreground="LightGray" FontSize="20" Canvas.Left="128" TextWrapping="Wrap" Text="" Canvas.Top="241" HorizontalAlignment="Center" VerticalAlignment="Top" Width="260" Height="322"/>
+        <TextBox VerticalContentAlignment="Center" HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Center" Width="158" FontStyle="Italic" Canvas.Left="478" Canvas.Top="308" Height="12"/>
+        <TextBlock x:Name ="message" Foreground="LightGray" FontSize="20" Canvas.Left="128" TextWrapping="Wrap" Text="" Canvas.Top="241" HorizontalAlignment="Center" VerticalAlignment="Top" Width="260" Height="322"/>
 
         <!-- Buttons must be in canvas -->
         <!-- Exit button -->
@@ -89,6 +89,6 @@
         <TextBlock x:Name ="third" Foreground="LightGray" FontSize="20" Canvas.Left="515" TextWrapping="Wrap" Text="" Canvas.Top="460" HorizontalAlignment="Center" VerticalAlignment="Top"/>
         <TextBlock x:Name ="thirdPoints" Foreground="LightGray" FontSize="20" Canvas.Left="629" TextWrapping="Wrap" Text="" Canvas.Top="460" HorizontalAlignment="Left" VerticalAlignment="Center"/>
         <Label x:Name="ErrorLabel" Foreground="Red" FontFamily="Nunito" FontWeight="Bold" FontSize="13" Canvas.Left="456" Canvas.Top="486" HorizontalAlignment="Left" VerticalAlignment="Top"></Label>
-        <Label x:Name="usernameLabel" Foreground="LightGray" FontSize="20" Canvas.Left="209" Canvas.Top="102" HorizontalAlignment="Center" VerticalAlignment="Top">Welcome</Label>
+        <Label x:Name="usernameLabel" Foreground="LightGray" FontSize="20" Canvas.Left="209" Canvas.Top="102" HorizontalAlignment="Center" VerticalAlignment="Top"></Label>
     </Canvas>
 </Page>

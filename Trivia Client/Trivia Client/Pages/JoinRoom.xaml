@@ -31,7 +31,7 @@
                 <ColumnDefinition Width="9*"/>
             </Grid.ColumnDefinitions>
             <ListBox x:Name="playersList" Margin="-1,-5,0,5" Grid.ColumnSpan="2" HorizontalAlignment="Left" Width="132">
-                    
+
             </ListBox>
         </Grid>
 
@@ -60,7 +60,7 @@
             <Label FontFamily="Nunito" FontWeight="Bold" FontSize="16" Content="Join Room"/>
         </Button>
 
-        <Button Canvas.Left="134" Canvas.Top="82" Click="Back_Click" Height="50" Width="55" BorderBrush="Transparent" Cursor="Hand">
+        <Button Canvas.Left="121" Canvas.Top="100" Click="Back_Click" Height="50" Width="55" BorderBrush="Transparent" Cursor="Hand">
             <Button.Template>
                 <ControlTemplate TargetType="Button">
                     <Grid>
@@ -81,6 +81,6 @@
             </Button.Template>
         </Button>
         <Label x:Name="ErrorLabel" Foreground="Red" FontFamily="Nunito" FontWeight="Bold" FontSize="13" Canvas.Left="525" Canvas.Top="475" HorizontalAlignment="Left" VerticalAlignment="Top"></Label>
-        <Label x:Name="usernameLabel" Foreground="LightGray" FontSize="20" Canvas.Left="209" Canvas.Top="102" HorizontalAlignment="Center" VerticalAlignment="Top">Welcome</Label>
+        <Label x:Name="usernameLabel" Foreground="LightGray" FontSize="20" Canvas.Left="209" Canvas.Top="102" HorizontalAlignment="Center" VerticalAlignment="Top"></Label>
     </Canvas>
 </Page>
