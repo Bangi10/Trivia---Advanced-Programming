@@ -38,7 +38,7 @@ RequestResult GameRequestHandler::getQuestion(const RequestInfo& requestInfo)
 	std::vector<std::string> possibleAnswers = m_game.getQuestionForUser(m_user).getPossibleAnswers();
 	GetQuestionResponse response = { unsigned char(RESPONSES::GAME::GET_QUESTION), questionString, possibleAnswers };
 	result.response = JsonResponsePacketSerializer::serializeResponse(response);
-	result.newHandler = this->m_handlerFactory.createGameRequestHandler(m_user);
+	result.newHandler = this->m_handlerFactory.createGameRequestHandler(m_user,m_game);
 	return result;
 }
 
@@ -55,7 +55,7 @@ RequestResult GameRequestHandler::getGameResults(const RequestInfo& requestInfo)
 	}
 	GetGameResultsResponse response = { unsigned char(RESPONSES::GAME::GET_GAME_RESULTS), results };
 	result.response = JsonResponsePacketSerializer::serializeResponse(response);
-	result.newHandler = this->m_handlerFactory.createGameRequestHandler(m_user);
+	result.newHandler = this->m_handlerFactory.createGameRequestHandler(m_user,m_game);
 	return result;
 }
 
@@ -66,7 +66,7 @@ RequestResult GameRequestHandler::leaveGame(const RequestInfo& requestInfo)
 	roomManager.getRoom(m_game.getGameID()).removeUser(m_user);
 	LeaveGameRoomResponse response = { unsigned char(RESPONSES::GAME::LEFT_GAME) };
 	result.response = JsonResponsePacketSerializer::serializeResponse(response);
-	result.newHandler = this->m_handlerFactory.createGameRequestHandler(m_user);
+	result.newHandler = this->m_handlerFactory.createMenuRequestHandler(m_user);
 	return result;
 }
 
@@ -74,5 +74,5 @@ RequestResult GameRequestHandler::createErrorResponse()
 {
 	ErrorResponse err = { unsigned char(RESPONSES::ERRORS::_ERROR),"AN ERROR OCCURED." };
 	Buffer msg = JsonResponsePacketSerializer::serializeResponse(err);
-	return RequestResult{ msg, this->m_handlerFactory.createGameRequestHandler(m_user) };
+	return RequestResult{ msg, this->m_handlerFactory.createGameRequestHandler(m_user,m_game) };
 }

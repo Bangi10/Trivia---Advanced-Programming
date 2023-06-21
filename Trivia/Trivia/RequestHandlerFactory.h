@@ -20,7 +20,7 @@ public:
 	GameManager& getGameManager();
 	std::unique_ptr<IRequestHandler> createRoomAdminRequestHandler(LoggedUser& user, Room& room);
 	std::unique_ptr<IRequestHandler> createRoomMemberRequestHandler(LoggedUser& user, Room& room);
-	std::unique_ptr<IRequestHandler> createGameRequestHandler(LoggedUser& user);
+	std::unique_ptr<IRequestHandler> createGameRequestHandler(LoggedUser& user,Game& game);
 
 
 private:

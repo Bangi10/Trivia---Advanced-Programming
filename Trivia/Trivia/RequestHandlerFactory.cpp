@@ -50,3 +50,8 @@ std::unique_ptr<IRequestHandler> RequestHandlerFactory::createRoomMemberRequestH
 {
 	return std::make_unique<RoomMemberRequestHandler>(room, user, this->m_roomManager, *this);
 }
+
+std::unique_ptr<IRequestHandler> RequestHandlerFactory::createGameRequestHandler(LoggedUser& user, Game& game)
+{
+	return std::make_unique<RoomMemberRequestHandler>(game, user, this->m_roomManager, *this);
+}

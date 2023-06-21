@@ -55,10 +55,11 @@ RequestResult RoomAdminRequestHandler::startGame(RequestInfo rInfo)
 	RequestResult result;
 	auto& roomManager = this->m_handlerFactory.getRoomManager();
 	roomManager.getRoom(m_room.getRoomID()).setRoomStatus((unsigned int)ROOM_STATUS::IN_GAME);
-
 	StartGameResponse response = { unsigned char(RESPONSES::ROOM::STARTED_GAME) };
 	result.response = JsonResponsePacketSerializer::serializeResponse(response);
-	//result.newHandler = this->m_handlerFactory.createGameRequestHandler(m_user);
+	auto& gameManager = this->m_handlerFactory.getGameManager();
+	Game game = gameManager.createGame(m_room);
+	result.newHandler = this->m_handlerFactory.createGameRequestHandler(m_user,game);
 	return result;
 }
 
