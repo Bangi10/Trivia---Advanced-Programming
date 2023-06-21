@@ -37,8 +37,10 @@ RequestResult GameRequestHandler::getQuestion(const RequestInfo& requestInfo)
 	RequestResult result;
 	Question question;
 	bool checkQuestion = m_game.getCurrentQuestionIfGameActive(question,m_user);
+	std::vector<std::string> allAnswers = question.getPossibleAnswers();
+	allAnswers.push_back(question.getCorrectAnswer());
 	GetQuestionResponse response = { unsigned char(RESPONSES::GAME::GET_QUESTION), question.getQuestion(),
-		question.getPossibleAnswers()};
+		allAnswers };
 	result.response = JsonResponsePacketSerializer::serializeResponse(response);
 	result.newHandler = this->m_handlerFactory.createGameRequestHandler(m_user, m_game);
 	return result;
