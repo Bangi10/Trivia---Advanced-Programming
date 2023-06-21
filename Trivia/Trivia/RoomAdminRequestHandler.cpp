@@ -58,7 +58,7 @@ RequestResult RoomAdminRequestHandler::startGame(RequestInfo rInfo)
 
 	StartGameResponse response = { unsigned char(RESPONSES::ROOM::STARTED_GAME) };
 	result.response = JsonResponsePacketSerializer::serializeResponse(response);
-	result.newHandler = nullptr;//this->m_handlerFactory.createGameRequestHandler(m_user, m_room);
+	result.newHandler = this->m_handlerFactory.createGameRequestHandler(m_user);
 	return result;
 }
 

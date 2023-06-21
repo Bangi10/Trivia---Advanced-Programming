@@ -48,7 +48,7 @@ RequestResult RoomMemberRequestHandler::leaveRoom(RequestInfo rInfo)
 	{
 		//for cases a player leaves room in the same moment the owner closes it
 	}
-	LeaveRoomResponse response = { unsigned char(RESPONSES::ROOM::LEFT_ROOM) };
+	LeaveGameRoomResponse response = { unsigned char(RESPONSES::GAME::LEFT_GAME) };
 	result.response = JsonResponsePacketSerializer::serializeResponse(response);
 	result.newHandler = this->m_handlerFactory.createMenuRequestHandler(m_user);
 	return result;
