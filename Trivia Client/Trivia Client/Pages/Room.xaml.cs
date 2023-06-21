@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Media;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -44,8 +45,9 @@ namespace Trivia_Client.Pages
             maxPlayersLabel.Content = "Max Players: " + User.Instance().GetRoom().maxPlayers;
             numberOfQuestionsLabel.Content = "Number of Questions: " + User.Instance().GetRoom().numOfQuestionsInGame;
             timePerQuestionLabel.Content = "Time Per Question: " + User.Instance().GetRoom().timePerQuestion;
-
-
+            SoundPlayer player = new SoundPlayer(@"C:\music\room.wav");
+            player.Load();
+            player.PlayLooping();
             Thread thread = new Thread(new ThreadStart(ThreadGetRoomState));
             thread.SetApartmentState(ApartmentState.STA);
             thread.Start();

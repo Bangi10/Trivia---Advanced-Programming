@@ -9,6 +9,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="music\**" />
+    <EmbeddedResource Remove="music\**" />
+    <None Remove="music\**" />
+    <Page Remove="music\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="Images\back.png" />
     <None Remove="Images\background.png" />
     <None Remove="Images\button.png" />
