@@ -1,5 +1,6 @@
 #include "SqliteDatabase.h"
 #include <iostream>
+#include <sstream>
 #include "User.h"
 #include <list>
 #include <algorithm>
@@ -7,6 +8,7 @@
 #include "DBColumnNames.h"
 #include <map>
 #include "json.hpp"
+
 using json = nlohmann::json;
 const std::string fileName = "DB.sqlite";
 
@@ -63,7 +65,7 @@ int addHighScoreToMapCallBack(void* data, int argc, char** argv, char** azColNam
 
 int addQuestionToListCallback(void* data, int argc, char** argv, char** azColName)
 {
-	auto questionsList = (std::list<Question>*)data;
+	auto questionsList = (std::vector<Question>*)data;
 	std::string questionStr;
 	std::vector<std::string> possibleAnswers;
 	std::string correctAnswer;
@@ -145,10 +147,10 @@ void SqliteDatabase::addNewUser(const std::string& username, const std::string& 
 
 }
 
-std::list<Question> SqliteDatabase::getQuestions(const int amount) const
+std::vector<Question> SqliteDatabase::getQuestions(const int amount) const
 {
 	std::string sqlStatement = "SELECT * FROM QUESTIONS ORDER BY RANDOM() LIMIT " + std::to_string(amount);
-	std::list<Question> questionsList;
+	std::vector<Question> questionsList;
 	sqlite3_exec(this->_db, sqlStatement.c_str(), addQuestionToListCallback, &questionsList, nullptr);
 	return questionsList;
 }
@@ -240,13 +242,35 @@ bool SqliteDatabase::open()
 	}
 	//creating new table USERS
 	char** errMessage = nullptr;
-	std::string sqlStatement = "CREATE TABLE USERS(USERNAME  TEXT NOT NULL, PASSWORD	TEXT NOT NULL, EMAIL  TEXT NOT NULL, PRIMARY KEY(USERNAME)); ";
+	std::string sqlStatement = "CREATE TABLE IF NOT EXISTS USERS(USERNAME  TEXT NOT NULL, PASSWORD	TEXT NOT NULL, EMAIL  TEXT NOT NULL, PRIMARY KEY(USERNAME)); ";
 	sqlite3_exec(_db, sqlStatement.c_str(), nullptr, nullptr, errMessage);
-	sqlStatement = "CREATE TABLE STATISTICS (USERNAME text NOT NULL , SCORE  int NOT NULL, AVG_ANSWER_TIME  float NOT NULL , NUM_OF_CORRECT_ANSWERS int NOT NULL , NUM_OF_TOTAL_ANSWERS   int NOT NULL , NUM_OF_PLAYER_GAMES    int NOT NULL ,PRIMARY KEY (USERNAME),FOREIGN KEY (USERNAME) REFERENCES USERS (USERNAME));";
+	sqlStatement = "CREATE TABLE IF NOT EXISTS STATISTICS (USERNAME text NOT NULL , SCORE  int NOT NULL, AVG_ANSWER_TIME  float NOT NULL , NUM_OF_CORRECT_ANSWERS int NOT NULL , NUM_OF_TOTAL_ANSWERS   int NOT NULL , NUM_OF_PLAYER_GAMES    int NOT NULL ,PRIMARY KEY (USERNAME),FOREIGN KEY (USERNAME) REFERENCES USERS (USERNAME));";
 	sqlite3_exec(_db, sqlStatement.c_str(), nullptr, nullptr, errMessage);
+	if (!checkIfQuestionsTableExists())
+	{
+		sqlStatement = "CREATE TABLE QUESTIONS (QUESTION varchar NOT NULL PRIMARY KEY, ANSWER_INCORRECT1 varchar NOT NULL, ANSWER_INCORRECT2 varchar NOT NULL, ANSWER_INCORRECT3 varchar NOT NULL, ANSWER_CORRECT varchar NOT NULL); ";
+		sqlite3_exec(_db, sqlStatement.c_str(), nullptr, nullptr, errMessage);
+		system("python db_add_questions.py");
+	}
 	return true;
 }
 
+bool SqliteDatabase::checkIfQuestionsTableExists()
+{
+	char** errMessage = nullptr;
+	std::string sqlStatement = "SELECT COUNT(name) FROM sqlite_master WHERE type='table' AND name='QUESTIONS';";
+	int countQuestionsTables = 0;
+	sqlite3_exec(this->_db, sqlStatement.c_str(), getIntCallback, &countQuestionsTables, nullptr);
+	return countQuestionsTables == 1;
+
+}
+void SqliteDatabase::updatePlayerStatistics(const std::string& username, const int score, const float avgAnswerTime, const int numOfCorrectAnswers, const int numOfTotalAnswers)
+{
+	std::stringstream ss;
+	ss << "UPDATE STATISTICS SET SCORE = SCORE + " << score << ", AVG_ANSWER_TIME = (AVG_ANSWER_TIME + " << avgAnswerTime << ") / CAST(2 AS FLOAT), NUM_OF_CORRECT_ANSWERS = NUM_OF_CORRECT_ANSWERS + "
+		<< numOfCorrectAnswers << ", NUM_OF_TOTAL_ANSWERS = NUM_OF_TOTAL_ANSWERS + " << numOfTotalAnswers << ", NUM_OF_PLAYER_GAMES = NUM_OF_PLAYER_GAMES + 1 WHERE USERNAME = \"" << username << "\";";
+	sqlite3_exec(_db, ss.str().c_str(), nullptr, nullptr, nullptr);
+}
 
 void SqliteDatabase::close()
 {

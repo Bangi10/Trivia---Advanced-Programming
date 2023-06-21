@@ -13,11 +13,13 @@ public:
 	virtual void addNewUser(const std::string& username, const std::string& password, const std::string& email) = 0;
 	virtual ~IDatabase() = default;
 
-	virtual std::list<Question> getQuestions(const int amount) const = 0;
+	virtual std::vector<Question> getQuestions(const int amount) const = 0;
 	virtual float getPlayerAverageAnswerTime(const std::string& username) const = 0;
 	virtual int getNumOfCorrectAnswers(const std::string& username) const = 0;
 	virtual int getNumOfTotalAnswers(const std::string& username) const = 0;
 	virtual int getNumOfPlayerGames(const std::string& username) const = 0;
 	virtual int getPlayerScore(const std::string& username) const = 0;
 	virtual std::string getHighScores() const = 0;
+	virtual void updatePlayerStatistics(const std::string& username, const int score, const float avgAnswerTime, const int numOfCorrectAnswers, const int numOfTotalAnswers) = 0;
+
 };

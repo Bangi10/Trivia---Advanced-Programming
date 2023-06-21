@@ -1,22 +1,23 @@
 #pragma once
-#include <map>
-#include "Room.h"
-#include "LoggedUser.h"
+#include "IDatabase.h"
+#include <vector>
 #include <memory>
-#include "SqliteDatabase.h"
 #include "Game.h"
 
 class GameManager
 {
 public:
-	explicit GameManager(std::shared_ptr<IDatabase>& db);
-	~GameManager();
-	std::vector<Game> getGames()const;
-	Game getGame(const unsigned int gameID)const;
-	Game createGame(const Room& room);
-	void deletGame(const unsigned int gameID);
+	GameManager(std::shared_ptr<IDatabase>& db);
+	~GameManager() = default;
 
+	Game& createGame(Room& room);
+	bool deleteGame(const unsigned int gameId);
+	bool doesGameExist(const unsigned int gameId);
+	bool submitGameStatsToDB(const unsigned int gameId);
 private:
+	static void possibleExpandToQuestionsTable(const int numOfQuestions);
+	static int getRunsOfScript(const int numOfQuestions);
+
 	std::weak_ptr<IDatabase> m_database;
 	std::vector<Game> m_games;
 };

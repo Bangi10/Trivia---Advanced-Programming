@@ -3,18 +3,20 @@
 #include <string>
 #include "json.hpp"
 #include "RoomData.h"
-#include "PlayerResults.h"
 
 
 namespace RESPONSES {
 	enum class ERRORS :unsigned char { _ERROR = 50 };
-	enum class LOGOUT :unsigned char { SUCCESS = 90 ,  USER_NOT_EXISTS = 91};
+	enum class LOGOUT :unsigned char { SUCCESS = 90, USER_NOT_EXISTS = 91 };
 	enum class LOGIN :unsigned char { SUCCESS = 100, NAME_NOT_EXISTS = 101, PASSWORD_MISMATCH = 102, USER_ALREADY_LOGINED = 103 };
 	enum class SIGNUP :unsigned char { SUCCESS = 110, NAME_ALREADY_EXISTS = 111 };
-	enum class ROOM :unsigned char { CREATED_ROOM = 120, GOT_ROOMS = 121, GOT_PLAYERS_IN_ROOM = 122,
-								 	 JOINED_ROOM = 123, JOIN_ROOM_FULL = 130, GOT_HIGH_SCORE = 124, GOT_PERSONAL_STATS = 125, CLOSED_ROOM = 126,
-									STARTED_GAME = 127, GOT_ROOM_STATE = 128, LEFT_ROOM = 129};
-	enum class GAME :unsigned char { LEFT_GAME = 130, GET_QUESTION = 131, SUBMIT_ANSWER = 132, GET_GAME_RESULTS = 133 };
+	enum class ROOM :unsigned char {
+		CREATED_ROOM = 120, GOT_ROOMS = 121, GOT_PLAYERS_IN_ROOM = 122,
+		JOINED_ROOM = 123, JOIN_ROOM_FULL = 130, GOT_HIGH_SCORE = 124, GOT_PERSONAL_STATS = 125, CLOSED_ROOM = 126,
+		STARTED_GAME = 127, GOT_ROOM_STATE = 128, LEFT_ROOM = 129, JOIN_ROOM_FULL = 130
+	};
+	enum class GAME :unsigned char { LEFT_GAME = 131, GET_QUESTION = 132, SUBMIT_ANSWER = 133, GET_GAME_RESULTS = 134 };
+
 };
 
 struct ErrorResponse {
@@ -59,7 +61,7 @@ struct CreateRoomResponse {
 
 struct getPersonalStatusResponse {
 	unsigned char status;
-	std::string statistics;
+	std::vector<std::string> statistics;
 };
 
 struct CloseRoomResponse {
@@ -81,27 +83,6 @@ struct GetRoomStateResponse {
 struct LeaveRoomResponse {
 	unsigned char status;
 };
-
-struct LeaveGameRoomResponse {
-	unsigned char status;
-};
-
-struct GetQuestionResponse {
-	unsigned char status;
-	std::string question;
-	std::vector<std::string> answers;
-};
-
-struct SubmitAnswerResponse {
-	unsigned char status;
-	bool correctAnswer;
-};
-
-struct GetGameResultsResponse {
-	unsigned char status;
-	std::vector<PlayerResults> results;
-};
-
 using Buffer = std::vector<unsigned char>;
 
 class JsonResponsePacketSerializer
@@ -121,11 +102,7 @@ public:
 	static Buffer serializeResponse(const StartGameResponse& response);
 	static Buffer serializeResponse(const GetRoomStateResponse& response);
 	static Buffer serializeResponse(const LeaveRoomResponse& response);
-	static Buffer serializeResponse(const GetGameResultsResponse& response);
-	static Buffer serializeResponse(const SubmitAnswerResponse& response);
-	static Buffer serializeResponse(const GetQuestionResponse& response);
-	static Buffer serializeResponse(const LeaveGameRoomResponse& response);
-
 	static void addMsgLenToBuffer(Buffer& buffer, const std::string& msg);
 
 };
+

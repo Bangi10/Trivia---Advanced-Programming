@@ -3,7 +3,7 @@
 #include "JsonResponsePacketSerializer.h"
 
 GameRequestHandler::GameRequestHandler(Game& game, LoggedUser& user, GameManager& gameManager, RequestHandlerFactory& handlerFactory)
-	: m_game(game),m_user(user),m_gameManager(gameManager),m_handlerFactory(handlerFactory)
+	: m_game(game), m_user(user), m_gameManager(gameManager), m_handlerFactory(handlerFactory)
 {
 }
 
@@ -23,8 +23,8 @@ RequestResult GameRequestHandler::handleRequest(const RequestInfo& requestInfo)
 		return this->leaveGame(requestInfo);
 	case REQUESTS::GET_QUESTION:
 		return this->getQuestion(requestInfo);
-	/*case REQUESTS::SUBMIT_ANSWER:
-		return this->submitAnswer(requestInfo);*/
+		/*case REQUESTS::SUBMIT_ANSWER:
+			return this->submitAnswer(requestInfo);*/
 	case REQUESTS::GET_GAME_RESULTS:
 		return this->getGameResults(requestInfo);
 	}
@@ -38,7 +38,7 @@ RequestResult GameRequestHandler::getQuestion(const RequestInfo& requestInfo)
 	std::vector<std::string> possibleAnswers = m_game.getQuestionForUser(m_user).getPossibleAnswers();
 	GetQuestionResponse response = { unsigned char(RESPONSES::GAME::GET_QUESTION), questionString, possibleAnswers };
 	result.response = JsonResponsePacketSerializer::serializeResponse(response);
-	result.newHandler = this->m_handlerFactory.createGameRequestHandler(m_user,m_game);
+	result.newHandler = this->m_handlerFactory.createGameRequestHandler(m_user, m_game);
 	return result;
 }
 
@@ -55,7 +55,7 @@ RequestResult GameRequestHandler::getGameResults(const RequestInfo& requestInfo)
 	}
 	GetGameResultsResponse response = { unsigned char(RESPONSES::GAME::GET_GAME_RESULTS), results };
 	result.response = JsonResponsePacketSerializer::serializeResponse(response);
-	result.newHandler = this->m_handlerFactory.createGameRequestHandler(m_user,m_game);
+	result.newHandler = this->m_handlerFactory.createGameRequestHandler(m_user, m_game);
 	return result;
 }
 

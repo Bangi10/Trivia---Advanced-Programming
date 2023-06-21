@@ -1,6 +1,5 @@
 #include "JsonResponsePacketSerializer.h"
 #include "json.hpp"
-#include <iostream>
 using json = nlohmann::json;
 
 void to_json(json& j, const RoomData& r) {
@@ -11,15 +10,6 @@ void to_json(json& j, const RoomData& r) {
         {"numOfQuestionsInGame", r.numOfQuestionsInGame},
         {"timePerQuestion", r.timePerQuestion},
         {"roomStatus", r.roomStatus}
-    };
-}
-
-void to_json(json& j, const PlayerResults& r) {
-    j = json{
-        {"username", r.username},
-        {"correctAnswerCount", r.correctAnswerCount},
-        {"wrongAnswerCount", r.wrongAnswerCount},
-        {"averageAnswerTime", r.averageAnswerTime},
     };
 }
 
@@ -292,107 +282,6 @@ Buffer JsonResponsePacketSerializer::serializeResponse(const GetRoomStateRespons
 }
 
 Buffer JsonResponsePacketSerializer::serializeResponse(const LeaveRoomResponse& response)
-{
-    Buffer buffer;
-    //CODE: 1 BYTE
-    buffer.push_back(char(response.status));
-
-    //LEN: 4 BYTE
-    json j;
-    j["status"] = response.status;
-    std::string msg = j.dump();
-    addMsgLenToBuffer(buffer, msg);
-
-    //CONTENT: X BYTES
-    for (char& c : msg)
-    {
-        buffer.push_back(c);
-    }
-    return buffer;
-}
-
-Buffer JsonResponsePacketSerializer::serializeResponse(const GetGameResultsResponse& response)
-{
-    Buffer buffer;
-    //CODE: 1 BYTE
-    buffer.push_back(char(response.status));
-    //LEN: 4 BYTE
-    json j;
-    if (response.status == unsigned char(1))
-    {
-        j["status"] = response.status;
-        j["results"] = response.results;
-    }
-    else
-    {
-        std::cout << "GameResults ERROR: game is not finished" << std::endl;
-        j["status"] = unsigned char(0);
-        j["results"] = std::vector<PlayerResults>();
-    }
-    std::string msg = j.dump();
-    addMsgLenToBuffer(buffer, msg);
-
-    //CONTENT: X BYTES
-    for (char& c : msg)
-    {
-        buffer.push_back(c);
-    }
-    return buffer;
-}
-
-Buffer JsonResponsePacketSerializer::serializeResponse(const SubmitAnswerResponse& response)
-{
-    Buffer buffer;
-    //CODE: 1 BYTE
-    buffer.push_back(char(response.status));
-
-    //LEN: 4 BYTE
-    json j;
-    j["status"] = response.status;
-    j["correctAnswer"] = response.correctAnswer;
-    std::string msg = j.dump();
-    addMsgLenToBuffer(buffer, msg);
-
-    //CONTENT: X BYTES
-    for (char& c : msg)
-    {
-        buffer.push_back(c);
-    }
-    return buffer;
-}
-
-Buffer JsonResponsePacketSerializer::serializeResponse(const GetQuestionResponse& response)
-{
-    Buffer buffer;
-    //CODE: 1 BYTE
-    buffer.push_back(char(response.status));
-
-    //LEN: 4 BYTE
-    json j;
-    j["status"] = response.status;
-    if (response.question == "")
-    {
-        j["status"] = 0;
-        j["answers"] = std::vector<std::string>();
-    }
-    else
-    {
-        j["status"] = 1;
-    }
-    j["question"] = response.question;
-    j["answers"] = response.answers;
-    std::string msg = j.dump();
-    addMsgLenToBuffer(buffer, msg);
-
-    //CONTENT: X BYTES
-    for (char& c : msg)
-    {
-        buffer.push_back(c);
-    }
-    return buffer;
-}
-
-Buffer JsonResponsePacketSerializer::serializeResponse(const LeaveGameRoomResponse& response)
 {
     Buffer buffer;
     //CODE: 1 BYTE
