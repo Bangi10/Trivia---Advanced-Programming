@@ -11,9 +11,13 @@ public:
 	~GameManager() = default;
 
 	Game& createGame(Room& room);
-	void deleteGame(const unsigned int gameId);
+	bool deleteGame(const unsigned int gameId);
+	bool doesGameExist(const unsigned int gameId);
 	void submitGameStatsToDB(const unsigned int gameId);
 private:
+	static void possibleExpandToQuestionsTable(const int numOfQuestions);
+	static int getRunsOfScript(const int numOfQuestions);
+
 	std::weak_ptr<IDatabase> m_database;
 	std::vector<Game> m_games;
 };

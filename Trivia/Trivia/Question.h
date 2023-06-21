@@ -5,6 +5,7 @@
 class Question
 {
 public:
+	Question() = default;
 	Question(const std::string& question, const std::vector<std::string>& possibleAnswers, const std::string& correctAnswer);
 	~Question() = default;
 

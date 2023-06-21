@@ -63,7 +63,7 @@ int addHighScoreToMapCallBack(void* data, int argc, char** argv, char** azColNam
 
 int addQuestionToListCallback(void* data, int argc, char** argv, char** azColName)
 {
-	auto questionsList = (std::list<Question>*)data;
+	auto questionsList = (std::vector<Question>*)data;
 	std::string questionStr;
 	std::vector<std::string> possibleAnswers;
 	std::string correctAnswer;
@@ -145,10 +145,10 @@ void SqliteDatabase::addNewUser(const std::string& username, const std::string& 
 
 }
 
-std::list<Question> SqliteDatabase::getQuestions(const int amount) const
+std::vector<Question> SqliteDatabase::getQuestions(const int amount) const
 {
 	std::string sqlStatement = "SELECT * FROM QUESTIONS ORDER BY RANDOM() LIMIT " + std::to_string(amount);
-	std::list<Question> questionsList;
+	std::vector<Question> questionsList;
 	sqlite3_exec(this->_db, sqlStatement.c_str(), addQuestionToListCallback, &questionsList, nullptr);
 	return questionsList;
 }
