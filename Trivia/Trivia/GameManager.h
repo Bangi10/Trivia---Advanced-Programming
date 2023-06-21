@@ -13,7 +13,7 @@ public:
 	Game& createGame(Room& room);
 	bool deleteGame(const unsigned int gameId);
 	bool doesGameExist(const unsigned int gameId);
-	void submitGameStatsToDB(const unsigned int gameId);
+	bool submitGameStatsToDB(const unsigned int gameId);
 private:
 	static void possibleExpandToQuestionsTable(const int numOfQuestions);
 	static int getRunsOfScript(const int numOfQuestions);

@@ -3,6 +3,7 @@
 #include "sqlite3.h"
 #include <list>
 #include "Question.h"
+#include <format>
 
 class SqliteDatabase : public IDatabase
 {
@@ -23,6 +24,8 @@ public:
 	int getPlayerScore(const std::string& username) const override;
 	std::string getHighScores() const override;
 	bool checkIfQuestionsTableExists();
+	void updatePlayerStatistics(const std::string& username, const int score, const float avgAnswerTime, const int numOfCorrectAnswers, const int numOfTotalAnswers) override;
+
 private:
 	sqlite3* _db;
 };

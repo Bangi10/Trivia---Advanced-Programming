@@ -1,5 +1,6 @@
 #include "SqliteDatabase.h"
 #include <iostream>
+#include <sstream>
 #include "User.h"
 #include <list>
 #include <algorithm>
@@ -7,6 +8,7 @@
 #include "DBColumnNames.h"
 #include <map>
 #include "json.hpp"
+
 using json = nlohmann::json;
 const std::string fileName = "DB.sqlite";
 
@@ -262,6 +264,14 @@ bool SqliteDatabase::checkIfQuestionsTableExists()
 	return countQuestionsTables == 1;
 
 }
+void SqliteDatabase::updatePlayerStatistics(const std::string& username, const int score, const float avgAnswerTime, const int numOfCorrectAnswers, const int numOfTotalAnswers)
+{
+	std::stringstream ss;
+	ss << "UPDATE STATISTICS SET SCORE = SCORE + " << score << ", AVG_ANSWER_TIME = (AVG_ANSWER_TIME + " << avgAnswerTime << ") / CAST(2 AS FLOAT), NUM_OF_CORRECT_ANSWERS = NUM_OF_CORRECT_ANSWERS + "
+		<< numOfCorrectAnswers << ", NUM_OF_TOTAL_ANSWERS = NUM_OF_TOTAL_ANSWERS + " << numOfTotalAnswers << ", NUM_OF_PLAYER_GAMES = NUM_OF_PLAYER_GAMES + 1 WHERE USERNAME = \"" << username << "\";";
+	sqlite3_exec(_db, ss.str().c_str(), nullptr, nullptr, nullptr);
+}
+
 void SqliteDatabase::close()
 {
 	sqlite3_close(_db);

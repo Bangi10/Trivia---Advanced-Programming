@@ -18,6 +18,9 @@ public:
 	
 	void setQuestions(std::vector<Question> questions);
 	unsigned int getGameId() const;
+	std::map<LoggedUser, GameData> getPlayers() const;
+
+	float calculateScore(const LoggedUser& user);
 
 	bool operator==(const Game& other) const;
 	Game& operator=(const Game& other);

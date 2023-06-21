@@ -57,6 +57,19 @@ unsigned int Game::getGameId() const
 	return this->m_gameId;
 }
 
+std::map<LoggedUser, GameData> Game::getPlayers() const
+{
+	return this->m_players;
+}
+
+float Game::calculateScore(const LoggedUser& user)
+{
+	auto it = m_players.find(user);
+	if (it == m_players.end())
+		return 0.0;
+	return (it->second.correctAnswerCount * 10) / it->second.averageAnswerTime;
+}
+
 
 
 void Game::setCurrentQuestionForAll(Question question)

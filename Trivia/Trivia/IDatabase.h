@@ -20,4 +20,6 @@ public:
 	virtual int getNumOfPlayerGames(const std::string& username) const = 0;
 	virtual int getPlayerScore(const std::string& username) const = 0;
 	virtual std::string getHighScores() const = 0;
+	virtual void updatePlayerStatistics(const std::string& username, const int score, const float avgAnswerTime, const int numOfCorrectAnswers, const int numOfTotalAnswers) = 0;
+
 };

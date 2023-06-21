@@ -29,7 +29,23 @@ bool GameManager::deleteGame(const unsigned int gameId)
 
 bool GameManager::doesGameExist(const unsigned int gameId)
 {
-	return false;
+	auto it = std::find_if(m_games.begin(), m_games.end(), [gameId](const Game& game) {return game.getGameId() == gameId; });
+	return it != m_games.end();
+}
+
+bool GameManager::submitGameStatsToDB(const unsigned int gameId)
+{
+	auto gameIt = std::find_if(m_games.begin(), m_games.end(), [gameId](const Game& game) {return game.getGameId() == gameId; });
+	if (gameIt == m_games.end())
+		return false;
+	auto players = gameIt->getPlayers();
+	auto shared = this->m_database.lock();
+	for (auto& player : players)
+	{
+		shared->updatePlayerStatistics(player.first.getUsername(), gameIt->calculateScore(player.first), player.second.averageAnswerTime,
+									   player.second.correctAnswerCount, player.second.correctAnswerCount + player.second.wrongAnswerCount);
+	}
+	return true;	
 }
 
 void GameManager::possibleExpandToQuestionsTable(const int numOfQuestions)
